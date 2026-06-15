@@ -17,6 +17,11 @@ export default function ThriveConference() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [volunteerSubmitted, setVolunteerSubmitted] = useState(false);
+  const [volunteerSubmitting, setVolunteerSubmitting] = useState(false);
+  const [volunteerError, setVolunteerError] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -32,24 +37,51 @@ export default function ThriveConference() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Registration:', formData);
-    setSubmitted(true);
-    setTimeout(() => {
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        status: 'student',
-        occupation: '',
-        inTech: 'no',
-        techAreas: [],
-        aiKnowledge: 'beginner',
-        marketingSalesKnowledge: 'beginner'
+    setSubmitting(true);
+    setSubmitError('');
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       });
-      setSubmitted(false);
-    }, 3000);
+      if (!res.ok) throw new Error((await res.json()).error || 'Something went wrong.');
+      setSubmitted(true);
+      setFormData({ name: '', email: '', phone: '', status: 'student', occupation: '', inTech: 'no', techAreas: [], aiKnowledge: 'beginner', marketingSalesKnowledge: 'beginner' });
+    } catch (err) {
+      setSubmitError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleVolunteerSubmit = async (e) => {
+    e.preventDefault();
+    setVolunteerSubmitting(true);
+    setVolunteerError('');
+    const fd = new FormData(e.target);
+    try {
+      const res = await fetch('/api/volunteer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: fd.get('vol-name'),
+          email: fd.get('vol-email'),
+          phone: fd.get('vol-phone'),
+          role: fd.get('volunteer-role'),
+          availability: fd.get('availability'),
+          experience: fd.get('experience'),
+        }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error || 'Something went wrong.');
+      setVolunteerSubmitted(true);
+    } catch (err) {
+      setVolunteerError(err.message);
+    } finally {
+      setVolunteerSubmitting(false);
+    }
   };
 
   const scrollToForm = () => {
@@ -403,7 +435,13 @@ export default function ThriveConference() {
                 <div style={{ marginBottom: 32, background: '#002626', border: '2px solid #009898', borderRadius: 4, padding: 32, textAlign: 'center' }}>
                   <CheckCircle color="#22dcdc" size={40} style={{ margin: '0 auto 12px', display: 'block' }} />
                   <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 20, color: '#22dcdc', marginBottom: 8 }}>You're In!</h3>
-                  <p style={{ color: '#54f9f9', fontSize: 15 }}>Check your email for details. See you July 18.</p>
+                  <p style={{ color: '#54f9f9', fontSize: 15 }}>You're registered. See you July 18.</p>
+                </div>
+              )}
+
+              {submitError && (
+                <div style={{ marginBottom: 32, background: '#fff0f0', border: '2px solid #cc0000', borderRadius: 4, padding: 20, textAlign: 'center' }}>
+                  <p style={{ color: '#cc0000', fontSize: 15 }}>{submitError}</p>
                 </div>
               )}
 
@@ -481,11 +519,11 @@ export default function ThriveConference() {
                     <option value="advanced">Advanced — Expert level</option>
                   </select>
                 </div>
-                <button type="submit" className="t-btn-navy t-btn-full" style={{ marginTop: 8 }}>
-                  Secure Your Spot
+                <button type="submit" disabled={submitting} className="t-btn-navy t-btn-full" style={{ marginTop: 8, opacity: submitting ? 0.6 : 1, cursor: submitting ? 'not-allowed' : 'pointer' }}>
+                  {submitting ? 'Submitting...' : 'Secure Your Spot'}
                 </button>
                 <p style={{ textAlign: 'center', fontSize: 12, color: '#77767e', letterSpacing: '0.02em' }}>
-                  Registration closes June 30, 2026. Confirmation email sent immediately.
+                  Registration closes June 30, 2026.
                 </p>
               </form>
             </div>
@@ -536,21 +574,35 @@ export default function ThriveConference() {
               <p style={{ textAlign: 'center', color: '#46464d', fontSize: 15, marginBottom: 48 }}>
                 Help us make Thrive unforgettable.
               </p>
+              {volunteerSubmitted && (
+                <div style={{ marginBottom: 32, background: '#002626', border: '2px solid #009898', borderRadius: 4, padding: 32, textAlign: 'center' }}>
+                  <CheckCircle color="#22dcdc" size={40} style={{ margin: '0 auto 12px', display: 'block' }} />
+                  <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 20, color: '#22dcdc', marginBottom: 8 }}>Application received!</h3>
+                  <p style={{ color: '#54f9f9', fontSize: 15 }}>We'll reach out within 2 days. Thank you.</p>
+                </div>
+              )}
+
+              {volunteerError && (
+                <div style={{ marginBottom: 32, background: '#fff0f0', border: '2px solid #cc0000', borderRadius: 4, padding: 20, textAlign: 'center' }}>
+                  <p style={{ color: '#cc0000', fontSize: 15 }}>{volunteerError}</p>
+                </div>
+              )}
+
               <form
-                onSubmit={(e) => { e.preventDefault(); alert("Thank you for volunteering! We'll be in touch soon."); }}
+                onSubmit={handleVolunteerSubmit}
                 style={{ border: '2px solid #7c572d', borderRadius: 4, padding: 40, background: '#ffffff', display: 'flex', flexDirection: 'column', gap: 24 }}
               >
                 <div>
                   <label className="t-label">Full Name *</label>
-                  <input type="text" required className="t-input-gold" placeholder="Your name" />
+                  <input type="text" name="vol-name" required className="t-input-gold" placeholder="Your name" />
                 </div>
                 <div>
                   <label className="t-label">Email *</label>
-                  <input type="email" required className="t-input-gold" placeholder="your.email@example.com" />
+                  <input type="email" name="vol-email" required className="t-input-gold" placeholder="your.email@example.com" />
                 </div>
                 <div>
                   <label className="t-label">Phone *</label>
-                  <input type="tel" required className="t-input-gold" placeholder="+234 or your country code" />
+                  <input type="tel" name="vol-phone" required className="t-input-gold" placeholder="+234 or your country code" />
                 </div>
                 <div>
                   <label className="t-label" style={{ marginBottom: 12 }}>Which area interests you? *</label>
@@ -587,12 +639,12 @@ export default function ThriveConference() {
                 </div>
                 <div>
                   <label className="t-label">Any relevant experience? (Optional)</label>
-                  <textarea className="t-input-gold" rows={3} style={{ resize: 'vertical' }}
+                  <textarea name="experience" className="t-input-gold" rows={3} style={{ resize: 'vertical' }}
                     placeholder="e.g. 'I've done event photography,' 'I manage social media for my brand.' Or just say 'I'm eager to help!'"
                   />
                 </div>
-                <button type="submit" className="t-btn-gold-lg" style={{ marginTop: 8 }}>
-                  Submit Volunteer Application
+                <button type="submit" disabled={volunteerSubmitting} className="t-btn-gold-lg" style={{ marginTop: 8, opacity: volunteerSubmitting ? 0.6 : 1, cursor: volunteerSubmitting ? 'not-allowed' : 'pointer' }}>
+                  {volunteerSubmitting ? 'Submitting...' : 'Submit Volunteer Application'}
                 </button>
                 <p style={{ textAlign: 'center', fontSize: 12, color: '#77767e', letterSpacing: '0.02em' }}>
                   We'll reach out within 2 days. Thank you for being part of Thrive.
