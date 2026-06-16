@@ -131,6 +131,24 @@ export default function ThriveConference() {
         }
         .t-btn-navy:hover { background: #030722; border-color: #030722; }
 
+        .t-btn-navy-lg {
+          display: inline-block;
+          background: #1a1f3a;
+          color: #fbf9f6;
+          font-family: 'Syne', sans-serif;
+          font-weight: 700;
+          font-size: 15px;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          padding: 18px 44px;
+          border-radius: 4px;
+          border: 2px solid #1a1f3a;
+          cursor: pointer;
+          transition: background 0.15s;
+          line-height: 1;
+        }
+        .t-btn-navy-lg:hover { background: #030722; border-color: #030722; }
+
         .t-btn-cream {
           display: inline-block;
           background: #fbf9f6;
@@ -257,7 +275,10 @@ export default function ThriveConference() {
           background: '#fbf9f6', borderBottom: '2px solid #1a1f3a'
         }}>
           <div style={{ maxWidth: 1280, margin: '0 auto', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div className="t-nav-wordmark">THRIVE <span>CONF</span></div>
+            <div>
+              <div className="t-nav-wordmark">THRIVE <span>CONF</span></div>
+              <p style={{ fontSize: 10, color: '#77767e', letterSpacing: '0.05em', textTransform: 'uppercase', marginTop: 2 }}>by Thrive Initiatives · Christ Unfolding Ministries</p>
+            </div>
             <button onClick={scrollToForm} className="t-btn-navy">Secure Your Spot</button>
           </div>
         </nav>
@@ -303,7 +324,7 @@ export default function ThriveConference() {
           <section style={{ background: '#fbf9f6', padding: '72px 24px' }}>
             <div style={{ maxWidth: 800, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 40 }}>
               {[
-                { label: 'When', title: 'July 25, 2026', sub: '11:00 AM' },
+                { label: 'When', title: 'July 25, 2026', sub: '10:00 AM' },
                 { label: 'Where', title: 'Christ Unfolding Place', sub: 'Lagos, Nigeria' },
                 { label: 'Cost', title: 'Free', sub: 'Register by June 30.' },
               ].map(item => (
@@ -326,7 +347,7 @@ export default function ThriveConference() {
                 Why should you attend Thrive Conference?
               </h2>
               <p style={{ fontSize: 16, color: '#46464d', lineHeight: 1.8, marginBottom: 48, maxWidth: 640 }}>
-                A conference by Christ Unfolding Ministries designed for professionals, business owners, and students who refuse to watch others lead while they just watch.
+                A conference by Thrive Initiatives — an arm of Christ Unfolding Ministries — designed for professionals, business owners, and students who refuse to watch others lead while they just watch.
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                 {[
@@ -422,7 +443,7 @@ export default function ThriveConference() {
           {/* WHAT TO EXPECT */}
           <section style={{ background: '#1a1f3a', padding: 'clamp(64px, 8vw, 96px) 24px' }}>
             <div style={{ maxWidth: 800, margin: '0 auto' }}>
-              <span className="t-label" style={{ color: '#404562' }}>Programme</span>
+              <span className="t-label" style={{ color: '#6b6f8a' }}>Programme</span>
               <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#fbf9f6', letterSpacing: '-0.01em', marginBottom: 56 }}>
                 What to Expect
               </h2>
@@ -432,10 +453,10 @@ export default function ThriveConference() {
                 { n: '03', title: 'Networking Breaks', desc: 'Connect with 300+ professionals, entrepreneurs, students and business owners who are serious about thriving.' },
               ].map((item, i) => (
                 <div key={i} style={{ display: 'grid', gridTemplateColumns: '48px 1fr', gap: 24, padding: '28px 0', borderBottom: i < 2 ? '1px solid #2d3250' : 'none' }}>
-                  <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 12, color: '#404562', letterSpacing: '0.06em', paddingTop: 4 }}>{item.n}</span>
+                  <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 12, color: '#6b6f8a', letterSpacing: '0.06em', paddingTop: 4 }}>{item.n}</span>
                   <div>
                     <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 17, color: '#fbf9f6', marginBottom: 6 }}>{item.title}</h3>
-                    <p style={{ color: '#8286a7', fontSize: 14, lineHeight: 1.6 }}>{item.desc}</p>
+                    <p style={{ color: '#c0c4e8', fontSize: 14, lineHeight: 1.6 }}>{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -718,15 +739,18 @@ export default function ThriveConference() {
           {/* FOOTER */}
           <footer style={{ background: '#030722', padding: '56px 24px', borderTop: '2px solid #1a1f3a' }}>
             <div style={{ maxWidth: 1280, margin: '0 auto', textAlign: 'center' }}>
-              <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 22, color: '#fbf9f6', marginBottom: 10, letterSpacing: '-0.01em' }}>
+              <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 22, color: '#fbf9f6', marginBottom: 6, letterSpacing: '-0.01em' }}>
                 THRIVE CONFERENCE 2026
               </p>
-              <p style={{ color: '#404562', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 20 }}>
+              <p style={{ color: '#404562', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 16 }}>
                 Leveraging AI for Business and Career Growth
               </p>
-              <div style={{ width: 40, height: 2, background: '#7c572d', margin: '0 auto 20px' }} />
+              <div style={{ width: 40, height: 2, background: '#7c572d', margin: '0 auto 16px' }} />
+              <p style={{ color: '#6b6f8a', fontSize: 12, letterSpacing: '0.04em', marginBottom: 8 }}>
+                Presented by <strong style={{ color: '#8286a7' }}>Thrive Initiatives</strong> · an arm of <strong style={{ color: '#8286a7' }}>Christ Unfolding Ministries</strong>
+              </p>
               <p style={{ color: '#46464d', fontSize: 13, letterSpacing: '0.02em' }}>
-                Christ Unfolding Place, Lagos · July 25, 2026 · 11:00 AM · Free
+                Christ Unfolding Place, Lagos · July 25, 2026 · 10:00 AM · Free
               </p>
             </div>
           </footer>
