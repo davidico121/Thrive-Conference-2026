@@ -302,7 +302,7 @@ export default function ThriveConference() {
                 From business growth to career advancement and faith-driven success.
               </p>
               <p style={{ fontSize: 16, color: '#8286a7', marginBottom: 48, lineHeight: 1.8, maxWidth: 640 }}>
-                AI isn't coming to make you jobless. It's already here. And the people winning are the ones who understand it well enough to use it — not fear it or act like it doesn't exist. Learn from the people who are taking advantage of AI to make an impact in their industry.
+                AI isn't coming to make you jobless. It's already here. The people winning are the ones who understand it well enough to actually use it. Not fear it. Not pretend it doesn't exist. Learn from the people already using AI to make a real impact in their industry.
               </p>
               <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
                 <button onClick={scrollToForm} className="t-btn-cream">Secure Your Seat</button>
@@ -347,7 +347,7 @@ export default function ThriveConference() {
                 Why should you attend Thrive Conference?
               </h2>
               <p style={{ fontSize: 16, color: '#46464d', lineHeight: 1.8, marginBottom: 48, maxWidth: 640 }}>
-                A conference by Thrive Initiatives — an arm of Christ Unfolding Ministries — designed for professionals, business owners, and students who refuse to watch others lead while they just watch.
+                A conference by Thrive Initiatives (an arm of Christ Unfolding Ministries), designed for professionals, business owners, and students who are done watching others lead while they sit on the sidelines.
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                 {[
@@ -398,14 +398,14 @@ export default function ThriveConference() {
                   <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 24, color: '#1a1f3a', marginBottom: 4 }}>Dara Sobaloju</h3>
                   <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#7c572d', marginBottom: 24 }}>Built Pewbeam AI</p>
                   <p style={{ color: '#46464d', lineHeight: 1.75, marginBottom: 16, fontSize: 15 }}>
-                    Started as a tweet: "I want to build a Bible presentation AI for churches." Six months later, Pewbeam was live — listening in real time, matching Bible verses to what's being said, working offline.
+                    Started as a tweet: "I want to build a Bible presentation AI for churches." Six months later, Pewbeam was live. It listens in real time, matches Bible verses to what's being said, and works offline.
                   </p>
                   <p style={{ color: '#46464d', lineHeight: 1.75, marginBottom: 20, fontSize: 15 }}>
-                    <strong style={{ color: '#1a1f3a' }}>Why he's speaking:</strong> Dara's work demonstrates how AI can solve real problems for communities, blending technical excellence with practical impact. He'll show you how he thinks about building with AI — how he identifies problems, how he ships.
+                    <strong style={{ color: '#1a1f3a' }}>Why he's speaking:</strong> Dara's work shows how AI can solve real problems for real communities. He'll walk you through how he thinks about building with AI: how he spots problems worth solving and how he actually ships.
                   </p>
                   <div style={{ borderLeft: '2px solid #7c572d', paddingLeft: 16 }}>
                     <p style={{ color: '#46464d', fontSize: 14, fontStyle: 'italic' }}>
-                      "To ensure the Church is not left behind in the AI era." — Dara's mission for Pewbeam
+                      "To ensure the Church is not left behind in the AI era." This is the mission behind Pewbeam.
                     </p>
                   </div>
                 </div>
@@ -426,7 +426,7 @@ export default function ThriveConference() {
                     Micheal is currently leading growth and strategic planning for Chowdeck across Nigeria and Ghana. He brings expertise in scaling, operations, and navigating complex business environments while maintaining operational excellence.
                   </p>
                   <p style={{ color: '#46464d', lineHeight: 1.75, marginBottom: 20, fontSize: 15 }}>
-                    <strong style={{ color: '#1a1f3a' }}>Why he's speaking:</strong> He's not a futurist talking about what AI could do — he's someone actively using it to drive real growth across multiple markets. He'll share what actually moves the needle.
+                    <strong style={{ color: '#1a1f3a' }}>Why he's speaking:</strong> He's not a futurist talking about what AI could do someday. He's actively using it to drive real growth across multiple markets right now. He'll share what actually moves the needle.
                   </p>
                   <div style={{ borderLeft: '2px solid #009898', paddingLeft: 16 }}>
                     <p style={{ color: '#46464d', fontSize: 14, fontStyle: 'italic' }}>
@@ -449,7 +449,7 @@ export default function ThriveConference() {
               </h2>
               {[
                 { n: '01', title: 'Keynote Addresses', desc: 'Hear directly from AI innovators and growth leaders on what is actually working right now.' },
-                { n: '02', title: 'Panel Discussions', desc: 'Real conversations about real challenges — AI adoption, business growth, and navigating the new world of work.' },
+                { n: '02', title: 'Panel Discussions', desc: 'Real conversations about real challenges: AI adoption, business growth, and navigating the new world of work.' },
                 { n: '03', title: 'Networking Breaks', desc: 'Connect with 300+ professionals, entrepreneurs, students and business owners who are serious about thriving.' },
               ].map((item, i) => (
                 <div key={i} style={{ display: 'grid', gridTemplateColumns: '48px 1fr', gap: 24, padding: '28px 0', borderBottom: i < 2 ? '1px solid #2d3250' : 'none' }}>
@@ -575,17 +575,17 @@ export default function ThriveConference() {
                 <div>
                   <label className="t-label">How familiar are you with AI? *</label>
                   <select name="aiKnowledge" value={formData.aiKnowledge} onChange={handleInputChange} className="t-input">
-                    <option value="beginner">Beginner — Just getting started</option>
-                    <option value="intermediate">Intermediate — Some experience</option>
-                    <option value="advanced">Advanced — Heavy user</option>
+                    <option value="beginner">Beginner: Just getting started</option>
+                    <option value="intermediate">Intermediate: Some experience</option>
+                    <option value="advanced">Advanced: Heavy user</option>
                   </select>
                 </div>
                 <div>
                   <label className="t-label">How familiar are you with Sales & Marketing? *</label>
                   <select name="marketingSalesKnowledge" value={formData.marketingSalesKnowledge} onChange={handleInputChange} className="t-input">
-                    <option value="beginner">Beginner — Just getting started</option>
-                    <option value="intermediate">Intermediate — Some experience</option>
-                    <option value="advanced">Advanced — Expert level</option>
+                    <option value="beginner">Beginner: Just getting started</option>
+                    <option value="intermediate">Intermediate: Some experience</option>
+                    <option value="advanced">Advanced: Expert level</option>
                   </select>
                 </div>
                 <button type="submit" disabled={submitting || submitted} className="t-btn-navy t-btn-full" style={{
@@ -615,7 +615,7 @@ export default function ThriveConference() {
                 Join the Team
               </h2>
               <p style={{ fontSize: 16, color: '#46464d', lineHeight: 1.8, marginBottom: 48, maxWidth: 600 }}>
-                Thrive happens because of people who care. If you want to be part of making this happen — social media, setup, logistics, photography, coordination — we need you.
+                Thrive happens because of people who care. If you want to be part of making this happen (social media, setup, logistics, photography, coordination), we need you.
               </p>
               <div style={{ background: '#ffffff', border: '2px solid #7c572d', borderRadius: 4, padding: 40 }}>
                 <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 17, color: '#1a1f3a', marginBottom: 28 }}>Volunteer Roles We Need</h3>
@@ -684,11 +684,11 @@ export default function ThriveConference() {
                   <label className="t-label" style={{ marginBottom: 12 }}>Which area interests you? *</label>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {[
-                      { value: 'social-media', label: 'Social Media — Live coverage, posts, stories' },
-                      { value: 'setup-logistics', label: 'Setup & Logistics — Before/during coordination' },
-                      { value: 'photography', label: 'Photography — Capture moments and speakers' },
-                      { value: 'day-of', label: 'Day-of Coordination — Registration, seating, flow' },
-                      { value: 'other', label: "Other / I'll help however needed" },
+                      { value: 'social-media', label: 'Social Media (live coverage, posts, stories)' },
+                      { value: 'setup-logistics', label: 'Setup & Logistics (before and during the event)' },
+                      { value: 'photography', label: 'Photography (capture moments and speakers)' },
+                      { value: 'day-of', label: 'Day-of Coordination (registration, seating, flow)' },
+                      { value: 'other', label: "Other / I'll help however I can" },
                     ].map(role => (
                       <label key={role.value} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', border: '1px solid #c7c5ce', borderRadius: 4, cursor: 'pointer' }}>
                         <input type="radio" name="volunteer-role" value={role.value} required className="t-radio-gold" />
@@ -704,7 +704,7 @@ export default function ThriveConference() {
                       { value: 'full-day', label: 'Full day (setup through cleanup)' },
                       { value: 'morning', label: 'Morning (setup + 2-3 hours)' },
                       { value: 'event-day', label: 'Event day only (July 18, 11 AM+)' },
-                      { value: 'flexible', label: "Flexible — I'll work around my schedule" },
+                      { value: 'flexible', label: "Flexible, I'll work around my schedule" },
                     ].map(opt => (
                       <label key={opt.value} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
                         <input type="radio" name="availability" value={opt.value} required className="t-radio-gold" />
