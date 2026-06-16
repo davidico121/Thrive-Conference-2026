@@ -265,6 +265,14 @@ export default function ThriveConference() {
 
         .t-nav-wordmark { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 19px; color: #1a1f3a; letter-spacing: -0.01em; }
         .t-nav-wordmark span { color: #7c572d; }
+        .t-nav-sub { font-size: 10px; color: #77767e; letter-spacing: 0.05em; text-transform: uppercase; margin-top: 2px; }
+        .t-nav-btn { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; background: #1a1f3a; color: #fbf9f6; border: 1px solid #1a1f3a; border-radius: 4px; cursor: pointer; transition: background 0.15s; white-space: nowrap; padding: 12px 28px; }
+        .t-nav-btn:hover { background: #030722; }
+        @media (max-width: 600px) {
+          .t-nav-sub { display: none; }
+          .t-nav-btn { padding: 10px 14px; font-size: 11px; }
+          .t-nav-wordmark { font-size: 17px; }
+        }
 
         .t-badge-teal {
           display: inline-block;
@@ -290,9 +298,9 @@ export default function ThriveConference() {
           <div style={{ maxWidth: 1280, margin: '0 auto', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <div className="t-nav-wordmark">THRIVE <span>CONF</span></div>
-              <p style={{ fontSize: 10, color: '#77767e', letterSpacing: '0.05em', textTransform: 'uppercase', marginTop: 2 }}>by Thrive Initiatives · Christ Unfolding Ministries</p>
+              <p className="t-nav-sub">by Thrive Initiatives · Christ Unfolding Ministries</p>
             </div>
-            <button onClick={scrollToForm} className="t-btn-navy">Secure Your Spot</button>
+            <button onClick={scrollToForm} className="t-nav-btn">Secure Your Spot</button>
           </div>
         </nav>
 
