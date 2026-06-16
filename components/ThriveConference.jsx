@@ -425,7 +425,7 @@ export default function ThriveConference() {
                     </p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Michael */}
               <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ display: 'grid', gridTemplateColumns: 'minmax(120px, 160px) 1fr', gap: 40 }}>
@@ -450,7 +450,7 @@ export default function ThriveConference() {
                     </p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </section>
 
