@@ -2,6 +2,19 @@
 
 import React, { useState } from 'react';
 import { CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } },
+};
+
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
+
+const vp = { once: true, margin: '-60px' };
 
 export default function ThriveConference() {
   const [formData, setFormData] = useState({
@@ -287,24 +300,24 @@ export default function ThriveConference() {
 
           {/* HERO */}
           <section style={{ background: '#1a1f3a', padding: 'clamp(64px, 10vw, 120px) 24px' }}>
-            <div style={{ maxWidth: 800, margin: '0 auto' }}>
-              <div style={{ marginBottom: 28 }}>
+            <motion.div style={{ maxWidth: 800, margin: '0 auto' }} variants={stagger} initial="hidden" animate="show">
+              <motion.div variants={fadeUp} style={{ marginBottom: 28 }}>
                 <span className="t-badge-teal">Free Event · July 25, 2026</span>
-              </div>
-              <h1 style={{
+              </motion.div>
+              <motion.h1 variants={fadeUp} style={{
                 fontFamily: 'Syne, sans-serif', fontWeight: 800,
                 fontSize: 'clamp(40px, 6vw, 72px)', color: '#fbf9f6',
                 lineHeight: 1.05, letterSpacing: '-0.02em', marginBottom: 20
               }}>
                 Discover what it takes to thrive in this AI Era
-              </h1>
-              <p style={{ fontSize: 'clamp(17px, 2.2vw, 20px)', color: '#c0c4e8', marginBottom: 24, lineHeight: 1.65 }}>
+              </motion.h1>
+              <motion.p variants={fadeUp} style={{ fontSize: 'clamp(17px, 2.2vw, 20px)', color: '#c0c4e8', marginBottom: 24, lineHeight: 1.65 }}>
                 From business growth to career advancement and faith-driven success.
-              </p>
-              <p style={{ fontSize: 16, color: '#8286a7', marginBottom: 48, lineHeight: 1.8, maxWidth: 640 }}>
+              </motion.p>
+              <motion.p variants={fadeUp} style={{ fontSize: 16, color: '#8286a7', marginBottom: 48, lineHeight: 1.8, maxWidth: 640 }}>
                 AI isn't coming to make you jobless. It's already here. The people winning are the ones who understand it well enough to actually use it. Not fear it. Not pretend it doesn't exist. Learn from the people already using AI to make a real impact in their industry.
-              </p>
-              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+              </motion.p>
+              <motion.div variants={fadeUp} style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
                 <button onClick={scrollToForm} className="t-btn-cream">Secure Your Seat</button>
                 <button onClick={scrollToSpeakers} style={{
                   background: 'transparent', color: '#c0c4e8',
@@ -314,27 +327,28 @@ export default function ThriveConference() {
                   cursor: 'pointer', transition: 'border-color 0.15s, color 0.15s',
                   lineHeight: 1
                 }}>Meet Our Speakers</button>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </section>
 
           <hr className="t-divider" />
 
           {/* EVENT DETAILS */}
           <section style={{ background: '#fbf9f6', padding: '72px 24px' }}>
-            <div style={{ maxWidth: 800, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 40 }}>
+            <motion.div style={{ maxWidth: 800, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 40 }}
+              variants={stagger} initial="hidden" whileInView="show" viewport={vp}>
               {[
                 { label: 'When', title: 'July 25, 2026', sub: '10:00 AM' },
                 { label: 'Where', title: 'Christ Unfolding Place', sub: 'Lagos, Nigeria' },
                 { label: 'Cost', title: 'Free', sub: 'Register by June 30.' },
               ].map(item => (
-                <div key={item.label} style={{ borderLeft: '2px solid #1a1f3a', paddingLeft: 20 }}>
+                <motion.div key={item.label} variants={fadeUp} style={{ borderLeft: '2px solid #1a1f3a', paddingLeft: 20 }}>
                   <span className="t-label">{item.label}</span>
                   <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 19, color: '#1a1f3a', marginBottom: 4 }}>{item.title}</p>
                   <p style={{ color: '#46464d', fontSize: 14 }}>{item.sub}</p>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </section>
 
           <hr className="t-divider" />
@@ -342,14 +356,16 @@ export default function ThriveConference() {
           {/* WHY ATTEND */}
           <section style={{ background: '#fbf9f6', padding: 'clamp(64px, 8vw, 96px) 24px' }}>
             <div style={{ maxWidth: 800, margin: '0 auto' }}>
-              <span className="t-label">Why Attend</span>
-              <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1f3a', letterSpacing: '-0.01em', marginBottom: 16 }}>
+              <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp}>
+              <motion.span variants={fadeUp} className="t-label" style={{ display: 'block' }}>Why Attend</motion.span>
+              <motion.h2 variants={fadeUp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1f3a', letterSpacing: '-0.01em', marginBottom: 16 }}>
                 Why should you attend Thrive Conference?
-              </h2>
-              <p style={{ fontSize: 16, color: '#46464d', lineHeight: 1.8, marginBottom: 48, maxWidth: 640 }}>
+              </motion.h2>
+              <motion.p variants={fadeUp} style={{ fontSize: 16, color: '#46464d', lineHeight: 1.8, marginBottom: 48, maxWidth: 640 }}>
                 A conference by Thrive Initiatives (an arm of Christ Unfolding Ministries), designed for professionals, business owners, and students who are done watching others lead while they sit on the sidelines.
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+              </motion.p>
+              </motion.div>
+              <motion.div style={{ display: 'flex', flexDirection: 'column', gap: 0 }} variants={stagger} initial="hidden" whileInView="show" viewport={vp}>
                 {[
                   {
                     title: 'Learn from Top AI Innovators & Sales Experts',
@@ -364,15 +380,15 @@ export default function ThriveConference() {
                     desc: 'Your career and skills are your greatest wealth builder. Spend one day upgrading your knowledge and positioning yourself for the opportunities coming in 2026 and beyond.'
                   },
                 ].map((item, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '24px 1fr', gap: 20, padding: '28px 0', borderBottom: '1px solid #e8e6e3' }}>
+                  <motion.div key={i} variants={fadeUp} style={{ display: 'grid', gridTemplateColumns: '24px 1fr', gap: 20, padding: '28px 0', borderBottom: '1px solid #e8e6e3' }}>
                     <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 18, color: '#7c572d', paddingTop: 2 }}>→</span>
                     <div>
                       <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 17, color: '#1a1f3a', marginBottom: 6 }}>{item.title}</h3>
                       <p style={{ color: '#46464d', fontSize: 15, lineHeight: 1.7 }}>{item.desc}</p>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </section>
 
@@ -381,13 +397,13 @@ export default function ThriveConference() {
           {/* SPEAKERS */}
           <section id="speakers" style={{ background: '#fbf9f6', padding: 'clamp(64px, 8vw, 96px) 24px' }}>
             <div style={{ maxWidth: 800, margin: '0 auto' }}>
-              <span className="t-label">Speakers</span>
-              <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1f3a', letterSpacing: '-0.01em', marginBottom: 56 }}>
+              <motion.span variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} className="t-label" style={{ display: 'block' }}>Speakers</motion.span>
+              <motion.h2 variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1f3a', letterSpacing: '-0.01em', marginBottom: 56 }}>
                 Meet Your Speakers
-              </h2>
+              </motion.h2>
 
               {/* Dara */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'minmax(120px, 160px) 1fr', gap: 40, marginBottom: 56, paddingBottom: 56, borderBottom: '1px solid #c7c5ce' }}>
+              <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ display: 'grid', gridTemplateColumns: 'minmax(120px, 160px) 1fr', gap: 40, marginBottom: 56, paddingBottom: 56, borderBottom: '1px solid #c7c5ce' }}>
                 <div>
                   <div style={{ background: '#efeeeb', border: '2px solid #1a1f3a', borderRadius: 4, aspectRatio: '1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 44, color: '#7c572d' }}>D</span>
@@ -412,7 +428,7 @@ export default function ThriveConference() {
               </div>
 
               {/* Michael */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'minmax(120px, 160px) 1fr', gap: 40 }}>
+              <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ display: 'grid', gridTemplateColumns: 'minmax(120px, 160px) 1fr', gap: 40 }}>
                 <div>
                   <div style={{ background: '#efeeeb', border: '2px solid #1a1f3a', borderRadius: 4, aspectRatio: '1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 44, color: '#009898' }}>M</span>
@@ -443,23 +459,25 @@ export default function ThriveConference() {
           {/* WHAT TO EXPECT */}
           <section style={{ background: '#1a1f3a', padding: 'clamp(64px, 8vw, 96px) 24px' }}>
             <div style={{ maxWidth: 800, margin: '0 auto' }}>
-              <span className="t-label" style={{ color: '#6b6f8a' }}>Programme</span>
-              <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#fbf9f6', letterSpacing: '-0.01em', marginBottom: 56 }}>
+              <motion.span variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} className="t-label" style={{ color: '#6b6f8a', display: 'block' }}>Programme</motion.span>
+              <motion.h2 variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#fbf9f6', letterSpacing: '-0.01em', marginBottom: 56 }}>
                 What to Expect
-              </h2>
+              </motion.h2>
+              <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp}>
               {[
                 { n: '01', title: 'Keynote Addresses', desc: 'Hear directly from AI innovators and growth leaders on what is actually working right now.' },
                 { n: '02', title: 'Panel Discussions', desc: 'Real conversations about real challenges: AI adoption, business growth, and navigating the new world of work.' },
                 { n: '03', title: 'Networking Breaks', desc: 'Connect with 300+ professionals, entrepreneurs, students and business owners who are serious about thriving.' },
               ].map((item, i) => (
-                <div key={i} style={{ display: 'grid', gridTemplateColumns: '48px 1fr', gap: 24, padding: '28px 0', borderBottom: i < 2 ? '1px solid #2d3250' : 'none' }}>
+                <motion.div key={i} variants={fadeUp} style={{ display: 'grid', gridTemplateColumns: '48px 1fr', gap: 24, padding: '28px 0', borderBottom: i < 2 ? '1px solid #2d3250' : 'none' }}>
                   <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 12, color: '#6b6f8a', letterSpacing: '0.06em', paddingTop: 4 }}>{item.n}</span>
                   <div>
                     <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 17, color: '#fbf9f6', marginBottom: 6 }}>{item.title}</h3>
                     <p style={{ color: '#c0c4e8', fontSize: 14, lineHeight: 1.6 }}>{item.desc}</p>
                   </div>
-                </div>
+                </motion.div>
               ))}
+              </motion.div>
             </div>
           </section>
 
@@ -467,16 +485,18 @@ export default function ThriveConference() {
 
           {/* READY TO THRIVE CTA */}
           <section style={{ background: '#fbf9f6', padding: 'clamp(64px, 8vw, 96px) 24px', textAlign: 'center' }}>
-            <div style={{ maxWidth: 640, margin: '0 auto' }}>
-              <span className="t-label" style={{ textAlign: 'center', display: 'block' }}>July 25, 2026</span>
-              <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(28px, 4vw, 48px)', color: '#1a1f3a', letterSpacing: '-0.02em', marginBottom: 20 }}>
+            <motion.div style={{ maxWidth: 640, margin: '0 auto' }} variants={stagger} initial="hidden" whileInView="show" viewport={vp}>
+              <motion.span variants={fadeUp} className="t-label" style={{ textAlign: 'center', display: 'block' }}>July 25, 2026</motion.span>
+              <motion.h2 variants={fadeUp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(28px, 4vw, 48px)', color: '#1a1f3a', letterSpacing: '-0.02em', marginBottom: 20 }}>
                 Ready to Thrive?
-              </h2>
-              <p style={{ fontSize: 17, color: '#46464d', lineHeight: 1.8, marginBottom: 40 }}>
+              </motion.h2>
+              <motion.p variants={fadeUp} style={{ fontSize: 17, color: '#46464d', lineHeight: 1.8, marginBottom: 40 }}>
                 Secure your spot now and invest in your growth, career and future.
-              </p>
-              <button onClick={scrollToForm} className="t-btn-navy-lg">Secure Your Spot</button>
-            </div>
+              </motion.p>
+              <motion.div variants={fadeUp}>
+                <button onClick={scrollToForm} className="t-btn-navy-lg">Secure Your Spot</button>
+              </motion.div>
+            </motion.div>
           </section>
 
           {/* URGENCY STRIP */}
@@ -492,13 +512,13 @@ export default function ThriveConference() {
           {/* REGISTRATION FORM */}
           <section style={{ background: '#fbf9f6', padding: 'clamp(64px, 8vw, 96px) 24px' }} id="registration-form">
             <div style={{ maxWidth: 560, margin: '0 auto' }}>
-              <span className="t-label" style={{ textAlign: 'center', display: 'block' }}>Register</span>
-              <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1f3a', letterSpacing: '-0.01em', textAlign: 'center', marginBottom: 12 }}>
+              <motion.span variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} className="t-label" style={{ textAlign: 'center', display: 'block' }}>Register</motion.span>
+              <motion.h2 variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1f3a', letterSpacing: '-0.01em', textAlign: 'center', marginBottom: 12 }}>
                 Secure Your Spot
-              </h2>
-              <p style={{ textAlign: 'center', color: '#46464d', fontSize: 15, marginBottom: 48 }}>
+              </motion.h2>
+              <motion.p variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ textAlign: 'center', color: '#46464d', fontSize: 15, marginBottom: 48 }}>
                 One morning. Two speakers. Everything changes.
-              </p>
+              </motion.p>
 
               {submitted && (
                 <div style={{ marginBottom: 32, background: '#002626', border: '2px solid #009898', borderRadius: 4, padding: 32, textAlign: 'center' }}>
@@ -643,13 +663,13 @@ export default function ThriveConference() {
           {/* VOLUNTEER FORM */}
           <section style={{ background: '#fbf9f6', padding: 'clamp(64px, 8vw, 96px) 24px' }} id="volunteer-form">
             <div style={{ maxWidth: 560, margin: '0 auto' }}>
-              <span className="t-label" style={{ textAlign: 'center', display: 'block' }}>Volunteer</span>
-              <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1f3a', letterSpacing: '-0.01em', textAlign: 'center', marginBottom: 12 }}>
+              <motion.span variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} className="t-label" style={{ textAlign: 'center', display: 'block' }}>Volunteer</motion.span>
+              <motion.h2 variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1f3a', letterSpacing: '-0.01em', textAlign: 'center', marginBottom: 12 }}>
                 Volunteer Application
-              </h2>
-              <p style={{ textAlign: 'center', color: '#46464d', fontSize: 15, marginBottom: 48 }}>
+              </motion.h2>
+              <motion.p variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ textAlign: 'center', color: '#46464d', fontSize: 15, marginBottom: 48 }}>
                 Help us make Thrive unforgettable.
-              </p>
+              </motion.p>
               {volunteerSubmitted && (
                 <div style={{ marginBottom: 32, background: '#002626', border: '2px solid #009898', borderRadius: 4, padding: 32, textAlign: 'center' }}>
                   <CheckCircle color="#22dcdc" size={40} style={{ margin: '0 auto 12px', display: 'block' }} />
