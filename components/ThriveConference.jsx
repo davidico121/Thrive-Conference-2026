@@ -286,6 +286,19 @@ export default function ThriveConference() {
           padding: 5px 12px;
           border-radius: 2px;
         }
+
+        .t-speaker-card {
+          display: grid;
+          grid-template-columns: minmax(120px, 160px) 1fr;
+          gap: 40px;
+        }
+        .t-speaker-card::after { content: ''; display: table; clear: both; }
+
+        @media (max-width: 600px) {
+          .t-speaker-card { display: block; }
+          .t-speaker-photo { float: left; width: 100px; margin: 0 18px 12px 0; }
+          .t-speaker-photo-caption { display: none; }
+        }
       `}</style>
 
       <div className="thrive">
@@ -411,12 +424,12 @@ export default function ThriveConference() {
               </motion.h2>
 
               {/* Dara */}
-              <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ display: 'grid', gridTemplateColumns: 'minmax(120px, 160px) 1fr', gap: 40, marginBottom: 56, paddingBottom: 56, borderBottom: '1px solid #c7c5ce' }}>
-                <div>
+              <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} className="t-speaker-card" style={{ marginBottom: 56, paddingBottom: 56, borderBottom: '1px solid #c7c5ce' }}>
+                <div className="t-speaker-photo">
                   <div style={{ background: '#efeeeb', border: '2px solid #1a1f3a', borderRadius: 4, aspectRatio: '1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 44, color: '#7c572d' }}>D</span>
                   </div>
-                  <p style={{ fontSize: 11, color: '#77767e', textAlign: 'center', marginTop: 8, letterSpacing: '0.03em' }}>Photo coming soon</p>
+                  <p className="t-speaker-photo-caption" style={{ fontSize: 11, color: '#77767e', textAlign: 'center', marginTop: 8, letterSpacing: '0.03em' }}>Photo coming soon</p>
                 </div>
                 <div>
                   <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 24, color: '#1a1f3a', marginBottom: 4 }}>Dara Sobaloju</h3>
@@ -436,12 +449,12 @@ export default function ThriveConference() {
               </motion.div>
 
               {/* Michael */}
-              <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ display: 'grid', gridTemplateColumns: 'minmax(120px, 160px) 1fr', gap: 40 }}>
-                <div>
+              <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} className="t-speaker-card">
+                <div className="t-speaker-photo">
                   <div style={{ background: '#efeeeb', border: '2px solid #1a1f3a', borderRadius: 4, aspectRatio: '1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 44, color: '#009898' }}>M</span>
                   </div>
-                  <p style={{ fontSize: 11, color: '#77767e', textAlign: 'center', marginTop: 8, letterSpacing: '0.03em' }}>Photo coming soon</p>
+                  <p className="t-speaker-photo-caption" style={{ fontSize: 11, color: '#77767e', textAlign: 'center', marginTop: 8, letterSpacing: '0.03em' }}>Photo coming soon</p>
                 </div>
                 <div>
                   <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 24, color: '#1a1f3a', marginBottom: 4 }}>Micheal Toyinbo</h3>
