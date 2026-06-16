@@ -25,6 +25,7 @@ export default function ThriveConference() {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+    setSubmitted(false);
     if (type === 'checkbox') {
       setFormData(prev => ({
         ...prev,
@@ -86,6 +87,10 @@ export default function ThriveConference() {
 
   const scrollToForm = () => {
     document.getElementById('registration-form').scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToSpeakers = () => {
+    document.getElementById('speakers').scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -263,25 +268,32 @@ export default function ThriveConference() {
           <section style={{ background: '#1a1f3a', padding: 'clamp(64px, 10vw, 120px) 24px' }}>
             <div style={{ maxWidth: 800, margin: '0 auto' }}>
               <div style={{ marginBottom: 28 }}>
-                <span className="t-badge-teal">Free Event · July 18, 2026</span>
+                <span className="t-badge-teal">Free Event · July 25, 2026</span>
               </div>
               <h1 style={{
                 fontFamily: 'Syne, sans-serif', fontWeight: 800,
                 fontSize: 'clamp(40px, 6vw, 72px)', color: '#fbf9f6',
-                lineHeight: 1.05, letterSpacing: '-0.02em', marginBottom: 28
+                lineHeight: 1.05, letterSpacing: '-0.02em', marginBottom: 20
               }}>
-                Your competitors are using AI.
+                Discover what it takes to thrive in this AI Era
               </h1>
-              <p style={{ fontSize: 'clamp(17px, 2.2vw, 20px)', color: '#c0c4e8', marginBottom: 16, lineHeight: 1.65 }}>
-                You're not behind. You just haven't learned how to stay ahead yet.
+              <p style={{ fontSize: 'clamp(17px, 2.2vw, 20px)', color: '#c0c4e8', marginBottom: 24, lineHeight: 1.65 }}>
+                From business growth to career advancement and faith-driven success.
               </p>
-              <p style={{ fontSize: 16, color: '#8286a7', marginBottom: 48, lineHeight: 1.8, maxWidth: 600 }}>
-                AI isn't coming to take your job. It's already here. The people winning are the ones who understand it well enough to use it — not fear it, not wait for it.
+              <p style={{ fontSize: 16, color: '#8286a7', marginBottom: 48, lineHeight: 1.8, maxWidth: 640 }}>
+                AI isn't coming to make you jobless. It's already here. And the people winning are the ones who understand it well enough to use it — not fear it or act like it doesn't exist. Learn from the people who are taking advantage of AI to make an impact in their industry.
               </p>
-              <p style={{ fontSize: 15, color: '#c0c4e8', marginBottom: 48, fontWeight: 600, letterSpacing: '0.01em' }}>
-                Two people who've actually done it are showing you how.<br />One morning. Free. No sales pitch.
-              </p>
-              <button onClick={scrollToForm} className="t-btn-cream">Register Now</button>
+              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+                <button onClick={scrollToForm} className="t-btn-cream">Secure Your Seat</button>
+                <button onClick={scrollToSpeakers} style={{
+                  background: 'transparent', color: '#c0c4e8',
+                  fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 15,
+                  letterSpacing: '0.06em', textTransform: 'uppercase',
+                  padding: '18px 44px', borderRadius: 4, border: '1px solid #404562',
+                  cursor: 'pointer', transition: 'border-color 0.15s, color 0.15s',
+                  lineHeight: 1
+                }}>Meet Our Speakers</button>
+              </div>
             </div>
           </section>
 
@@ -291,7 +303,7 @@ export default function ThriveConference() {
           <section style={{ background: '#fbf9f6', padding: '72px 24px' }}>
             <div style={{ maxWidth: 800, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 40 }}>
               {[
-                { label: 'When', title: 'July 18, 2026', sub: '11:00 AM' },
+                { label: 'When', title: 'July 25, 2026', sub: '11:00 AM' },
                 { label: 'Where', title: 'Christ Unfolding Place', sub: 'Lagos, Nigeria' },
                 { label: 'Cost', title: 'Free', sub: 'Register by June 30.' },
               ].map(item => (
@@ -306,12 +318,51 @@ export default function ThriveConference() {
 
           <hr className="t-divider" />
 
-          {/* SPEAKERS */}
+          {/* WHY ATTEND */}
           <section style={{ background: '#fbf9f6', padding: 'clamp(64px, 8vw, 96px) 24px' }}>
+            <div style={{ maxWidth: 800, margin: '0 auto' }}>
+              <span className="t-label">Why Attend</span>
+              <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1f3a', letterSpacing: '-0.01em', marginBottom: 16 }}>
+                Why should you attend Thrive Conference?
+              </h2>
+              <p style={{ fontSize: 16, color: '#46464d', lineHeight: 1.8, marginBottom: 48, maxWidth: 640 }}>
+                A conference by Christ Unfolding Ministries designed for professionals, business owners, and students who refuse to watch others lead while they just watch.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+                {[
+                  {
+                    title: 'Learn from Top AI Innovators & Sales Experts',
+                    desc: 'Hear directly from innovators who are leveraging AI to build thriving businesses and advance their careers.'
+                  },
+                  {
+                    title: 'Build Your Network',
+                    desc: 'Connect with 300+ like-minded professionals, entrepreneurs, students, and business owners.'
+                  },
+                  {
+                    title: 'Invest in Your Most Important Asset',
+                    desc: 'Your career and skills are your greatest wealth builder. Spend one day upgrading your knowledge and positioning yourself for the opportunities coming in 2026 and beyond.'
+                  },
+                ].map((item, i) => (
+                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '24px 1fr', gap: 20, padding: '28px 0', borderBottom: '1px solid #e8e6e3' }}>
+                    <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 18, color: '#7c572d', paddingTop: 2 }}>→</span>
+                    <div>
+                      <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 17, color: '#1a1f3a', marginBottom: 6 }}>{item.title}</h3>
+                      <p style={{ color: '#46464d', fontSize: 15, lineHeight: 1.7 }}>{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <hr className="t-divider" />
+
+          {/* SPEAKERS */}
+          <section id="speakers" style={{ background: '#fbf9f6', padding: 'clamp(64px, 8vw, 96px) 24px' }}>
             <div style={{ maxWidth: 800, margin: '0 auto' }}>
               <span className="t-label">Speakers</span>
               <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1f3a', letterSpacing: '-0.01em', marginBottom: 56 }}>
-                Who's Speaking
+                Meet Your Speakers
               </h2>
 
               {/* Dara */}
@@ -329,7 +380,7 @@ export default function ThriveConference() {
                     Started as a tweet: "I want to build a Bible presentation AI for churches." Six months later, Pewbeam was live — listening in real time, matching Bible verses to what's being said, working offline.
                   </p>
                   <p style={{ color: '#46464d', lineHeight: 1.75, marginBottom: 20, fontSize: 15 }}>
-                    <strong style={{ color: '#1a1f3a' }}>Why she's speaking:</strong> She didn't wait for permission. She built it in public and shipped it. She'll show you how she thinks about building with AI — how she solves problems, how she ships.
+                    <strong style={{ color: '#1a1f3a' }}>Why he's speaking:</strong> Dara's work demonstrates how AI can solve real problems for communities, blending technical excellence with practical impact. He'll show you how he thinks about building with AI — how he identifies problems, how he ships.
                   </p>
                   <div style={{ borderLeft: '2px solid #7c572d', paddingLeft: 16 }}>
                     <p style={{ color: '#46464d', fontSize: 14, fontStyle: 'italic' }}>
@@ -348,17 +399,17 @@ export default function ThriveConference() {
                   <p style={{ fontSize: 11, color: '#77767e', textAlign: 'center', marginTop: 8, letterSpacing: '0.03em' }}>Photo coming soon</p>
                 </div>
                 <div>
-                  <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 24, color: '#1a1f3a', marginBottom: 4 }}>Michael</h3>
-                  <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#7c572d', marginBottom: 24 }}>Growth Strategy Head, Chowdeck</p>
+                  <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 24, color: '#1a1f3a', marginBottom: 4 }}>Micheal Toyinbo</h3>
+                  <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#7c572d', marginBottom: 24 }}>Director of Expansion, Planning & Strategy · Chowdeck</p>
                   <p style={{ color: '#46464d', lineHeight: 1.75, marginBottom: 16, fontSize: 15 }}>
-                    Responsible for growing a company in a competitive market. That means using every advantage. Right now, that advantage is AI. His job is to stay ahead — not just of competition, but of what's possible.
+                    Micheal is currently leading growth and strategic planning for Chowdeck across Nigeria and Ghana. He brings expertise in scaling, operations, and navigating complex business environments while maintaining operational excellence.
                   </p>
                   <p style={{ color: '#46464d', lineHeight: 1.75, marginBottom: 20, fontSize: 15 }}>
-                    <strong style={{ color: '#1a1f3a' }}>Why he's speaking:</strong> He's not a futurist. He's someone whose paycheck depends on AI working. He'll share what actually moves the needle — what's real, what's hype.
+                    <strong style={{ color: '#1a1f3a' }}>Why he's speaking:</strong> He's not a futurist talking about what AI could do — he's someone actively using it to drive real growth across multiple markets. He'll share what actually moves the needle.
                   </p>
                   <div style={{ borderLeft: '2px solid #009898', paddingLeft: 16 }}>
                     <p style={{ color: '#46464d', fontSize: 14, fontStyle: 'italic' }}>
-                      Tactical insights from someone who uses AI every day to grow a real business.
+                      Tactical insights from someone scaling a real business across Nigeria and Ghana with AI.
                     </p>
                   </div>
                 </div>
@@ -368,20 +419,19 @@ export default function ThriveConference() {
 
           <hr className="t-divider" />
 
-          {/* WHAT YOU'LL LEAVE WITH */}
+          {/* WHAT TO EXPECT */}
           <section style={{ background: '#1a1f3a', padding: 'clamp(64px, 8vw, 96px) 24px' }}>
             <div style={{ maxWidth: 800, margin: '0 auto' }}>
-              <span className="t-label" style={{ color: '#404562' }}>Outcomes</span>
+              <span className="t-label" style={{ color: '#404562' }}>Programme</span>
               <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#fbf9f6', letterSpacing: '-0.01em', marginBottom: 56 }}>
-                What You'll Leave With
+                What to Expect
               </h2>
               {[
-                { n: '01', title: 'How to actually use AI (not fear it)', desc: 'Concrete steps. Real examples. No theory.' },
-                { n: '02', title: 'What changed in your industry (and what to do about it)', desc: "The rules are different now. What's your move?" },
-                { n: '03', title: 'Your next move — not someday. This week.', desc: "You'll leave knowing exactly what to do Monday morning." },
-                { n: '04', title: 'People in the same position as you', desc: "The best part of any conference isn't the speakers. It's the people you meet." },
+                { n: '01', title: 'Keynote Addresses', desc: 'Hear directly from AI innovators and growth leaders on what is actually working right now.' },
+                { n: '02', title: 'Panel Discussions', desc: 'Real conversations about real challenges — AI adoption, business growth, and navigating the new world of work.' },
+                { n: '03', title: 'Networking Breaks', desc: 'Connect with 300+ professionals, entrepreneurs, students and business owners who are serious about thriving.' },
               ].map((item, i) => (
-                <div key={i} style={{ display: 'grid', gridTemplateColumns: '48px 1fr', gap: 24, padding: '28px 0', borderBottom: i < 3 ? '1px solid #2d3250' : 'none' }}>
+                <div key={i} style={{ display: 'grid', gridTemplateColumns: '48px 1fr', gap: 24, padding: '28px 0', borderBottom: i < 2 ? '1px solid #2d3250' : 'none' }}>
                   <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 12, color: '#404562', letterSpacing: '0.06em', paddingTop: 4 }}>{item.n}</span>
                   <div>
                     <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 17, color: '#fbf9f6', marginBottom: 6 }}>{item.title}</h3>
@@ -394,19 +444,17 @@ export default function ThriveConference() {
 
           <hr className="t-divider" />
 
-          {/* WHY FREE */}
-          <section style={{ background: '#fbf9f6', padding: 'clamp(64px, 8vw, 96px) 24px' }}>
-            <div style={{ maxWidth: 800, margin: '0 auto' }}>
-              <span className="t-label">Transparency</span>
-              <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1f3a', letterSpacing: '-0.01em', marginBottom: 32 }}>
-                Why is this free?
+          {/* READY TO THRIVE CTA */}
+          <section style={{ background: '#fbf9f6', padding: 'clamp(64px, 8vw, 96px) 24px', textAlign: 'center' }}>
+            <div style={{ maxWidth: 640, margin: '0 auto' }}>
+              <span className="t-label" style={{ textAlign: 'center', display: 'block' }}>July 25, 2026</span>
+              <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(28px, 4vw, 48px)', color: '#1a1f3a', letterSpacing: '-0.02em', marginBottom: 20 }}>
+                Ready to Thrive?
               </h2>
-              <p style={{ fontSize: 17, color: '#46464d', lineHeight: 1.8, marginBottom: 20, maxWidth: 620 }}>
-                Because the best way to stay ahead of AI isn't alone — it's together. We're building Thrive as the place where serious people — students, professionals, founders — come to actually understand what's happening.
+              <p style={{ fontSize: 17, color: '#46464d', lineHeight: 1.8, marginBottom: 40 }}>
+                Secure your spot now and invest in your growth, career and future.
               </p>
-              <p style={{ fontSize: 17, color: '#46464d', lineHeight: 1.8, maxWidth: 620 }}>
-                No sales pitch. No course to upsell. Just two people sharing what they've learned. And you figuring out what it means for you.
-              </p>
+              <button onClick={scrollToForm} className="t-btn-navy-lg">Secure Your Spot</button>
             </div>
           </section>
 
@@ -435,7 +483,7 @@ export default function ThriveConference() {
                 <div style={{ marginBottom: 32, background: '#002626', border: '2px solid #009898', borderRadius: 4, padding: 32, textAlign: 'center' }}>
                   <CheckCircle color="#22dcdc" size={40} style={{ margin: '0 auto 12px', display: 'block' }} />
                   <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 20, color: '#22dcdc', marginBottom: 8 }}>You're In!</h3>
-                  <p style={{ color: '#54f9f9', fontSize: 15 }}>You're registered. See you July 18.</p>
+                  <p style={{ color: '#54f9f9', fontSize: 15 }}>You're registered. See you July 25.</p>
                 </div>
               )}
 
@@ -519,8 +567,15 @@ export default function ThriveConference() {
                     <option value="advanced">Advanced — Expert level</option>
                   </select>
                 </div>
-                <button type="submit" disabled={submitting} className="t-btn-navy t-btn-full" style={{ marginTop: 8, opacity: submitting ? 0.6 : 1, cursor: submitting ? 'not-allowed' : 'pointer' }}>
-                  {submitting ? 'Submitting...' : 'Secure Your Spot'}
+                <button type="submit" disabled={submitting || submitted} className="t-btn-navy t-btn-full" style={{
+                  marginTop: 8,
+                  background: submitted ? '#009898' : undefined,
+                  borderColor: submitted ? '#009898' : undefined,
+                  opacity: submitting ? 0.6 : 1,
+                  cursor: (submitting || submitted) ? 'not-allowed' : 'pointer',
+                  transition: 'background 0.3s, border-color 0.3s'
+                }}>
+                  {submitting ? 'Submitting...' : submitted ? 'Submitted!' : 'Secure Your Spot'}
                 </button>
                 <p style={{ textAlign: 'center', fontSize: 12, color: '#77767e', letterSpacing: '0.02em' }}>
                   Registration closes June 30, 2026.
@@ -643,8 +698,15 @@ export default function ThriveConference() {
                     placeholder="e.g. 'I've done event photography,' 'I manage social media for my brand.' Or just say 'I'm eager to help!'"
                   />
                 </div>
-                <button type="submit" disabled={volunteerSubmitting} className="t-btn-gold-lg" style={{ marginTop: 8, opacity: volunteerSubmitting ? 0.6 : 1, cursor: volunteerSubmitting ? 'not-allowed' : 'pointer' }}>
-                  {volunteerSubmitting ? 'Submitting...' : 'Submit Volunteer Application'}
+                <button type="submit" disabled={volunteerSubmitting || volunteerSubmitted} className="t-btn-gold-lg" style={{
+                  marginTop: 8,
+                  background: volunteerSubmitted ? '#009898' : undefined,
+                  borderColor: volunteerSubmitted ? '#009898' : undefined,
+                  opacity: volunteerSubmitting ? 0.6 : 1,
+                  cursor: (volunteerSubmitting || volunteerSubmitted) ? 'not-allowed' : 'pointer',
+                  transition: 'background 0.3s, border-color 0.3s'
+                }}>
+                  {volunteerSubmitting ? 'Submitting...' : volunteerSubmitted ? 'Submitted!' : 'Submit Volunteer Application'}
                 </button>
                 <p style={{ textAlign: 'center', fontSize: 12, color: '#77767e', letterSpacing: '0.02em' }}>
                   We'll reach out within 2 days. Thank you for being part of Thrive.
@@ -664,7 +726,7 @@ export default function ThriveConference() {
               </p>
               <div style={{ width: 40, height: 2, background: '#7c572d', margin: '0 auto 20px' }} />
               <p style={{ color: '#46464d', fontSize: 13, letterSpacing: '0.02em' }}>
-                Christ Unfolding Place, Lagos · July 18, 2026 · 11:00 AM · Free
+                Christ Unfolding Place, Lagos · July 25, 2026 · 11:00 AM · Free
               </p>
             </div>
           </footer>
