@@ -765,34 +765,58 @@ export default function ThriveConference() {
           </section>
 
           {/* FOOTER */}
-          <footer style={{ background: '#030722', padding: '56px 24px', borderTop: '2px solid #1a1f3a' }}>
-            <div style={{ maxWidth: 1280, margin: '0 auto', textAlign: 'center' }}>
-              <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 22, color: '#fbf9f6', marginBottom: 6, letterSpacing: '-0.01em' }}>
-                THRIVE CONFERENCE 2026
-              </p>
-              <p style={{ color: '#404562', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 16 }}>
-                Leveraging AI for Business and Career Growth
-              </p>
-              <div style={{ width: 40, height: 2, background: '#7c572d', margin: '0 auto 16px' }} />
-              <p style={{ color: '#6b6f8a', fontSize: 12, letterSpacing: '0.04em', marginBottom: 16 }}>
-                Presented by <strong style={{ color: '#8286a7' }}>Thrive Initiatives</strong> · an arm of <strong style={{ color: '#8286a7' }}>Christ Unfolding Ministries</strong>
-              </p>
-              <p style={{ color: '#46464d', fontSize: 13, letterSpacing: '0.02em', marginBottom: 24 }}>
-                Christ Unfolding Place, Ibadan · July 25, 2026 · 10:00 AM · Free
-              </p>
-              <div style={{ display: 'flex', justifyContent: 'center', gap: 32, flexWrap: 'wrap', marginBottom: 8 }}>
-                <a href="https://x.com/Thrivebycrum" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#8286a7', textDecoration: 'none', fontSize: 14, fontFamily: 'Inter, sans-serif' }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                  @Thrivebycrum
-                </a>
-                <a href="https://instagram.com/Thrive_initiatives" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#8286a7', textDecoration: 'none', fontSize: 14, fontFamily: 'Inter, sans-serif' }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                  @Thrive_initiatives
-                </a>
-                <a href="tel:09064846706" style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#8286a7', textDecoration: 'none', fontSize: 14, fontFamily: 'Inter, sans-serif' }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-                  09064846706
-                </a>
+          <footer style={{ background: '#030722', borderTop: '3px solid #7c572d' }}>
+            <div style={{ maxWidth: 1280, margin: '0 auto', padding: '72px 24px 48px' }}>
+
+              {/* Two-column grid */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '48px 80px', marginBottom: 56 }}>
+
+                {/* Brand column */}
+                <div>
+                  <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 26, color: '#fbf9f6', letterSpacing: '-0.01em', marginBottom: 10 }}>
+                    THRIVE CONFERENCE 2026
+                  </p>
+                  <p style={{ color: '#8286a7', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 24 }}>
+                    Leveraging AI for Business and Career Growth
+                  </p>
+                  <div style={{ width: 36, height: 2, background: '#7c572d', marginBottom: 24 }} />
+                  <p style={{ color: '#8286a7', fontSize: 14, lineHeight: 1.8 }}>
+                    Presented by <strong style={{ color: '#c0c4e8' }}>Thrive Initiatives</strong>
+                    <br />an arm of <strong style={{ color: '#c0c4e8' }}>Christ Unfolding Ministries</strong>
+                  </p>
+                </div>
+
+                {/* Details + Connect column */}
+                <div>
+                  <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#7c572d', marginBottom: 14 }}>Event Details</p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 36, borderLeft: '2px solid #1a1f3a', paddingLeft: 16 }}>
+                    <p style={{ color: '#fbf9f6', fontSize: 15, fontFamily: 'Syne, sans-serif', fontWeight: 700 }}>July 25, 2026 · 10:00 AM</p>
+                    <p style={{ color: '#c0c4e8', fontSize: 14 }}>Christ Unfolding Place, Ibadan</p>
+                    <p style={{ color: '#8286a7', fontSize: 13, lineHeight: 1.6 }}>Sherry Supermarket, Oluseyi Bus-Stop,<br />Eleyele-Poly Road, Ibadan</p>
+                    <span style={{ display: 'inline-block', width: 'fit-content', marginTop: 4, background: '#009898', color: '#fbf9f6', fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 2 }}>Free Entry</span>
+                  </div>
+
+                  <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#7c572d', marginBottom: 14 }}>Connect</p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    <a href="https://x.com/Thrivebycrum" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 10, color: '#c0c4e8', textDecoration: 'none', fontSize: 14, fontFamily: 'Inter, sans-serif', transition: 'color 0.15s' }}>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                      @Thrivebycrum
+                    </a>
+                    <a href="https://instagram.com/Thrive_initiatives" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 10, color: '#c0c4e8', textDecoration: 'none', fontSize: 14, fontFamily: 'Inter, sans-serif', transition: 'color 0.15s' }}>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                      @Thrive_initiatives
+                    </a>
+                    <a href="tel:09064846706" style={{ display: 'flex', alignItems: 'center', gap: 10, color: '#c0c4e8', textDecoration: 'none', fontSize: 14, fontFamily: 'Inter, sans-serif', transition: 'color 0.15s' }}>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                      09064846706
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom bar */}
+              <div style={{ borderTop: '1px solid #1a1f3a', paddingTop: 24, textAlign: 'center' }}>
+                <p style={{ color: '#404562', fontSize: 12 }}>© 2026 Thrive Initiatives · Christ Unfolding Ministries. All rights reserved.</p>
               </div>
             </div>
           </footer>
