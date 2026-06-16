@@ -723,7 +723,7 @@ export default function ThriveConference() {
                     {[
                       { value: 'full-day', label: 'Full day (setup through cleanup)' },
                       { value: 'morning', label: 'Morning (setup + 2-3 hours)' },
-                      { value: 'event-day', label: 'Event day only (July 18, 11 AM+)' },
+                      { value: 'event-day', label: 'Event day only (July 25, 10 AM+)' },
                       { value: 'flexible', label: "Flexible, I'll work around my schedule" },
                     ].map(opt => (
                       <label key={opt.value} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
