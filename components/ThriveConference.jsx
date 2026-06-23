@@ -451,10 +451,9 @@ export default function ThriveConference() {
               {/* Michael */}
               <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} className="t-speaker-card">
                 <div className="t-speaker-photo">
-                  <div style={{ background: '#efeeeb', border: '2px solid #1a1f3a', borderRadius: 4, aspectRatio: '1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 44, color: '#009898' }}>M</span>
+                  <div style={{ border: '2px solid #1a1f3a', borderRadius: 4, aspectRatio: '1', overflow: 'hidden' }}>
+                    <img src="/michael-toyinbo.jpg" alt="Micheal Toyinbo" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }} />
                   </div>
-                  <p className="t-speaker-photo-caption" style={{ fontSize: 11, color: '#77767e', textAlign: 'center', marginTop: 8, letterSpacing: '0.03em' }}>Photo coming soon</p>
                 </div>
                 <div>
                   <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 24, color: '#1a1f3a', marginBottom: 4 }}>Micheal Toyinbo</h3>
