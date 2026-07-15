@@ -323,7 +323,7 @@ export default function ThriveConference() {
           <section style={{ background: '#1a1f3a', padding: 'clamp(64px, 10vw, 120px) 24px' }}>
             <motion.div style={{ maxWidth: 800, margin: '0 auto' }} variants={stagger} initial="hidden" animate="show">
               <motion.div variants={fadeUp} style={{ marginBottom: 28 }}>
-                <span className="t-badge-teal">Free Event · July 25, 2026</span>
+                <span className="t-badge-teal">Free Event · September 5, 2026</span>
               </motion.div>
               <motion.h1 variants={fadeUp} style={{
                 fontFamily: 'Syne, sans-serif', fontWeight: 800,
@@ -359,8 +359,8 @@ export default function ThriveConference() {
             <motion.div style={{ maxWidth: 800, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 40 }}
               variants={stagger} initial="hidden" whileInView="show" viewport={vp}>
               {[
-                { label: 'When', title: 'July 25, 2026', sub: '10:00 AM' },
-                { label: 'Where', title: 'Christ Unfolding Place', sub: 'Sherry Supermarket, Oluseyi Bus-Stop, Eleyele-Poly Road, Ibadan' },
+                { label: 'When', title: 'September 5, 2026', sub: '10:00 AM' },
+                { label: 'Where', title: 'International Conference Centre (ICC)', sub: 'Ibadan' },
                 { label: 'Cost', title: 'Free', sub: 'Register by June 30.' },
               ].map(item => (
                 <motion.div key={item.label} variants={fadeUp} style={{ borderLeft: '2px solid #1a1f3a', paddingLeft: 20 }}>
@@ -505,7 +505,7 @@ export default function ThriveConference() {
           {/* READY TO THRIVE CTA */}
           <section style={{ background: '#fbf9f6', padding: 'clamp(64px, 8vw, 96px) 24px', textAlign: 'center' }}>
             <motion.div style={{ maxWidth: 640, margin: '0 auto' }} variants={stagger} initial="hidden" whileInView="show" viewport={vp}>
-              <motion.span variants={fadeUp} className="t-label" style={{ textAlign: 'center', display: 'block' }}>July 25, 2026</motion.span>
+              <motion.span variants={fadeUp} className="t-label" style={{ textAlign: 'center', display: 'block' }}>September 5, 2026</motion.span>
               <motion.h2 variants={fadeUp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(28px, 4vw, 48px)', color: '#1a1f3a', letterSpacing: '-0.02em', marginBottom: 20 }}>
                 Ready to Thrive?
               </motion.h2>
@@ -543,7 +543,7 @@ export default function ThriveConference() {
                 <div style={{ marginBottom: 32, background: '#002626', border: '2px solid #009898', borderRadius: 4, padding: 32, textAlign: 'center' }}>
                   <CheckCircle color="#22dcdc" size={40} style={{ margin: '0 auto 12px', display: 'block' }} />
                   <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 20, color: '#22dcdc', marginBottom: 8 }}>You're In!</h3>
-                  <p style={{ color: '#54f9f9', fontSize: 15 }}>You're registered. See you July 25.</p>
+                  <p style={{ color: '#54f9f9', fontSize: 15 }}>You're registered. See you September 5.</p>
                 </div>
               )}
 
@@ -742,7 +742,7 @@ export default function ThriveConference() {
                     {[
                       { value: 'full-day', label: 'Full day (setup through cleanup)' },
                       { value: 'morning', label: 'Morning (setup + 2-3 hours)' },
-                      { value: 'event-day', label: 'Event day only (July 25, 10 AM+)' },
+                      { value: 'event-day', label: 'Event day only (September 5, 10 AM+)' },
                       { value: 'flexible', label: "Flexible, I'll work around my schedule" },
                     ].map(opt => (
                       <label key={opt.value} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
@@ -801,9 +801,8 @@ export default function ThriveConference() {
                 <div>
                   <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#7c572d', marginBottom: 14 }}>Event Details</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 36, borderLeft: '2px solid #1a1f3a', paddingLeft: 16 }}>
-                    <p style={{ color: '#fbf9f6', fontSize: 15, fontFamily: 'Syne, sans-serif', fontWeight: 700 }}>July 25, 2026 · 10:00 AM</p>
-                    <p style={{ color: '#c0c4e8', fontSize: 14 }}>Christ Unfolding Place, Ibadan</p>
-                    <p style={{ color: '#8286a7', fontSize: 13, lineHeight: 1.6 }}>Sherry Supermarket, Oluseyi Bus-Stop,<br />Eleyele-Poly Road, Ibadan</p>
+                    <p style={{ color: '#fbf9f6', fontSize: 15, fontFamily: 'Syne, sans-serif', fontWeight: 700 }}>September 5, 2026 · 10:00 AM</p>
+                    <p style={{ color: '#c0c4e8', fontSize: 14 }}>International Conference Centre (ICC), Ibadan</p>
                     <span style={{ display: 'inline-block', width: 'fit-content', marginTop: 4, background: '#009898', color: '#fbf9f6', fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 2 }}>Free Entry</span>
                   </div>
 
