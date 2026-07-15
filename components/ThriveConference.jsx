@@ -427,7 +427,7 @@ export default function ThriveConference() {
               <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} className="t-speaker-card" style={{ marginBottom: 56, paddingBottom: 56, borderBottom: '1px solid #c7c5ce' }}>
                 <div className="t-speaker-photo">
                   <div style={{ border: '2px solid #1a1f3a', borderRadius: 4, aspectRatio: '1', overflow: 'hidden' }}>
-                    <img src="/dara-sobaloju.jpg" alt="Dara Sobaloju" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }} />
+                    <img src="/dara-sobaloju.jpg" alt="Dara Sobaloju" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 60%', display: 'block' }} />
                   </div>
                 </div>
                 <div>
