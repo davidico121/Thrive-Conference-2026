@@ -552,16 +552,22 @@ export default function ThriveConferenceV2() {
               </motion.p>
 
               {submitted && (
-                <div id="registration-confirmation" style={{ marginBottom: 32, background: '#002626', border: '2px solid #fecb00', borderRadius: 4, padding: 32, textAlign: 'center' }}>
-                  <CheckCircle color="#22dcdc" size={40} style={{ margin: '0 auto 12px', display: 'block' }} />
-                  <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 20, color: '#22dcdc', marginBottom: 8 }}>You're In!</h3>
-                  <p style={{ color: '#54f9f9', fontSize: 15, marginBottom: 20 }}>You're registered. See you September 5.</p>
-                  <div style={{ borderTop: '1px solid #0e4747', paddingTop: 20 }}>
-                    <p style={{ color: '#54f9f9', fontSize: 14, marginBottom: 14 }}>Want to help make Thrive happen?</p>
+                <div id="registration-confirmation" style={{ marginBottom: 32, borderRadius: 4, overflow: 'hidden', textAlign: 'center', border: '2px solid #1a1a8e' }}>
+                  <div style={{ background: '#002626', padding: '18px 32px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+                    <CheckCircle color="#22dcdc" size={22} />
+                    <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 16, color: '#22dcdc', margin: 0 }}>You're In!</h3>
+                  </div>
+                  <div style={{ background: '#745b00', padding: '36px 32px' }}>
+                    <h4 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 22, color: '#f9f9f9', letterSpacing: '-0.01em', marginBottom: 10 }}>
+                      Want to help make Thrive happen?
+                    </h4>
+                    <p style={{ color: '#e8dcc0', fontSize: 14, lineHeight: 1.6, marginBottom: 24, maxWidth: 380, marginLeft: 'auto', marginRight: 'auto' }}>
+                      We need volunteers for social media, setup, photography, and day-of coordination. No experience necessary.
+                    </p>
                     <button
                       type="button"
                       onClick={() => document.getElementById('volunteer-form').scrollIntoView({ behavior: 'smooth' })}
-                      className="t-btn-gold"
+                      className="t-btn-cream"
                     >
                       Yes, I'd like to volunteer
                     </button>
