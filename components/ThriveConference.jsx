@@ -194,6 +194,24 @@ export default function ThriveConference() {
         }
         .t-btn-cream:hover { background: #f5f3f0; border-color: #f5f3f0; }
 
+        .t-btn-ink {
+          display: inline-block;
+          background: #17102e;
+          color: #fbf9f6;
+          font-family: 'Syne', sans-serif;
+          font-weight: 700;
+          font-size: 15px;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          padding: 18px 44px;
+          border-radius: 4px;
+          border: 1px solid #17102e;
+          cursor: pointer;
+          transition: background 0.15s;
+          line-height: 1;
+        }
+        .t-btn-ink:hover { background: #0a0619; border-color: #0a0619; }
+
         .t-btn-gold {
           display: inline-block;
           background: #a9782f;
@@ -559,17 +577,17 @@ export default function ThriveConference() {
                     <CheckCircle color="#22dcdc" size={22} />
                     <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 16, color: '#22dcdc', margin: 0 }}>You're In!</h3>
                   </div>
-                  <div style={{ background: '#a9782f', padding: '36px 32px' }}>
-                    <h4 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 22, color: '#fbf9f6', letterSpacing: '-0.01em', marginBottom: 10 }}>
+                  <div style={{ background: '#fecb00', padding: '36px 32px' }}>
+                    <h4 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 22, color: '#17102e', letterSpacing: '-0.01em', marginBottom: 10 }}>
                       Want to help make Thrive happen?
                     </h4>
-                    <p style={{ color: '#f0dcc4', fontSize: 14, lineHeight: 1.6, marginBottom: 24, maxWidth: 380, marginLeft: 'auto', marginRight: 'auto' }}>
+                    <p style={{ color: '#4a4066', fontSize: 14, lineHeight: 1.6, marginBottom: 24, maxWidth: 380, marginLeft: 'auto', marginRight: 'auto' }}>
                       We need volunteers for social media, setup, photography, and day-of coordination. No experience necessary.
                     </p>
                     <button
                       type="button"
                       onClick={() => document.getElementById('volunteer-form').scrollIntoView({ behavior: 'smooth' })}
-                      className="t-btn-cream"
+                      className="t-btn-ink"
                     >
                       Yes, I'd like to volunteer
                     </button>
