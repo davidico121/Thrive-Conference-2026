@@ -16,7 +16,7 @@ const stagger = {
 
 const vp = { once: true, margin: '-60px' };
 
-export default function ThriveConference() {
+export default function ThriveConferenceV2() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -121,27 +121,27 @@ export default function ThriveConference() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Hanken Grotesk:wght@400;500;600&display=swap');
 
         .thrive * { box-sizing: border-box; margin: 0; padding: 0; }
-        .thrive { font-family: 'Inter', sans-serif; background: #fbf9f6; color: #1b1c1a; }
+        .thrive { font-family: 'Hanken Grotesk', sans-serif; background: #f9f9f9; color: #1b1c1a; }
         .thrive h1, .thrive h2, .thrive h3, .thrive h4 { font-family: 'Syne', sans-serif; }
 
         .t-label {
           display: block;
-          font-family: 'Inter', sans-serif;
+          font-family: 'Hanken Grotesk', sans-serif;
           font-size: 11px;
           font-weight: 600;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: #77767e;
+          color: #767684;
           margin-bottom: 10px;
         }
 
         .t-btn-navy {
           display: inline-block;
-          background: #1a1f3a;
-          color: #fbf9f6;
+          background: #1a1a8e;
+          color: #f9f9f9;
           font-family: 'Syne', sans-serif;
           font-weight: 700;
           font-size: 13px;
@@ -149,17 +149,17 @@ export default function ThriveConference() {
           text-transform: uppercase;
           padding: 12px 28px;
           border-radius: 4px;
-          border: 1px solid #1a1f3a;
+          border: 1px solid #1a1a8e;
           cursor: pointer;
           transition: background 0.15s;
           line-height: 1;
         }
-        .t-btn-navy:hover { background: #030722; border-color: #030722; }
+        .t-btn-navy:hover { background: #04006b; border-color: #04006b; }
 
         .t-btn-navy-lg {
           display: inline-block;
-          background: #1a1f3a;
-          color: #fbf9f6;
+          background: #1a1a8e;
+          color: #f9f9f9;
           font-family: 'Syne', sans-serif;
           font-weight: 700;
           font-size: 15px;
@@ -167,17 +167,17 @@ export default function ThriveConference() {
           text-transform: uppercase;
           padding: 18px 44px;
           border-radius: 4px;
-          border: 2px solid #1a1f3a;
+          border: 2px solid #1a1a8e;
           cursor: pointer;
           transition: background 0.15s;
           line-height: 1;
         }
-        .t-btn-navy-lg:hover { background: #030722; border-color: #030722; }
+        .t-btn-navy-lg:hover { background: #04006b; border-color: #04006b; }
 
         .t-btn-cream {
           display: inline-block;
-          background: #fbf9f6;
-          color: #1a1f3a;
+          background: #f9f9f9;
+          color: #1a1a8e;
           font-family: 'Syne', sans-serif;
           font-weight: 700;
           font-size: 15px;
@@ -185,17 +185,17 @@ export default function ThriveConference() {
           text-transform: uppercase;
           padding: 18px 44px;
           border-radius: 4px;
-          border: 1px solid #fbf9f6;
+          border: 1px solid #f9f9f9;
           cursor: pointer;
           transition: background 0.15s;
           line-height: 1;
         }
-        .t-btn-cream:hover { background: #f5f3f0; border-color: #f5f3f0; }
+        .t-btn-cream:hover { background: #f3f3f4; border-color: #f3f3f4; }
 
         .t-btn-gold {
           display: inline-block;
-          background: #7c572d;
-          color: #fbf9f6;
+          background: #745b00;
+          color: #f9f9f9;
           font-family: 'Syne', sans-serif;
           font-weight: 700;
           font-size: 13px;
@@ -203,18 +203,18 @@ export default function ThriveConference() {
           text-transform: uppercase;
           padding: 12px 28px;
           border-radius: 4px;
-          border: 1px solid #7c572d;
+          border: 1px solid #745b00;
           cursor: pointer;
           transition: background 0.15s;
           line-height: 1;
         }
-        .t-btn-gold:hover { background: #614018; border-color: #614018; }
+        .t-btn-gold:hover { background: #584400; border-color: #584400; }
 
         .t-btn-gold-lg {
           display: block;
           width: 100%;
-          background: #7c572d;
-          color: #fbf9f6;
+          background: #745b00;
+          color: #f9f9f9;
           font-family: 'Syne', sans-serif;
           font-weight: 700;
           font-size: 15px;
@@ -222,12 +222,12 @@ export default function ThriveConference() {
           text-transform: uppercase;
           padding: 16px 44px;
           border-radius: 4px;
-          border: 1px solid #7c572d;
+          border: 1px solid #745b00;
           cursor: pointer;
           transition: background 0.15s;
           line-height: 1;
         }
-        .t-btn-gold-lg:hover { background: #614018; }
+        .t-btn-gold-lg:hover { background: #584400; }
 
         .t-btn-full {
           width: 100%;
@@ -240,11 +240,11 @@ export default function ThriveConference() {
         .t-input {
           width: 100%;
           padding: 12px 16px;
-          border: 1px solid #1a1f3a;
+          border: 1px solid #1a1a8e;
           border-radius: 4px;
           background: #ffffff;
           color: #1b1c1a;
-          font-family: 'Inter', sans-serif;
+          font-family: 'Hanken Grotesk', sans-serif;
           font-size: 16px;
           outline: none;
           transition: border-width 0.1s;
@@ -256,11 +256,11 @@ export default function ThriveConference() {
         .t-input-gold {
           width: 100%;
           padding: 12px 16px;
-          border: 1px solid #7c572d;
+          border: 1px solid #745b00;
           border-radius: 4px;
           background: #ffffff;
           color: #1b1c1a;
-          font-family: 'Inter', sans-serif;
+          font-family: 'Hanken Grotesk', sans-serif;
           font-size: 16px;
           outline: none;
           transition: border-width 0.1s;
@@ -269,17 +269,17 @@ export default function ThriveConference() {
         }
         .t-input-gold:focus { border-width: 2px; }
 
-        .t-radio { accent-color: #1a1f3a; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
-        .t-radio-gold { accent-color: #7c572d; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
-        .t-check { accent-color: #1a1f3a; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
+        .t-radio { accent-color: #1a1a8e; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
+        .t-radio-gold { accent-color: #745b00; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
+        .t-check { accent-color: #1a1a8e; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
 
-        .t-divider { border: none; border-top: 1px solid #1a1f3a; margin: 0; }
+        .t-divider { border: none; border-top: 1px solid #1a1a8e; margin: 0; }
 
-        .t-nav-wordmark { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 19px; color: #1a1f3a; letter-spacing: -0.01em; }
-        .t-nav-wordmark span { color: #7c572d; }
-        .t-nav-sub { font-size: 10px; color: #77767e; letter-spacing: 0.05em; text-transform: uppercase; margin-top: 2px; }
-        .t-nav-btn { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; background: #1a1f3a; color: #fbf9f6; border: 1px solid #1a1f3a; border-radius: 4px; cursor: pointer; transition: background 0.15s; white-space: nowrap; padding: 12px 28px; }
-        .t-nav-btn:hover { background: #030722; }
+        .t-nav-wordmark { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 19px; color: #1a1a8e; letter-spacing: -0.01em; }
+        .t-nav-wordmark span { color: #745b00; }
+        .t-nav-sub { font-size: 10px; color: #767684; letter-spacing: 0.05em; text-transform: uppercase; margin-top: 2px; }
+        .t-nav-btn { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; background: #1a1a8e; color: #f9f9f9; border: 1px solid #1a1a8e; border-radius: 4px; cursor: pointer; transition: background 0.15s; white-space: nowrap; padding: 12px 28px; }
+        .t-nav-btn:hover { background: #04006b; }
         @media (max-width: 600px) {
           .t-nav-sub { display: none; }
           .t-nav-btn { padding: 10px 14px; font-size: 11px; }
@@ -288,11 +288,11 @@ export default function ThriveConference() {
 
         .t-badge-teal {
           display: inline-block;
-          background: #009898;
-          color: #fbf9f6;
-          font-family: 'Inter', sans-serif;
+          background: #fecb00;
+          color: #04006b;
+          font-family: 'Hanken Grotesk', sans-serif;
           font-size: 11px;
-          font-weight: 600;
+          font-weight: 700;
           letter-spacing: 0.06em;
           text-transform: uppercase;
           padding: 5px 12px;
@@ -318,7 +318,7 @@ export default function ThriveConference() {
         {/* NAV */}
         <nav style={{
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-          background: '#fbf9f6', borderBottom: '2px solid #1a1f3a'
+          background: '#f9f9f9', borderBottom: '2px solid #1a1a8e'
         }}>
           <div style={{ maxWidth: 1280, margin: '0 auto', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
@@ -332,31 +332,31 @@ export default function ThriveConference() {
         <div style={{ paddingTop: 68 }}>
 
           {/* HERO */}
-          <section style={{ background: '#1a1f3a', padding: 'clamp(64px, 10vw, 120px) 24px' }}>
+          <section style={{ background: '#1a1a8e', padding: 'clamp(64px, 10vw, 120px) 24px' }}>
             <motion.div style={{ maxWidth: 800, margin: '0 auto' }} variants={stagger} initial="hidden" animate="show">
               <motion.div variants={fadeUp} style={{ marginBottom: 28 }}>
                 <span className="t-badge-teal">Free Event · September 5, 2026</span>
               </motion.div>
               <motion.h1 variants={fadeUp} style={{
                 fontFamily: 'Syne, sans-serif', fontWeight: 800,
-                fontSize: 'clamp(40px, 6vw, 72px)', color: '#fbf9f6',
+                fontSize: 'clamp(40px, 6vw, 72px)', color: '#f9f9f9',
                 lineHeight: 1.05, letterSpacing: '-0.02em', marginBottom: 20
               }}>
                 Discover what it takes to thrive in this AI Era
               </motion.h1>
-              <motion.p variants={fadeUp} style={{ fontSize: 'clamp(17px, 2.2vw, 20px)', color: '#c0c4e8', marginBottom: 24, lineHeight: 1.65 }}>
+              <motion.p variants={fadeUp} style={{ fontSize: 'clamp(17px, 2.2vw, 20px)', color: '#c0c1ff', marginBottom: 24, lineHeight: 1.65 }}>
                 From business growth to career advancement and faith-driven success.
               </motion.p>
-              <motion.p variants={fadeUp} style={{ fontSize: 16, color: '#8286a7', marginBottom: 48, lineHeight: 1.8, maxWidth: 640 }}>
+              <motion.p variants={fadeUp} style={{ fontSize: 16, color: '#888cfc', marginBottom: 48, lineHeight: 1.8, maxWidth: 640 }}>
                 AI isn't coming to make you jobless. It's already here. The people winning are the ones who understand it well enough to actually use it. Not fear it. Not pretend it doesn't exist. Learn from the people already using AI to make a real impact in their industry.
               </motion.p>
               <motion.div variants={fadeUp} style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
                 <button onClick={scrollToForm} className="t-btn-cream">Secure Your Seat</button>
                 <button onClick={scrollToSpeakers} style={{
-                  background: 'transparent', color: '#c0c4e8',
+                  background: 'transparent', color: '#c0c1ff',
                   fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 15,
                   letterSpacing: '0.06em', textTransform: 'uppercase',
-                  padding: '18px 44px', borderRadius: 4, border: '1px solid #404562',
+                  padding: '18px 44px', borderRadius: 4, border: '1px solid #3538a5',
                   cursor: 'pointer', transition: 'border-color 0.15s, color 0.15s',
                   lineHeight: 1
                 }}>Meet Our Speakers</button>
@@ -367,7 +367,7 @@ export default function ThriveConference() {
           <hr className="t-divider" />
 
           {/* EVENT DETAILS */}
-          <section style={{ background: '#fbf9f6', padding: '72px 24px' }}>
+          <section style={{ background: '#f9f9f9', padding: '72px 24px' }}>
             <motion.div style={{ maxWidth: 800, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 40 }}
               variants={stagger} initial="hidden" whileInView="show" viewport={vp}>
               {[
@@ -375,10 +375,10 @@ export default function ThriveConference() {
                 { label: 'Where', title: 'International Conference Centre (ICC)', sub: 'Ibadan' },
                 { label: 'Cost', title: 'Free', sub: 'Register by June 30.' },
               ].map(item => (
-                <motion.div key={item.label} variants={fadeUp} style={{ borderLeft: '2px solid #1a1f3a', paddingLeft: 20 }}>
+                <motion.div key={item.label} variants={fadeUp} style={{ borderLeft: '2px solid #1a1a8e', paddingLeft: 20 }}>
                   <span className="t-label">{item.label}</span>
-                  <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 19, color: '#1a1f3a', marginBottom: 4 }}>{item.title}</p>
-                  <p style={{ color: '#46464d', fontSize: 14 }}>{item.sub}</p>
+                  <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 19, color: '#1a1a8e', marginBottom: 4 }}>{item.title}</p>
+                  <p style={{ color: '#464653', fontSize: 14 }}>{item.sub}</p>
                 </motion.div>
               ))}
             </motion.div>
@@ -387,14 +387,14 @@ export default function ThriveConference() {
           <hr className="t-divider" />
 
           {/* WHY ATTEND */}
-          <section style={{ background: '#fbf9f6', padding: 'clamp(64px, 8vw, 96px) 24px' }}>
+          <section style={{ background: '#f9f9f9', padding: 'clamp(64px, 8vw, 96px) 24px' }}>
             <div style={{ maxWidth: 800, margin: '0 auto' }}>
               <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp}>
               <motion.span variants={fadeUp} className="t-label" style={{ display: 'block' }}>Why Attend</motion.span>
-              <motion.h2 variants={fadeUp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1f3a', letterSpacing: '-0.01em', marginBottom: 16 }}>
+              <motion.h2 variants={fadeUp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1a8e', letterSpacing: '-0.01em', marginBottom: 16 }}>
                 Why should you attend Thrive Conference?
               </motion.h2>
-              <motion.p variants={fadeUp} style={{ fontSize: 16, color: '#46464d', lineHeight: 1.8, marginBottom: 48, maxWidth: 640 }}>
+              <motion.p variants={fadeUp} style={{ fontSize: 16, color: '#464653', lineHeight: 1.8, marginBottom: 48, maxWidth: 640 }}>
                 A conference by Thrive Initiatives (an arm of Christ Unfolding Ministries), designed for professionals, business owners, and students who are done watching others lead while they sit on the sidelines.
               </motion.p>
               </motion.div>
@@ -413,11 +413,11 @@ export default function ThriveConference() {
                     desc: 'Your career and skills are your greatest wealth builder. Spend one day upgrading your knowledge and positioning yourself for the opportunities coming in 2026 and beyond.'
                   },
                 ].map((item, i) => (
-                  <motion.div key={i} variants={fadeUp} style={{ display: 'grid', gridTemplateColumns: '24px 1fr', gap: 20, padding: '28px 0', borderBottom: '1px solid #e8e6e3' }}>
-                    <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 18, color: '#7c572d', paddingTop: 2 }}>→</span>
+                  <motion.div key={i} variants={fadeUp} style={{ display: 'grid', gridTemplateColumns: '24px 1fr', gap: 20, padding: '28px 0', borderBottom: '1px solid #e2e2e2' }}>
+                    <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 18, color: '#745b00', paddingTop: 2 }}>→</span>
                     <div>
-                      <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 17, color: '#1a1f3a', marginBottom: 6 }}>{item.title}</h3>
-                      <p style={{ color: '#46464d', fontSize: 15, lineHeight: 1.7 }}>{item.desc}</p>
+                      <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 17, color: '#1a1a8e', marginBottom: 6 }}>{item.title}</h3>
+                      <p style={{ color: '#464653', fontSize: 15, lineHeight: 1.7 }}>{item.desc}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -428,31 +428,31 @@ export default function ThriveConference() {
           <hr className="t-divider" />
 
           {/* SPEAKERS */}
-          <section id="speakers" style={{ background: '#fbf9f6', padding: 'clamp(64px, 8vw, 96px) 24px' }}>
+          <section id="speakers" style={{ background: '#f9f9f9', padding: 'clamp(64px, 8vw, 96px) 24px' }}>
             <div style={{ maxWidth: 800, margin: '0 auto' }}>
               <motion.span variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} className="t-label" style={{ display: 'block' }}>Speakers</motion.span>
-              <motion.h2 variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1f3a', letterSpacing: '-0.01em', marginBottom: 56 }}>
+              <motion.h2 variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1a8e', letterSpacing: '-0.01em', marginBottom: 56 }}>
                 Meet Your Speakers
               </motion.h2>
 
               {/* Dara */}
-              <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} className="t-speaker-card" style={{ marginBottom: 56, paddingBottom: 56, borderBottom: '1px solid #c7c5ce' }}>
+              <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} className="t-speaker-card" style={{ marginBottom: 56, paddingBottom: 56, borderBottom: '1px solid #c7c5d5' }}>
                 <div className="t-speaker-photo">
-                  <div style={{ border: '2px solid #1a1f3a', borderRadius: 4, aspectRatio: '1', overflow: 'hidden' }}>
+                  <div style={{ border: '2px solid #1a1a8e', borderRadius: 4, aspectRatio: '1', overflow: 'hidden' }}>
                     <img src="/dara-sobaloju.jpg" alt="Dara Sobaloju" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 60%', display: 'block' }} />
                   </div>
                 </div>
                 <div>
-                  <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 24, color: '#1a1f3a', marginBottom: 4 }}>Dara Sobaloju</h3>
-                  <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#7c572d', marginBottom: 24 }}>Built Pewbeam AI</p>
-                  <p style={{ color: '#46464d', lineHeight: 1.75, marginBottom: 16, fontSize: 15 }}>
+                  <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 24, color: '#1a1a8e', marginBottom: 4 }}>Dara Sobaloju</h3>
+                  <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#745b00', marginBottom: 24 }}>Built Pewbeam AI</p>
+                  <p style={{ color: '#464653', lineHeight: 1.75, marginBottom: 16, fontSize: 15 }}>
                     Started as a tweet: "I want to build a Bible presentation AI for churches." Six months later, Pewbeam was live. It listens in real time, matches Bible verses to what's being said, and works offline.
                   </p>
-                  <p style={{ color: '#46464d', lineHeight: 1.75, marginBottom: 20, fontSize: 15 }}>
-                    <strong style={{ color: '#1a1f3a' }}>Why he's speaking:</strong> Dara's work shows how AI can solve real problems for real communities. He'll walk you through how he thinks about building with AI: how he spots problems worth solving and how he actually ships.
+                  <p style={{ color: '#464653', lineHeight: 1.75, marginBottom: 20, fontSize: 15 }}>
+                    <strong style={{ color: '#1a1a8e' }}>Why he's speaking:</strong> Dara's work shows how AI can solve real problems for real communities. He'll walk you through how he thinks about building with AI: how he spots problems worth solving and how he actually ships.
                   </p>
-                  <div style={{ borderLeft: '2px solid #7c572d', paddingLeft: 16 }}>
-                    <p style={{ color: '#46464d', fontSize: 14, fontStyle: 'italic' }}>
+                  <div style={{ borderLeft: '2px solid #745b00', paddingLeft: 16 }}>
+                    <p style={{ color: '#464653', fontSize: 14, fontStyle: 'italic' }}>
                       "To ensure the Church is not left behind in the AI era." This is the mission behind Pewbeam.
                     </p>
                   </div>
@@ -462,21 +462,21 @@ export default function ThriveConference() {
               {/* Michael */}
               <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} className="t-speaker-card">
                 <div className="t-speaker-photo">
-                  <div style={{ border: '2px solid #1a1f3a', borderRadius: 4, aspectRatio: '1', overflow: 'hidden' }}>
+                  <div style={{ border: '2px solid #1a1a8e', borderRadius: 4, aspectRatio: '1', overflow: 'hidden' }}>
                     <img src="/michael-toyinbo.jpg" alt="Micheal Toyinbo" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }} />
                   </div>
                 </div>
                 <div>
-                  <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 24, color: '#1a1f3a', marginBottom: 4 }}>Micheal Toyinbo</h3>
-                  <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#7c572d', marginBottom: 24 }}>Director of Expansion, Planning & Strategy · Chowdeck</p>
-                  <p style={{ color: '#46464d', lineHeight: 1.75, marginBottom: 16, fontSize: 15 }}>
+                  <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 24, color: '#1a1a8e', marginBottom: 4 }}>Micheal Toyinbo</h3>
+                  <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#745b00', marginBottom: 24 }}>Director of Expansion, Planning & Strategy · Chowdeck</p>
+                  <p style={{ color: '#464653', lineHeight: 1.75, marginBottom: 16, fontSize: 15 }}>
                     Micheal is currently leading growth and strategic planning for Chowdeck across Nigeria and Ghana. He brings expertise in scaling, operations, and navigating complex business environments while maintaining operational excellence.
                   </p>
-                  <p style={{ color: '#46464d', lineHeight: 1.75, marginBottom: 20, fontSize: 15 }}>
-                    <strong style={{ color: '#1a1f3a' }}>Why he's speaking:</strong> He's not a futurist talking about what AI could do someday. He's actively using it to drive real growth across multiple markets right now. He'll share what actually moves the needle.
+                  <p style={{ color: '#464653', lineHeight: 1.75, marginBottom: 20, fontSize: 15 }}>
+                    <strong style={{ color: '#1a1a8e' }}>Why he's speaking:</strong> He's not a futurist talking about what AI could do someday. He's actively using it to drive real growth across multiple markets right now. He'll share what actually moves the needle.
                   </p>
-                  <div style={{ borderLeft: '2px solid #009898', paddingLeft: 16 }}>
-                    <p style={{ color: '#46464d', fontSize: 14, fontStyle: 'italic' }}>
+                  <div style={{ borderLeft: '2px solid #fecb00', paddingLeft: 16 }}>
+                    <p style={{ color: '#464653', fontSize: 14, fontStyle: 'italic' }}>
                       Tactical insights from someone scaling a real business across Nigeria and Ghana with AI.
                     </p>
                   </div>
@@ -488,10 +488,10 @@ export default function ThriveConference() {
           <hr className="t-divider" />
 
           {/* WHAT TO EXPECT */}
-          <section style={{ background: '#1a1f3a', padding: 'clamp(64px, 8vw, 96px) 24px' }}>
+          <section style={{ background: '#1a1a8e', padding: 'clamp(64px, 8vw, 96px) 24px' }}>
             <div style={{ maxWidth: 800, margin: '0 auto' }}>
-              <motion.span variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} className="t-label" style={{ color: '#6b6f8a', display: 'block' }}>Programme</motion.span>
-              <motion.h2 variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#fbf9f6', letterSpacing: '-0.01em', marginBottom: 56 }}>
+              <motion.span variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} className="t-label" style={{ color: '#8f97ac', display: 'block' }}>Programme</motion.span>
+              <motion.h2 variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#f9f9f9', letterSpacing: '-0.01em', marginBottom: 56 }}>
                 What to Expect
               </motion.h2>
               <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp}>
@@ -500,11 +500,11 @@ export default function ThriveConference() {
                 { n: '02', title: 'Panel Discussions', desc: 'Real conversations about real challenges: AI adoption, business growth, and navigating the new world of work.' },
                 { n: '03', title: 'Networking Breaks', desc: 'Connect with 300+ professionals, entrepreneurs, students and business owners who are serious about thriving.' },
               ].map((item, i) => (
-                <motion.div key={i} variants={fadeUp} style={{ display: 'grid', gridTemplateColumns: '48px 1fr', gap: 24, padding: '28px 0', borderBottom: i < 2 ? '1px solid #2d3250' : 'none' }}>
-                  <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 12, color: '#6b6f8a', letterSpacing: '0.06em', paddingTop: 4 }}>{item.n}</span>
+                <motion.div key={i} variants={fadeUp} style={{ display: 'grid', gridTemplateColumns: '48px 1fr', gap: 24, padding: '28px 0', borderBottom: i < 2 ? '1px solid #282f41' : 'none' }}>
+                  <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 12, color: '#8f97ac', letterSpacing: '0.06em', paddingTop: 4 }}>{item.n}</span>
                   <div>
-                    <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 17, color: '#fbf9f6', marginBottom: 6 }}>{item.title}</h3>
-                    <p style={{ color: '#c0c4e8', fontSize: 14, lineHeight: 1.6 }}>{item.desc}</p>
+                    <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 17, color: '#f9f9f9', marginBottom: 6 }}>{item.title}</h3>
+                    <p style={{ color: '#c0c1ff', fontSize: 14, lineHeight: 1.6 }}>{item.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -515,13 +515,13 @@ export default function ThriveConference() {
           <hr className="t-divider" />
 
           {/* READY TO THRIVE CTA */}
-          <section style={{ background: '#fbf9f6', padding: 'clamp(64px, 8vw, 96px) 24px', textAlign: 'center' }}>
+          <section style={{ background: '#f9f9f9', padding: 'clamp(64px, 8vw, 96px) 24px', textAlign: 'center' }}>
             <motion.div style={{ maxWidth: 640, margin: '0 auto' }} variants={stagger} initial="hidden" whileInView="show" viewport={vp}>
               <motion.span variants={fadeUp} className="t-label" style={{ textAlign: 'center', display: 'block' }}>September 5, 2026</motion.span>
-              <motion.h2 variants={fadeUp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(28px, 4vw, 48px)', color: '#1a1f3a', letterSpacing: '-0.02em', marginBottom: 20 }}>
+              <motion.h2 variants={fadeUp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(28px, 4vw, 48px)', color: '#1a1a8e', letterSpacing: '-0.02em', marginBottom: 20 }}>
                 Ready to Thrive?
               </motion.h2>
-              <motion.p variants={fadeUp} style={{ fontSize: 17, color: '#46464d', lineHeight: 1.8, marginBottom: 40 }}>
+              <motion.p variants={fadeUp} style={{ fontSize: 17, color: '#464653', lineHeight: 1.8, marginBottom: 40 }}>
                 Secure your spot now and invest in your growth, career and future.
               </motion.p>
               <motion.div variants={fadeUp}>
@@ -531,7 +531,7 @@ export default function ThriveConference() {
           </section>
 
           {/* URGENCY STRIP */}
-          <div style={{ background: '#002626', borderTop: '2px solid #009898', borderBottom: '2px solid #009898', padding: '20px 24px', textAlign: 'center' }}>
+          <div style={{ background: '#002626', borderTop: '2px solid #fecb00', borderBottom: '2px solid #fecb00', padding: '20px 24px', textAlign: 'center' }}>
             <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 15, color: '#22dcdc', letterSpacing: '0.04em' }}>
               Registration closes June 30, 2026 · Limited spots available
             </p>
@@ -541,18 +541,18 @@ export default function ThriveConference() {
           </div>
 
           {/* REGISTRATION FORM */}
-          <section style={{ background: '#fbf9f6', padding: 'clamp(64px, 8vw, 96px) 24px' }} id="registration-form">
+          <section style={{ background: '#f9f9f9', padding: 'clamp(64px, 8vw, 96px) 24px' }} id="registration-form">
             <div style={{ maxWidth: 560, margin: '0 auto' }}>
               <motion.span variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} className="t-label" style={{ textAlign: 'center', display: 'block' }}>Register</motion.span>
-              <motion.h2 variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1f3a', letterSpacing: '-0.01em', textAlign: 'center', marginBottom: 12 }}>
+              <motion.h2 variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1a8e', letterSpacing: '-0.01em', textAlign: 'center', marginBottom: 12 }}>
                 Secure Your Spot
               </motion.h2>
-              <motion.p variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ textAlign: 'center', color: '#46464d', fontSize: 15, marginBottom: 48 }}>
+              <motion.p variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ textAlign: 'center', color: '#464653', fontSize: 15, marginBottom: 48 }}>
                 One morning. Two speakers. Everything changes.
               </motion.p>
 
               {submitted && (
-                <div id="registration-confirmation" style={{ marginBottom: 32, background: '#002626', border: '2px solid #009898', borderRadius: 4, padding: 32, textAlign: 'center' }}>
+                <div id="registration-confirmation" style={{ marginBottom: 32, background: '#002626', border: '2px solid #fecb00', borderRadius: 4, padding: 32, textAlign: 'center' }}>
                   <CheckCircle color="#22dcdc" size={40} style={{ margin: '0 auto 12px', display: 'block' }} />
                   <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 20, color: '#22dcdc', marginBottom: 8 }}>You're In!</h3>
                   <p style={{ color: '#54f9f9', fontSize: 15, marginBottom: 20 }}>You're registered. See you September 5.</p>
@@ -575,7 +575,7 @@ export default function ThriveConference() {
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} style={{ border: '2px solid #1a1f3a', borderRadius: 4, padding: 40, background: '#ffffff', display: 'flex', flexDirection: 'column', gap: 24 }}>
+              <form onSubmit={handleSubmit} style={{ border: '2px solid #1a1a8e', borderRadius: 4, padding: 40, background: '#ffffff', display: 'flex', flexDirection: 'column', gap: 24 }}>
                 <div>
                   <label className="t-label">Full Name *</label>
                   <input type="text" name="name" value={formData.name} onChange={handleInputChange} required className="t-input" placeholder="Your name" />
@@ -637,7 +637,7 @@ export default function ThriveConference() {
                   <label className="t-label">How familiar are you with AI? *</label>
                   <select name="aiKnowledge" value={formData.aiKnowledge} onChange={handleInputChange} className="t-input">
                     <option value="beginner">Beginner: Just getting started</option>
-                    <option value="intermediate">Intermediate: Some experience</option>
+                    <option value="intermediate">Hanken Groteskmediate: Some experience</option>
                     <option value="advanced">Advanced: Heavy user</option>
                   </select>
                 </div>
@@ -645,21 +645,21 @@ export default function ThriveConference() {
                   <label className="t-label">How familiar are you with Sales & Marketing? *</label>
                   <select name="marketingSalesKnowledge" value={formData.marketingSalesKnowledge} onChange={handleInputChange} className="t-input">
                     <option value="beginner">Beginner: Just getting started</option>
-                    <option value="intermediate">Intermediate: Some experience</option>
+                    <option value="intermediate">Hanken Groteskmediate: Some experience</option>
                     <option value="advanced">Advanced: Expert level</option>
                   </select>
                 </div>
                 <button type="submit" disabled={submitting || submitted} className="t-btn-navy t-btn-full" style={{
                   marginTop: 8,
-                  background: submitted ? '#009898' : undefined,
-                  borderColor: submitted ? '#009898' : undefined,
+                  background: submitted ? '#fecb00' : undefined,
+                  borderColor: submitted ? '#fecb00' : undefined,
                   opacity: submitting ? 0.6 : 1,
                   cursor: (submitting || submitted) ? 'not-allowed' : 'pointer',
                   transition: 'background 0.3s, border-color 0.3s'
                 }}>
                   {submitting ? 'Submitting...' : submitted ? 'Submitted!' : 'Secure Your Spot'}
                 </button>
-                <p style={{ textAlign: 'center', fontSize: 12, color: '#77767e', letterSpacing: '0.02em' }}>
+                <p style={{ textAlign: 'center', fontSize: 12, color: '#767684', letterSpacing: '0.02em' }}>
                   Registration closes June 30, 2026.
                 </p>
               </form>
@@ -669,17 +669,17 @@ export default function ThriveConference() {
           <hr className="t-divider" />
 
           {/* JOIN THE TEAM */}
-          <section style={{ background: '#fecb97', padding: 'clamp(64px, 8vw, 96px) 24px', borderTop: '2px solid #7c572d', borderBottom: '2px solid #7c572d' }}>
+          <section style={{ background: '#ffe08b', padding: 'clamp(64px, 8vw, 96px) 24px', borderTop: '2px solid #745b00', borderBottom: '2px solid #745b00' }}>
             <div style={{ maxWidth: 800, margin: '0 auto' }}>
-              <span className="t-label" style={{ color: '#614018' }}>Get Involved</span>
-              <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1f3a', letterSpacing: '-0.01em', marginBottom: 20 }}>
+              <span className="t-label" style={{ color: '#584400' }}>Get Involved</span>
+              <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1a8e', letterSpacing: '-0.01em', marginBottom: 20 }}>
                 Join the Team
               </h2>
-              <p style={{ fontSize: 16, color: '#46464d', lineHeight: 1.8, marginBottom: 48, maxWidth: 600 }}>
+              <p style={{ fontSize: 16, color: '#464653', lineHeight: 1.8, marginBottom: 48, maxWidth: 600 }}>
                 Thrive happens because of people who care. If you want to be part of making this happen (social media, setup, logistics, photography, coordination), we need you.
               </p>
-              <div style={{ background: '#ffffff', border: '2px solid #7c572d', borderRadius: 4, padding: 40 }}>
-                <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 17, color: '#1a1f3a', marginBottom: 28 }}>Volunteer Roles We Need</h3>
+              <div style={{ background: '#ffffff', border: '2px solid #745b00', borderRadius: 4, padding: 40 }}>
+                <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 17, color: '#1a1a8e', marginBottom: 28 }}>Volunteer Roles We Need</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24, marginBottom: 28 }}>
                   {[
                     { title: 'Social Media', desc: 'Live coverage, stories, real-time posts' },
@@ -687,13 +687,13 @@ export default function ThriveConference() {
                     { title: 'Photography', desc: 'Capture moments, speakers, attendees' },
                     { title: 'Day-of Coordination', desc: 'Registration, seating, flow management' },
                   ].map(role => (
-                    <div key={role.title} style={{ borderLeft: '2px solid #7c572d', paddingLeft: 16 }}>
-                      <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, color: '#1a1f3a', marginBottom: 4, fontSize: 15 }}>{role.title}</p>
-                      <p style={{ fontSize: 13, color: '#46464d' }}>{role.desc}</p>
+                    <div key={role.title} style={{ borderLeft: '2px solid #745b00', paddingLeft: 16 }}>
+                      <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, color: '#1a1a8e', marginBottom: 4, fontSize: 15 }}>{role.title}</p>
+                      <p style={{ fontSize: 13, color: '#464653' }}>{role.desc}</p>
                     </div>
                   ))}
                 </div>
-                <p style={{ fontSize: 13, color: '#46464d', marginBottom: 24 }}>No experience necessary. If you can show up and care, that's enough.</p>
+                <p style={{ fontSize: 13, color: '#464653', marginBottom: 24 }}>No experience necessary. If you can show up and care, that's enough.</p>
                 <button onClick={() => document.getElementById('volunteer-form').scrollIntoView({ behavior: 'smooth' })} className="t-btn-gold">
                   Sign Up to Volunteer
                 </button>
@@ -702,17 +702,17 @@ export default function ThriveConference() {
           </section>
 
           {/* VOLUNTEER FORM */}
-          <section style={{ background: '#fbf9f6', padding: 'clamp(64px, 8vw, 96px) 24px' }} id="volunteer-form">
+          <section style={{ background: '#f9f9f9', padding: 'clamp(64px, 8vw, 96px) 24px' }} id="volunteer-form">
             <div style={{ maxWidth: 560, margin: '0 auto' }}>
               <motion.span variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} className="t-label" style={{ textAlign: 'center', display: 'block' }}>Volunteer</motion.span>
-              <motion.h2 variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1f3a', letterSpacing: '-0.01em', textAlign: 'center', marginBottom: 12 }}>
+              <motion.h2 variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', color: '#1a1a8e', letterSpacing: '-0.01em', textAlign: 'center', marginBottom: 12 }}>
                 Volunteer Application
               </motion.h2>
-              <motion.p variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ textAlign: 'center', color: '#46464d', fontSize: 15, marginBottom: 48 }}>
+              <motion.p variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ textAlign: 'center', color: '#464653', fontSize: 15, marginBottom: 48 }}>
                 Help us make Thrive unforgettable.
               </motion.p>
               {volunteerSubmitted && (
-                <div id="volunteer-confirmation" style={{ marginBottom: 32, background: '#002626', border: '2px solid #009898', borderRadius: 4, padding: 32, textAlign: 'center' }}>
+                <div id="volunteer-confirmation" style={{ marginBottom: 32, background: '#002626', border: '2px solid #fecb00', borderRadius: 4, padding: 32, textAlign: 'center' }}>
                   <CheckCircle color="#22dcdc" size={40} style={{ margin: '0 auto 12px', display: 'block' }} />
                   <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 20, color: '#22dcdc', marginBottom: 8 }}>Application received!</h3>
                   <p style={{ color: '#54f9f9', fontSize: 15 }}>We'll reach out within 2 days. Thank you.</p>
@@ -727,7 +727,7 @@ export default function ThriveConference() {
 
               <form
                 onSubmit={handleVolunteerSubmit}
-                style={{ border: '2px solid #7c572d', borderRadius: 4, padding: 40, background: '#ffffff', display: 'flex', flexDirection: 'column', gap: 24 }}
+                style={{ border: '2px solid #745b00', borderRadius: 4, padding: 40, background: '#ffffff', display: 'flex', flexDirection: 'column', gap: 24 }}
               >
                 <div>
                   <label className="t-label">Full Name *</label>
@@ -751,7 +751,7 @@ export default function ThriveConference() {
                       { value: 'day-of', label: 'Day-of Coordination (registration, seating, flow)' },
                       { value: 'other', label: "Other / I'll help however I can" },
                     ].map(role => (
-                      <label key={role.value} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', border: '1px solid #c7c5ce', borderRadius: 4, cursor: 'pointer' }}>
+                      <label key={role.value} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', border: '1px solid #c7c5d5', borderRadius: 4, cursor: 'pointer' }}>
                         <input type="radio" name="volunteer-role" value={role.value} required className="t-radio-gold" />
                         <span style={{ color: '#1b1c1a', fontSize: 15 }}>{role.label}</span>
                       </label>
@@ -782,15 +782,15 @@ export default function ThriveConference() {
                 </div>
                 <button type="submit" disabled={volunteerSubmitting || volunteerSubmitted} className="t-btn-gold-lg" style={{
                   marginTop: 8,
-                  background: volunteerSubmitted ? '#009898' : undefined,
-                  borderColor: volunteerSubmitted ? '#009898' : undefined,
+                  background: volunteerSubmitted ? '#fecb00' : undefined,
+                  borderColor: volunteerSubmitted ? '#fecb00' : undefined,
                   opacity: volunteerSubmitting ? 0.6 : 1,
                   cursor: (volunteerSubmitting || volunteerSubmitted) ? 'not-allowed' : 'pointer',
                   transition: 'background 0.3s, border-color 0.3s'
                 }}>
                   {volunteerSubmitting ? 'Submitting...' : volunteerSubmitted ? 'Submitted!' : 'Submit Volunteer Application'}
                 </button>
-                <p style={{ textAlign: 'center', fontSize: 12, color: '#77767e', letterSpacing: '0.02em' }}>
+                <p style={{ textAlign: 'center', fontSize: 12, color: '#767684', letterSpacing: '0.02em' }}>
                   We'll reach out within 2 days. Thank you for being part of Thrive.
                 </p>
               </form>
@@ -798,7 +798,7 @@ export default function ThriveConference() {
           </section>
 
           {/* FOOTER */}
-          <footer style={{ background: '#030722', borderTop: '3px solid #7c572d' }}>
+          <footer style={{ background: '#04006b', borderTop: '3px solid #745b00' }}>
             <div style={{ maxWidth: 1280, margin: '0 auto', padding: '72px 24px 48px' }}>
 
               {/* Two-column grid */}
@@ -806,39 +806,39 @@ export default function ThriveConference() {
 
                 {/* Brand column */}
                 <div>
-                  <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 26, color: '#fbf9f6', letterSpacing: '-0.01em', marginBottom: 10 }}>
+                  <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 26, color: '#f9f9f9', letterSpacing: '-0.01em', marginBottom: 10 }}>
                     THRIVE CONFERENCE 2026
                   </p>
-                  <p style={{ color: '#8286a7', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 24 }}>
+                  <p style={{ color: '#888cfc', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 24 }}>
                     Leveraging AI for Business and Career Growth
                   </p>
-                  <div style={{ width: 36, height: 2, background: '#7c572d', marginBottom: 24 }} />
-                  <p style={{ color: '#8286a7', fontSize: 14, lineHeight: 1.8 }}>
-                    Presented by <strong style={{ color: '#c0c4e8' }}>Thrive Initiatives</strong>
-                    <br />an arm of <strong style={{ color: '#c0c4e8' }}>Christ Unfolding Ministries</strong>
+                  <div style={{ width: 36, height: 2, background: '#745b00', marginBottom: 24 }} />
+                  <p style={{ color: '#888cfc', fontSize: 14, lineHeight: 1.8 }}>
+                    Presented by <strong style={{ color: '#c0c1ff' }}>Thrive Initiatives</strong>
+                    <br />an arm of <strong style={{ color: '#c0c1ff' }}>Christ Unfolding Ministries</strong>
                   </p>
                 </div>
 
                 {/* Details + Connect column */}
                 <div>
-                  <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#7c572d', marginBottom: 14 }}>Event Details</p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 36, borderLeft: '2px solid #1a1f3a', paddingLeft: 16 }}>
-                    <p style={{ color: '#fbf9f6', fontSize: 15, fontFamily: 'Syne, sans-serif', fontWeight: 700 }}>September 5, 2026 · 10:00 AM</p>
-                    <p style={{ color: '#c0c4e8', fontSize: 14 }}>International Conference Centre (ICC), Ibadan</p>
-                    <span style={{ display: 'inline-block', width: 'fit-content', marginTop: 4, background: '#009898', color: '#fbf9f6', fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 2 }}>Free Entry</span>
+                  <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#745b00', marginBottom: 14 }}>Event Details</p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 36, borderLeft: '2px solid #1a1a8e', paddingLeft: 16 }}>
+                    <p style={{ color: '#f9f9f9', fontSize: 15, fontFamily: 'Syne, sans-serif', fontWeight: 700 }}>September 5, 2026 · 10:00 AM</p>
+                    <p style={{ color: '#c0c1ff', fontSize: 14 }}>International Conference Centre (ICC), Ibadan</p>
+                    <span style={{ display: 'inline-block', width: 'fit-content', marginTop: 4, background: '#fecb00', color: '#04006b', fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 2 }}>Free Entry</span>
                   </div>
 
-                  <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#7c572d', marginBottom: 14 }}>Connect</p>
+                  <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#745b00', marginBottom: 14 }}>Connect</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                    <a href="https://x.com/Thrivebycrum" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 10, color: '#c0c4e8', textDecoration: 'none', fontSize: 14, fontFamily: 'Inter, sans-serif', transition: 'color 0.15s' }}>
+                    <a href="https://x.com/Thrivebycrum" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 10, color: '#c0c1ff', textDecoration: 'none', fontSize: 14, fontFamily: 'Hanken Grotesk, sans-serif', transition: 'color 0.15s' }}>
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                       @Thrivebycrum
                     </a>
-                    <a href="https://instagram.com/Thrive_initiatives" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 10, color: '#c0c4e8', textDecoration: 'none', fontSize: 14, fontFamily: 'Inter, sans-serif', transition: 'color 0.15s' }}>
+                    <a href="https://instagram.com/Thrive_initiatives" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 10, color: '#c0c1ff', textDecoration: 'none', fontSize: 14, fontFamily: 'Hanken Grotesk, sans-serif', transition: 'color 0.15s' }}>
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                       @Thrive_initiatives
                     </a>
-                    <a href="tel:09064846706" style={{ display: 'flex', alignItems: 'center', gap: 10, color: '#c0c4e8', textDecoration: 'none', fontSize: 14, fontFamily: 'Inter, sans-serif', transition: 'color 0.15s' }}>
+                    <a href="tel:09064846706" style={{ display: 'flex', alignItems: 'center', gap: 10, color: '#c0c1ff', textDecoration: 'none', fontSize: 14, fontFamily: 'Hanken Grotesk, sans-serif', transition: 'color 0.15s' }}>
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
                       09064846706
                     </a>
@@ -847,8 +847,8 @@ export default function ThriveConference() {
               </div>
 
               {/* Bottom bar */}
-              <div style={{ borderTop: '1px solid #1a1f3a', paddingTop: 24, textAlign: 'center' }}>
-                <p style={{ color: '#404562', fontSize: 12 }}>© 2026 Thrive Initiatives · Christ Unfolding Ministries. All rights reserved.</p>
+              <div style={{ borderTop: '1px solid #1a1a8e', paddingTop: 24, textAlign: 'center' }}>
+                <p style={{ color: '#3538a5', fontSize: 12 }}>© 2026 Thrive Initiatives · Christ Unfolding Ministries. All rights reserved.</p>
               </div>
             </div>
           </footer>
