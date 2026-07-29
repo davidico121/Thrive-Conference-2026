@@ -718,10 +718,28 @@ export default function ThriveConferenceV2() {
                 Help us make Thrive unforgettable.
               </motion.p>
               {volunteerSubmitted && (
-                <div id="volunteer-confirmation" style={{ marginBottom: 32, background: '#002626', border: '2px solid #009898', borderRadius: 4, padding: 32, textAlign: 'center' }}>
-                  <CheckCircle color="#22dcdc" size={40} style={{ margin: '0 auto 12px', display: 'block' }} />
-                  <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 20, color: '#22dcdc', marginBottom: 8 }}>Application received!</h3>
-                  <p style={{ color: '#54f9f9', fontSize: 15 }}>We'll reach out within 2 days. Thank you.</p>
+                <div id="volunteer-confirmation" style={{ marginBottom: 32, borderRadius: 4, overflow: 'hidden', textAlign: 'center', border: '2px solid #1a1f3a' }}>
+                  <div style={{ background: '#002626', padding: '18px 32px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+                    <CheckCircle color="#22dcdc" size={22} />
+                    <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 16, color: '#22dcdc', margin: 0 }}>Application received!</h3>
+                  </div>
+                  <div style={{ background: '#7c572d', padding: '36px 32px' }}>
+                    <h4 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 22, color: '#fbf9f6', letterSpacing: '-0.01em', marginBottom: 10 }}>
+                      Join the volunteer WhatsApp group
+                    </h4>
+                    <p style={{ color: '#f0dcc4', fontSize: 14, lineHeight: 1.6, marginBottom: 24, maxWidth: 380, marginLeft: 'auto', marginRight: 'auto' }}>
+                      That's where we'll coordinate roles, schedules, and updates before the big day.
+                    </p>
+                    <a
+                      href="https://chat.whatsapp.com/IcUj4mKf2jcEKXYJk2ymVA?s=cl&p=i&ilr=0"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="t-btn-cream"
+                      style={{ textDecoration: 'none' }}
+                    >
+                      Join WhatsApp Group
+                    </a>
+                  </div>
                 </div>
               )}
 
@@ -748,37 +766,25 @@ export default function ThriveConferenceV2() {
                   <input type="tel" name="vol-phone" required className="t-input-gold" placeholder="+234 or your country code" />
                 </div>
                 <div>
-                  <label className="t-label" style={{ marginBottom: 12 }}>Which area interests you? *</label>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                    {[
-                      { value: 'social-media', label: 'Social Media (live coverage, posts, stories)' },
-                      { value: 'setup-logistics', label: 'Setup & Logistics (before and during the event)' },
-                      { value: 'photography', label: 'Photography (capture moments and speakers)' },
-                      { value: 'day-of', label: 'Day-of Coordination (registration, seating, flow)' },
-                      { value: 'other', label: "Other / I'll help however I can" },
-                    ].map(role => (
-                      <label key={role.value} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', border: '1px solid #c7c5ce', borderRadius: 4, cursor: 'pointer' }}>
-                        <input type="radio" name="volunteer-role" value={role.value} required className="t-radio-gold" />
-                        <span style={{ color: '#1b1c1a', fontSize: 15 }}>{role.label}</span>
-                      </label>
-                    ))}
-                  </div>
+                  <label className="t-label">Which area interests you? *</label>
+                  <select name="volunteer-role" required defaultValue="" className="t-input-gold">
+                    <option value="" disabled>Select an area</option>
+                    <option value="social-media">Social Media (live coverage, posts, stories)</option>
+                    <option value="setup-logistics">Setup & Logistics (before and during the event)</option>
+                    <option value="photography">Photography (capture moments and speakers)</option>
+                    <option value="day-of">Day-of Coordination (registration, seating, flow)</option>
+                    <option value="other">Other / I'll help however I can</option>
+                  </select>
                 </div>
                 <div>
-                  <label className="t-label" style={{ marginBottom: 14 }}>Availability *</label>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                    {[
-                      { value: 'full-day', label: 'Full day (setup through cleanup)' },
-                      { value: 'morning', label: 'Morning (setup + 2-3 hours)' },
-                      { value: 'event-day', label: 'Event day only (September 5, 10 AM+)' },
-                      { value: 'flexible', label: "Flexible, I'll work around my schedule" },
-                    ].map(opt => (
-                      <label key={opt.value} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
-                        <input type="radio" name="availability" value={opt.value} required className="t-radio-gold" />
-                        <span style={{ color: '#1b1c1a', fontSize: 15 }}>{opt.label}</span>
-                      </label>
-                    ))}
-                  </div>
+                  <label className="t-label">Availability *</label>
+                  <select name="availability" required defaultValue="" className="t-input-gold">
+                    <option value="" disabled>Select your availability</option>
+                    <option value="full-day">Full day (setup through cleanup)</option>
+                    <option value="morning">Morning (setup + 2-3 hours)</option>
+                    <option value="event-day">Event day only (September 5, 10 AM+)</option>
+                    <option value="flexible">Flexible, I'll work around my schedule</option>
+                  </select>
                 </div>
                 <div>
                   <label className="t-label">Any relevant experience? (Optional)</label>
