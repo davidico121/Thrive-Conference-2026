@@ -269,6 +269,13 @@ export default function ThriveConferenceV2() {
         }
         .t-input-gold:focus { border-width: 2px; }
 
+        select.t-input-gold {
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%237c572d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 16px center;
+          padding-right: 40px;
+        }
+
         .t-radio { accent-color: #1a1f3a; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
         .t-radio-gold { accent-color: #7c572d; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
         .t-check { accent-color: #1a1f3a; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
@@ -372,7 +379,7 @@ export default function ThriveConferenceV2() {
               variants={stagger} initial="hidden" whileInView="show" viewport={vp}>
               {[
                 { label: 'When', title: 'September 5, 2026', sub: '10:00 AM' },
-                { label: 'Where', title: 'International Conference Centre (ICC)', sub: 'Ibadan' },
+                { label: 'Where', title: 'Aganga Hall, International Conference Centre (ICC)', sub: 'Ibadan' },
                 { label: 'Cost', title: 'Free', sub: 'Register by June 30.' },
               ].map(item => (
                 <motion.div key={item.label} variants={fadeUp} style={{ borderLeft: '2px solid #1a1f3a', paddingLeft: 20 }}>
@@ -395,7 +402,7 @@ export default function ThriveConferenceV2() {
                 Why should you attend Thrive Conference?
               </motion.h2>
               <motion.p variants={fadeUp} style={{ fontSize: 16, color: '#46464d', lineHeight: 1.8, marginBottom: 48, maxWidth: 640 }}>
-                A conference by Thrive Initiatives (an arm of Christ Unfolding Ministries), designed for professionals, business owners, and students who are done watching others lead while they sit on the sidelines.
+                Thrive Conference is a series of conferences by Thrive Initiatives (an arm of Christ Unfolding Ministries), bringing together business professionals, working-class individuals, students, and business owners who are done watching others lead while they sit on the sidelines. It's a platform to network, learn, and engage with others on topics that foster personal development, professional growth, and business development.
               </motion.p>
               </motion.div>
               <motion.div style={{ display: 'flex', flexDirection: 'column', gap: 0 }} variants={stagger} initial="hidden" whileInView="show" viewport={vp}>
@@ -562,7 +569,7 @@ export default function ThriveConferenceV2() {
                       Want to help make Thrive happen?
                     </h4>
                     <p style={{ color: '#f0dcc4', fontSize: 14, lineHeight: 1.6, marginBottom: 24, maxWidth: 380, marginLeft: 'auto', marginRight: 'auto' }}>
-                      We need volunteers for social media, setup, photography, and day-of coordination. No experience necessary.
+                      We need volunteers for social media, setup, photography, and ushering & registration. No experience necessary.
                     </p>
                     <button
                       type="button"
@@ -691,7 +698,7 @@ export default function ThriveConferenceV2() {
                     { title: 'Social Media', desc: 'Live coverage, stories, real-time posts' },
                     { title: 'Setup & Logistics', desc: 'Before/during event coordination' },
                     { title: 'Photography', desc: 'Capture moments, speakers, attendees' },
-                    { title: 'Day-of Coordination', desc: 'Registration, seating, flow management' },
+                    { title: 'Ushering and Registration', desc: 'Seating arrangement, guest check-in, welcoming attendees' },
                   ].map(role => (
                     <div key={role.title} style={{ borderLeft: '2px solid #7c572d', paddingLeft: 16 }}>
                       <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, color: '#1a1f3a', marginBottom: 4, fontSize: 15 }}>{role.title}</p>
@@ -772,7 +779,7 @@ export default function ThriveConferenceV2() {
                     <option value="social-media">Social Media (live coverage, posts, stories)</option>
                     <option value="setup-logistics">Setup & Logistics (before and during the event)</option>
                     <option value="photography">Photography (capture moments and speakers)</option>
-                    <option value="day-of">Day-of Coordination (registration, seating, flow)</option>
+                    <option value="ushering-registration">Ushering and Registration (seating arrangement, guest check-in, welcoming attendees)</option>
                     <option value="other">Other / I'll help however I can</option>
                   </select>
                 </div>
@@ -836,7 +843,7 @@ export default function ThriveConferenceV2() {
                   <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#7c572d', marginBottom: 14 }}>Event Details</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 36, borderLeft: '2px solid #1a1f3a', paddingLeft: 16 }}>
                     <p style={{ color: '#fbf9f6', fontSize: 15, fontFamily: 'Syne, sans-serif', fontWeight: 700 }}>September 5, 2026 · 10:00 AM</p>
-                    <p style={{ color: '#c0c4e8', fontSize: 14 }}>International Conference Centre (ICC), Ibadan</p>
+                    <p style={{ color: '#c0c4e8', fontSize: 14 }}>Aganga Hall, International Conference Centre (ICC), U.I. Second Gate, Ibadan</p>
                     <span style={{ display: 'inline-block', width: 'fit-content', marginTop: 4, background: '#009898', color: '#fbf9f6', fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 2 }}>Free Entry</span>
                   </div>
 
