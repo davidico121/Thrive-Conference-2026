@@ -215,8 +215,8 @@ export default function ThriveConference() {
         .t-btn-gold-lg {
           display: block;
           width: 100%;
-          background: #a9782f;
-          color: #fbf9f6;
+          background: #fecb00;
+          color: #17102e;
           font-family: 'Syne', sans-serif;
           font-weight: 700;
           font-size: 15px;
@@ -224,12 +224,12 @@ export default function ThriveConference() {
           text-transform: uppercase;
           padding: 16px 44px;
           border-radius: 4px;
-          border: 1px solid #a9782f;
+          border: 1px solid #fecb00;
           cursor: pointer;
           transition: background 0.15s;
           line-height: 1;
         }
-        .t-btn-gold-lg:hover { background: #8a611f; }
+        .t-btn-gold-lg:hover { background: #e0b400; border-color: #e0b400; }
 
         .t-btn-full {
           width: 100%;
@@ -258,7 +258,7 @@ export default function ThriveConference() {
         .t-input-gold {
           width: 100%;
           padding: 12px 16px;
-          border: 1px solid #a9782f;
+          border: 1px solid #fecb00;
           border-radius: 4px;
           background: #ffffff;
           color: #1b1c1a;
@@ -272,14 +272,14 @@ export default function ThriveConference() {
         .t-input-gold:focus { border-width: 2px; }
 
         select.t-input-gold {
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23a9782f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23c99400' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
           background-repeat: no-repeat;
           background-position: right 16px center;
           padding-right: 40px;
         }
 
         .t-radio { accent-color: #c99400; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
-        .t-radio-gold { accent-color: #a9782f; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
+        .t-radio-gold { accent-color: #c99400; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
         .t-check { accent-color: #c99400; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
 
         .t-divider { border: none; border-top: 1px solid #322559; margin: 0; }
@@ -762,7 +762,7 @@ export default function ThriveConference() {
               <form
                 onSubmit={handleVolunteerSubmit}
                 className="t-form-light"
-                style={{ border: '2px solid #a9782f', borderRadius: 4, padding: 40, background: '#ffffff', display: 'flex', flexDirection: 'column', gap: 24 }}
+                style={{ border: '2px solid #fecb00', borderRadius: 4, padding: 40, background: '#ffffff', display: 'flex', flexDirection: 'column', gap: 24 }}
               >
                 <div>
                   <label className="t-label">Full Name *</label>
@@ -807,6 +807,7 @@ export default function ThriveConference() {
                   marginTop: 8,
                   background: volunteerSubmitted ? '#009898' : undefined,
                   borderColor: volunteerSubmitted ? '#009898' : undefined,
+                  color: volunteerSubmitted ? '#fbf9f6' : undefined,
                   opacity: volunteerSubmitting ? 0.6 : 1,
                   cursor: (volunteerSubmitting || volunteerSubmitted) ? 'not-allowed' : 'pointer',
                   transition: 'background 0.3s, border-color 0.3s'
