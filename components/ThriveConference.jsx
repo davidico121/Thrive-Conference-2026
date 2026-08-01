@@ -694,7 +694,7 @@ export default function ThriveConference() {
               <p style={{ fontSize: 16, color: '#c9c3e8', lineHeight: 1.8, marginBottom: 48, maxWidth: 600 }}>
                 Thrive happens because of people who care. If you want to be part of making this happen (social media, setup, logistics, photography, coordination), we need you.
               </p>
-              <div style={{ background: '#ffffff', border: '2px solid #a9782f', borderRadius: 4, padding: 40 }}>
+              <div style={{ background: '#ffffff', border: '2px solid #fecb00', borderRadius: 4, padding: 40 }}>
                 <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 17, color: '#17102e', marginBottom: 28 }}>Volunteer Roles We Need</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24, marginBottom: 28 }}>
                   {[
@@ -703,7 +703,7 @@ export default function ThriveConference() {
                     { title: 'Photography', desc: 'Capture moments, speakers, attendees' },
                     { title: 'Ushering and Registration', desc: 'Seating arrangement, guest check-in, welcoming attendees' },
                   ].map(role => (
-                    <div key={role.title} style={{ borderLeft: '2px solid #a9782f', paddingLeft: 16 }}>
+                    <div key={role.title} style={{ borderLeft: '2px solid #fecb00', paddingLeft: 16 }}>
                       <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, color: '#17102e', marginBottom: 4, fontSize: 15 }}>{role.title}</p>
                       <p style={{ fontSize: 13, color: '#46464d' }}>{role.desc}</p>
                     </div>
