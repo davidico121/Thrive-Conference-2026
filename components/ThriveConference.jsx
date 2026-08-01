@@ -255,6 +255,13 @@ export default function ThriveConference() {
         }
         .t-input:focus { border-width: 2px; }
 
+        select.t-input {
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%23c99400' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 16px center;
+          padding-right: 40px;
+        }
+
         .t-input-gold {
           width: 100%;
           padding: 12px 16px;
