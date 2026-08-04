@@ -387,7 +387,7 @@ export default function ThriveConferenceV2() {
               {[
                 { label: 'When', title: 'September 5, 2026', sub: '10:00 AM' },
                 { label: 'Where', title: 'Aganga Hall, International Conference Centre (ICC)', sub: 'Ibadan' },
-                { label: 'Cost', title: 'Free', sub: 'Register by June 30.' },
+                { label: 'Cost', title: 'Free', sub: 'Register by August 30.' },
               ].map(item => (
                 <motion.div key={item.label} variants={fadeUp} style={{ borderLeft: '2px solid #1a1f3a', paddingLeft: 20 }}>
                   <span className="t-label">{item.label}</span>
@@ -547,7 +547,7 @@ export default function ThriveConferenceV2() {
           {/* URGENCY STRIP */}
           <div style={{ background: '#002626', borderTop: '2px solid #009898', borderBottom: '2px solid #009898', padding: '20px 24px', textAlign: 'center' }}>
             <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 15, color: '#22dcdc', letterSpacing: '0.04em' }}>
-              Registration closes June 30, 2026 · Limited spots available
+              Registration closes August 30, 2026 · Limited spots available
             </p>
             <p style={{ color: '#54f9f9', marginTop: 6, fontSize: 13, opacity: 0.75, letterSpacing: '0.02em' }}>
               Secure your spot now. Spots are filling up.
@@ -680,7 +680,7 @@ export default function ThriveConferenceV2() {
                   {submitting ? 'Submitting...' : submitted ? 'Submitted!' : 'Secure Your Spot'}
                 </button>
                 <p style={{ textAlign: 'center', fontSize: 12, color: '#77767e', letterSpacing: '0.02em' }}>
-                  Registration closes June 30, 2026.
+                  Registration closes August 30, 2026.
                 </p>
               </form>
             </div>
