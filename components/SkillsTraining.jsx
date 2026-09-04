@@ -377,7 +377,7 @@ export default function SkillsTraining() {
                   <select name="track" value={formData.track} onChange={handleInputChange} required className="t-input">
                     <option value="" disabled>Select a skill</option>
                     {TRACKS.map(track => (
-                      <option key={track.value} value={track.title}>{track.title} — {track.facilitator}</option>
+                      <option key={track.value} value={track.title}>{track.title}</option>
                     ))}
                   </select>
                 </div>
