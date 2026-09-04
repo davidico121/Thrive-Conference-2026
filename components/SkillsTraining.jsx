@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -30,7 +30,7 @@ export default function SkillsTraining() {
     name: '',
     email: '',
     phone: '',
-    tracks: [],
+    track: '',
     experience: 'beginner',
     videoLink: '',
   });
@@ -38,40 +38,15 @@ export default function SkillsTraining() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
-  const [tracksOpen, setTracksOpen] = useState(false);
-  const tracksRef = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (tracksRef.current && !tracksRef.current.contains(e.target)) {
-        setTracksOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setSubmitted(false);
-    if (type === 'checkbox') {
-      setFormData(prev => ({
-        ...prev,
-        tracks: checked
-          ? [...prev.tracks, value]
-          : prev.tracks.filter(item => item !== value)
-      }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.tracks.length === 0) {
-      setSubmitError('Please select at least one skill you\'re interested in.');
-      return;
-    }
     setSubmitting(true);
     setSubmitError('');
     try {
@@ -82,7 +57,7 @@ export default function SkillsTraining() {
       });
       if (!res.ok) throw new Error((await res.json()).error || 'Something went wrong.');
       setSubmitted(true);
-      setFormData({ name: '', email: '', phone: '', tracks: [], experience: 'beginner', videoLink: '' });
+      setFormData({ name: '', email: '', phone: '', track: '', experience: 'beginner', videoLink: '' });
     } catch (err) {
       setSubmitError(err.message);
     } finally {
@@ -312,8 +287,7 @@ export default function SkillsTraining() {
                   <motion.div key={track.value} variants={fadeUp} style={{ display: 'grid', gridTemplateColumns: '48px 1fr', gap: 24, padding: '28px 0', borderBottom: i < TRACKS.length - 1 ? '1px solid #2c2354' : 'none' }}>
                     <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 12, color: '#fecb00', letterSpacing: '0.06em', paddingTop: 4 }}>{String(i + 1).padStart(2, '0')}</span>
                     <div>
-                      <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 17, color: '#fbf9f6', marginBottom: 6 }}>{track.title}</h3>
-                      <p style={{ color: '#c9c3e8', fontSize: 14 }}>Facilitated by {track.facilitator}</p>
+                      <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 17, color: '#fbf9f6' }}>{track.title}</h3>
                     </div>
                   </motion.div>
                 ))}
@@ -398,36 +372,14 @@ export default function SkillsTraining() {
                   <label className="t-label">Phone *</label>
                   <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} required className="t-input" placeholder="+234 or your country code" />
                 </div>
-                <div ref={tracksRef} style={{ position: 'relative' }}>
-                  <label className="t-label">Which skill(s) are you interested in learning? *</label>
-                  <button
-                    type="button"
-                    onClick={() => setTracksOpen(o => !o)}
-                    className="t-input"
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, textAlign: 'left', color: formData.tracks.length ? '#1b1c1a' : '#77767e' }}
-                  >
-                    <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {formData.tracks.length ? formData.tracks.join(', ') : 'Select skill(s)'}
-                    </span>
-                    <svg width="12" height="8" viewBox="0 0 12 8" style={{ flexShrink: 0, transition: 'transform 0.15s', transform: tracksOpen ? 'rotate(180deg)' : 'none' }}>
-                      <path fill="none" stroke="#c99400" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M1 1l5 5 5-5" />
-                    </svg>
-                  </button>
-                  {tracksOpen && (
-                    <div style={{
-                      position: 'absolute', top: 'calc(100% + 6px)', left: 0, right: 0, zIndex: 20,
-                      background: '#ffffff', border: '1px solid #fecb00', borderRadius: 4,
-                      padding: '14px 16px', boxShadow: '0 12px 28px rgba(0,0,0,0.18)',
-                      display: 'flex', flexDirection: 'column', gap: 12
-                    }}>
-                      {TRACKS.map(track => (
-                        <label key={track.value} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
-                          <input type="checkbox" name="tracks" value={track.title} checked={formData.tracks.includes(track.title)} onChange={handleInputChange} className="t-check" />
-                          <span style={{ color: '#1b1c1a', fontSize: 15 }}>{track.title} <span style={{ color: '#77767e' }}>— {track.facilitator}</span></span>
-                        </label>
-                      ))}
-                    </div>
-                  )}
+                <div>
+                  <label className="t-label">Which skill are you interested in learning? *</label>
+                  <select name="track" value={formData.track} onChange={handleInputChange} required className="t-input">
+                    <option value="" disabled>Select a skill</option>
+                    {TRACKS.map(track => (
+                      <option key={track.value} value={track.title}>{track.title} — {track.facilitator}</option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <label className="t-label">Your experience level *</label>

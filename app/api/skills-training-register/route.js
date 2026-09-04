@@ -4,10 +4,10 @@ import { NextResponse } from 'next/server';
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { name, email, phone, tracks, experience, videoLink } = body;
+    const { name, email, phone, track, experience, videoLink } = body;
 
-    if (!name || !email || !phone || !Array.isArray(tracks) || tracks.length === 0 || !experience || !videoLink) {
-      return NextResponse.json({ error: 'Name, email, phone, at least one track, experience, and video link are required.' }, { status: 400 });
+    if (!name || !email || !phone || !track || !experience || !videoLink) {
+      return NextResponse.json({ error: 'Name, email, phone, track, experience, and video link are required.' }, { status: 400 });
     }
 
     const auth = new google.auth.GoogleAuth({
@@ -30,7 +30,7 @@ export async function POST(request) {
           name,
           email,
           phone,
-          tracks.join(', '),
+          track,
           experience,
           videoLink,
         ]],
