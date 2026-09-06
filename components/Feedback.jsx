@@ -17,9 +17,10 @@ const stagger = {
 const vp = { once: true, margin: '-60px' };
 
 const SESSIONS = [
-  'Dara Sobaloju — Building with AI',
-  'Micheal Toyinbo — Scaling with AI',
-  'Panel Discussion',
+  'Olapade Dipo — The Legal Side of AI for Business and Career Growth',
+  'Michael Toyinbo — Using AI to Drive Real Growth Across Multiple Markets',
+  'Dara Sobaloju — Building with AI: How to Spot Problems Worth Solving',
+  'Panel Session',
 ];
 
 export default function Feedback() {
