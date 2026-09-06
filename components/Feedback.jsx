@@ -221,9 +221,21 @@ export default function Feedback() {
                     <h4 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 22, color: '#17102e', letterSpacing: '-0.01em', marginBottom: 10 }}>
                       Feedback Received
                     </h4>
-                    <p style={{ color: '#4a4066', fontSize: 14, lineHeight: 1.6, maxWidth: 380, marginLeft: 'auto', marginRight: 'auto' }}>
+                    <p style={{ color: '#4a4066', fontSize: 14, lineHeight: 1.6, maxWidth: 380, marginLeft: 'auto', marginRight: 'auto', marginBottom: 24 }}>
                       We really appreciate you taking the time. See you at the next one!
                     </p>
+                    <div style={{ borderTop: '1px solid rgba(23, 16, 46, 0.15)', paddingTop: 24 }}>
+                      <p style={{ color: '#17102e', fontSize: 15, fontWeight: 600, marginBottom: 16 }}>
+                        Have you registered for the Thrive Digital Skills Training?
+                      </p>
+                      <a
+                        href="https://thrive.crumglobal.org/skills-training"
+                        className="t-btn-navy"
+                        style={{ background: '#17102e', borderColor: '#17102e', color: '#fecb00', textDecoration: 'none' }}
+                      >
+                        Register Now
+                      </a>
+                    </div>
                   </div>
                 </div>
               )}
