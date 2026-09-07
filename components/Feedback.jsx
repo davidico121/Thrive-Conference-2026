@@ -331,7 +331,6 @@ export default function Feedback() {
                     <option value="" disabled>Select an option</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
-                    <option value="Maybe">Maybe</option>
                   </select>
                 </div>
                 <button
