@@ -23,6 +23,16 @@ const SESSIONS = [
   'Panel Session',
 ];
 
+const HEAR_ABOUT_OPTIONS = [
+  'Social Media',
+  'Friend or Colleague',
+  'Church / Ministry Announcement',
+  'Email Newsletter',
+  'Website',
+  'Flyer or Poster',
+  'Other',
+];
+
 export default function Feedback() {
   const [formData, setFormData] = useState({
     name: '',
@@ -31,6 +41,9 @@ export default function Feedback() {
     session: '',
     feedback: '',
     improve: '',
+    hearAbout: '',
+    hearAboutOther: '',
+    interested2027: '',
   });
 
   const [submitted, setSubmitted] = useState(false);
@@ -60,7 +73,7 @@ export default function Feedback() {
       });
       if (!res.ok) throw new Error((await res.json()).error || 'Something went wrong.');
       setSubmitted(true);
-      setFormData({ name: '', email: '', rating: 0, session: '', feedback: '', improve: '' });
+      setFormData({ name: '', email: '', rating: 0, session: '', feedback: '', improve: '', hearAbout: '', hearAboutOther: '', interested2027: '' });
     } catch (err) {
       setSubmitError(err.message);
     } finally {
@@ -291,6 +304,35 @@ export default function Feedback() {
                 <div>
                   <label className="t-label">What could we improve?</label>
                   <textarea name="improve" value={formData.improve} onChange={handleInputChange} className="t-input" placeholder="Be honest, we can take it" rows={3} />
+                </div>
+                <div>
+                  <label className="t-label">How did you get to know about Thrive Conference?</label>
+                  <select name="hearAbout" value={formData.hearAbout} onChange={handleInputChange} className="t-input">
+                    <option value="" disabled>Select an option</option>
+                    {HEAR_ABOUT_OPTIONS.map(option => (
+                      <option key={option} value={option}>{option}</option>
+                    ))}
+                  </select>
+                  {formData.hearAbout === 'Other' && (
+                    <input
+                      type="text"
+                      name="hearAboutOther"
+                      value={formData.hearAboutOther}
+                      onChange={handleInputChange}
+                      className="t-input"
+                      placeholder="Please specify"
+                      style={{ marginTop: 10 }}
+                    />
+                  )}
+                </div>
+                <div>
+                  <label className="t-label">Would you like to be a part of Thrive Conference 2027?</label>
+                  <select name="interested2027" value={formData.interested2027} onChange={handleInputChange} className="t-input">
+                    <option value="" disabled>Select an option</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                    <option value="Maybe">Maybe</option>
+                  </select>
                 </div>
                 <button
                   type="submit"

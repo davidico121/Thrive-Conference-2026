@@ -4,11 +4,13 @@ import { NextResponse } from 'next/server';
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { name, email, rating, session, feedback, improve } = body;
+    const { name, email, rating, session, feedback, improve, hearAbout, hearAboutOther, interested2027 } = body;
 
     if (!name || !email || !rating || !session) {
       return NextResponse.json({ error: 'Name, email, rating, and favorite session are required.' }, { status: 400 });
     }
+
+    const hearAboutFinal = hearAbout === 'Other' ? (hearAboutOther || 'Other') : (hearAbout || '');
 
     const auth = new google.auth.GoogleAuth({
       credentials: {
@@ -22,7 +24,7 @@ export async function POST(request) {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: 'Feedback!A:G',
+      range: 'Feedback!A:I',
       valueInputOption: 'USER_ENTERED',
       requestBody: {
         values: [[
@@ -33,6 +35,8 @@ export async function POST(request) {
           session,
           feedback || '',
           improve || '',
+          hearAboutFinal,
+          interested2027 || '',
         ]],
       },
     });
