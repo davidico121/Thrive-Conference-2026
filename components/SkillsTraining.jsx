@@ -38,6 +38,14 @@ export default function SkillsTraining() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [showHelpVideo, setShowHelpVideo] = useState(false);
+
+  useEffect(() => {
+    if (!showHelpVideo) return;
+    const onKeyDown = (e) => { if (e.key === 'Escape') setShowHelpVideo(false); };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [showHelpVideo]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -406,6 +414,17 @@ export default function SkillsTraining() {
                 <div>
                   <label className="t-label">Link to a 30-second video telling us why you want to join *</label>
                   <input type="url" name="videoLink" value={formData.videoLink} onChange={handleInputChange} required className="t-input" placeholder="YouTube, Google Drive, Loom, etc." />
+                  <button
+                    type="button"
+                    onClick={() => setShowHelpVideo(true)}
+                    style={{
+                      background: 'none', border: 'none', padding: 0, marginTop: 10,
+                      color: '#c99400', fontSize: 13, fontWeight: 600, textDecoration: 'underline',
+                      cursor: 'pointer', fontFamily: 'Inter, sans-serif'
+                    }}
+                  >
+                    Click here to learn how to share your video with Google Drive
+                  </button>
                 </div>
                 <button type="submit" disabled={submitting || submitted} className="t-btn-navy t-btn-full" style={{
                   marginTop: 8,
@@ -424,6 +443,60 @@ export default function SkillsTraining() {
               </form>
             </div>
           </section>
+
+          {/* HELP VIDEO MODAL */}
+          {showHelpVideo && (
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-label="How to share your video with Google Drive"
+              onClick={() => setShowHelpVideo(false)}
+              style={{
+                position: 'fixed', inset: 0, zIndex: 100,
+                background: 'rgba(12, 6, 32, 0.85)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                padding: 24,
+              }}
+            >
+              <div
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  width: '100%', maxWidth: 780,
+                  background: '#170f30', border: '2px solid #fecb00', borderRadius: 6,
+                  overflow: 'hidden',
+                }}
+              >
+                <div style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '14px 20px', borderBottom: '1px solid #322559',
+                }}>
+                  <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 15, color: '#fbf9f6' }}>
+                    How to Share Your Video with Google Drive
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setShowHelpVideo(false)}
+                    aria-label="Close video"
+                    style={{
+                      background: 'none', border: 'none', color: '#c9c3e8', fontSize: 22,
+                      lineHeight: 1, cursor: 'pointer', padding: 4,
+                    }}
+                  >
+                    ×
+                  </button>
+                </div>
+                <div style={{ position: 'relative', paddingTop: '56.25%', background: '#000' }}>
+                  <iframe
+                    src="https://www.loom.com/embed/f9597bb8646240a398176470e149ec90"
+                    title="How to share your video with Google Drive"
+                    allow="autoplay; fullscreen"
+                    allowFullScreen
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* FOOTER */}
           <footer style={{ background: '#0c0620', borderTop: '3px solid #fecb00' }}>
