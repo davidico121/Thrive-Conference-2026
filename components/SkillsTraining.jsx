@@ -346,9 +346,23 @@ export default function SkillsTraining() {
                     <h4 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 22, color: '#17102e', letterSpacing: '-0.01em', marginBottom: 10 }}>
                       We'll be in touch
                     </h4>
-                    <p style={{ color: '#4a4066', fontSize: 14, lineHeight: 1.6, maxWidth: 380, marginLeft: 'auto', marginRight: 'auto' }}>
+                    <p style={{ color: '#4a4066', fontSize: 14, lineHeight: 1.6, maxWidth: 380, marginLeft: 'auto', marginRight: 'auto', marginBottom: 24 }}>
                       Class link, schedule, and facilitator details for your track will be shared by email or phone closer to September 20.
                     </p>
+                    <div style={{ borderTop: '1px solid rgba(23, 16, 46, 0.15)', paddingTop: 24 }}>
+                      <p style={{ color: '#17102e', fontSize: 15, fontWeight: 600, marginBottom: 16 }}>
+                        Join the WhatsApp group to stay in the loop with your cohort.
+                      </p>
+                      <a
+                        href="https://chat.whatsapp.com/GWM7FWJAbX3BQz36bsP35w?s=cl&p=i&mlu=4&ilr=4"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="t-btn-navy"
+                        style={{ background: '#17102e', borderColor: '#17102e', color: '#fecb00', textDecoration: 'none' }}
+                      >
+                        Join WhatsApp Group
+                      </a>
+                    </div>
                   </div>
                 </div>
               )}
