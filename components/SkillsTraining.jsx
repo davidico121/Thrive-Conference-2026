@@ -39,6 +39,7 @@ export default function SkillsTraining() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [showHelpVideo, setShowHelpVideo] = useState(false);
+  const [helpVideoLoaded, setHelpVideoLoaded] = useState(false);
 
   useEffect(() => {
     if (!showHelpVideo) return;
@@ -46,6 +47,16 @@ export default function SkillsTraining() {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [showHelpVideo]);
+
+  useEffect(() => {
+    ['https://www.loom.com', 'https://cdn.loom.com'].forEach(href => {
+      const link = document.createElement('link');
+      link.rel = 'preconnect';
+      link.href = href;
+      link.crossOrigin = 'anonymous';
+      document.head.appendChild(link);
+    });
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -203,6 +214,8 @@ export default function SkillsTraining() {
           padding: 5px 12px;
           border-radius: 2px;
         }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
       `}</style>
 
       <div className="thrive">
@@ -416,7 +429,7 @@ export default function SkillsTraining() {
                   <input type="url" name="videoLink" value={formData.videoLink} onChange={handleInputChange} required className="t-input" placeholder="YouTube, Google Drive, Loom, etc." />
                   <button
                     type="button"
-                    onClick={() => setShowHelpVideo(true)}
+                    onClick={() => { setHelpVideoLoaded(false); setShowHelpVideo(true); }}
                     style={{
                       background: 'none', border: 'none', padding: 0, marginTop: 10,
                       color: '#c99400', fontSize: 13, fontWeight: 600, textDecoration: 'underline',
@@ -486,12 +499,29 @@ export default function SkillsTraining() {
                   </button>
                 </div>
                 <div style={{ position: 'relative', paddingTop: '56.25%', background: '#000' }}>
+                  {!helpVideoLoaded && (
+                    <div style={{
+                      position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column',
+                      alignItems: 'center', justifyContent: 'center', gap: 14,
+                    }}>
+                      <div style={{
+                        width: 36, height: 36, borderRadius: '50%',
+                        border: '3px solid #322559', borderTopColor: '#fecb00',
+                        animation: 'spin 0.8s linear infinite',
+                      }} />
+                      <p style={{ color: '#8b84b5', fontSize: 13 }}>Loading video…</p>
+                    </div>
+                  )}
                   <iframe
                     src="https://www.loom.com/embed/f9597bb8646240a398176470e149ec90"
                     title="How to share your video with Google Drive"
                     allow="autoplay; fullscreen"
                     allowFullScreen
-                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+                    onLoad={() => setHelpVideoLoaded(true)}
+                    style={{
+                      position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none',
+                      opacity: helpVideoLoaded ? 1 : 0, transition: 'opacity 0.3s',
+                    }}
                   />
                 </div>
               </div>
