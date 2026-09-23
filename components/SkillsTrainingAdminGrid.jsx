@@ -84,13 +84,13 @@ function ParticipantCard({ p, onSetStatus }) {
             position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column',
             alignItems: 'center', justifyContent: 'center', gap: 8, padding: 16, textAlign: 'center',
           }}>
-            <p style={{ color: '#ffb84d', fontSize: 13, fontWeight: 700 }}>🔒 Access not granted</p>
-            <p style={{ color: '#8b84b5', fontSize: 11, maxWidth: 260 }}>
-              The submitter hasn&apos;t shared this video with &quot;Anyone with the link.&quot; Ask them to fix their Drive sharing settings and resubmit.
+            <p style={{ color: '#ffb84d', fontSize: 13, fontWeight: 700 }}>🔒 Not shared as &quot;Anyone with the link&quot;</p>
+            <p style={{ color: '#8b84b5', fontSize: 11, maxWidth: 280 }}>
+              Our review system checks Drive access automatically and can&apos;t see this file. Even if they shared it with a specific person&apos;s email (including yours), it won&apos;t be visible here unless it&apos;s set to &quot;Anyone with the link.&quot; If you personally have access, the link below may still open for you.
             </p>
             {p.videoLink && (
               <a href={p.videoLink} target="_blank" rel="noopener noreferrer" style={{ color: '#fecb00', fontSize: 12, textDecoration: 'underline' }}>
-                Try original link anyway
+                Try original link
               </a>
             )}
           </div>

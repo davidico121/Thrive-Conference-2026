@@ -153,7 +153,7 @@ async function downloadAndHost(drive, fileId, fallbackName) {
   } catch (err) {
     if (err.message && err.message.includes('File not found')) {
       throw Object.assign(
-        new Error("The submitter hasn't shared this video with \"Anyone with the link\" (or the file was moved/deleted). Ask them to fix Drive sharing and resubmit."),
+        new Error("Not accessible to our review system. This means the file isn't shared as \"Anyone with the link\" — sharing it with a specific person's email (even yours) isn't enough, since we check access automatically. Ask them to fix Drive sharing and resubmit, or the file was moved/deleted."),
         { code: 'Access Denied' }
       );
     }
