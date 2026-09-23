@@ -18,9 +18,19 @@ export async function GET(request) {
     return NextResponse.json({ error: 'Missing or invalid pathname' }, { status: 400 });
   }
 
+  // On Vercel, the connected Blob store authenticates via OIDC automatically
+  // (no token needed). BLOB_READ_WRITE_TOKEN is only used for local `next dev`,
+  // since OIDC isn't available for the local development environment. Stray
+  // quote characters are stripped defensively in case an env var got saved
+  // with literal quotes included.
+  let blobToken = (process.env.BLOB_READ_WRITE_TOKEN || '').trim();
+  if (blobToken.startsWith('"') && blobToken.endsWith('"')) {
+    blobToken = blobToken.slice(1, -1);
+  }
+
   const result = await get(pathname, {
     access: 'private',
-    token: process.env.BLOB_READ_WRITE_TOKEN,
+    ...(blobToken ? { token: blobToken } : {}),
   });
 
   if (!result || result.statusCode !== 200) {
