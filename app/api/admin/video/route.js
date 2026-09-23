@@ -41,7 +41,8 @@ export async function GET(request) {
   let meta;
   try {
     meta = await head(pathname, authToken ? { token: authToken } : undefined);
-  } catch {
+  } catch (err) {
+    console.error('admin/video head() failed:', err);
     return new NextResponse('Not found', { status: 404 });
   }
 
