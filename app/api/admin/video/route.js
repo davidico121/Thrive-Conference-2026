@@ -1,18 +1,26 @@
 import { NextResponse } from 'next/server';
 import { head } from '@vercel/blob';
+import { getVercelOidcToken } from '@vercel/oidc';
 import { ADMIN_SESSION_COOKIE, verifyAdminSession } from '../../../../lib/adminAuth';
 
-function resolveBlobAuth() {
-  // On Vercel, the connected Blob store authenticates via OIDC automatically
-  // (no token needed). BLOB_READ_WRITE_TOKEN is only used for local `next dev`,
-  // since OIDC isn't available for the local development environment. Stray
-  // quote characters are stripped defensively in case an env var got saved
-  // with literal quotes included.
+async function resolveBlobAuth() {
+  // On Vercel, the connected Blob store authenticates via OIDC (no static
+  // token needed). process.env.VERCEL_OIDC_TOKEN is not populated at runtime
+  // there, so the token must be requested per-invocation. BLOB_READ_WRITE_TOKEN
+  // is only used for local `next dev`, where OIDC isn't available. Stray quote
+  // characters are stripped defensively in case an env var got saved with
+  // literal quotes included.
   let blobToken = (process.env.BLOB_READ_WRITE_TOKEN || '').trim();
   if (blobToken.startsWith('"') && blobToken.endsWith('"')) {
     blobToken = blobToken.slice(1, -1);
   }
-  return blobToken || process.env.VERCEL_OIDC_TOKEN || '';
+  if (blobToken) return blobToken;
+  try {
+    return await getVercelOidcToken();
+  } catch (err) {
+    console.error('admin/video could not obtain OIDC token:', err);
+    return '';
+  }
 }
 
 // Private Blob content must be streamed through an authenticated route —
@@ -36,7 +44,7 @@ export async function GET(request) {
     return NextResponse.json({ error: 'Missing or invalid pathname' }, { status: 400 });
   }
 
-  const authToken = resolveBlobAuth();
+  const authToken = await resolveBlobAuth();
 
   let meta;
   try {
@@ -55,6 +63,7 @@ export async function GET(request) {
   });
 
   if (!originRes.ok && originRes.status !== 206) {
+    console.error('admin/video origin fetch failed with status', originRes.status);
     return new NextResponse('Not found', { status: 404 });
   }
 

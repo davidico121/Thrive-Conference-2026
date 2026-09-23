@@ -50,7 +50,7 @@ if (!isDryRun && !isRun) {
 
 const MAX_BYTES = 300 * 1024 * 1024; // 300MB safety cap
 const SHEET_NAME = 'SkillsTraining';
-const DATA_RANGE = `${SHEET_NAME}!A2:L`;
+const DATA_RANGE = `${SHEET_NAME}!A2:M`;
 
 function extractDriveFileId(link) {
   if (!link) return null;
@@ -127,12 +127,17 @@ async function getLatestRowsPerEmail(sheets) {
     const [
       timestamp, name, email, phone, track, experience, videoLink,
       hostedVideoUrl, ingestStatus, ingestNote, lastIngestedLink, reviewStatus,
+      overrideLink,
     ] = row;
     if (!email) return;
+    // Column M lets an admin point at a re-uploaded copy without touching
+    // what the participant originally submitted.
+    const effectiveLink = (overrideLink || '').trim() || (videoLink || '').trim();
     byEmail.set(email.trim().toLowerCase(), {
       rowNumber, timestamp, name: (name || '').trim(), email: email.trim(),
       phone: phone || '', track: track || '', experience: experience || '',
       videoLink: (videoLink || '').trim(),
+      effectiveLink,
       hostedVideoUrl: hostedVideoUrl || '',
       ingestStatus: ingestStatus || '',
       ingestNote: ingestNote || '',
@@ -192,15 +197,15 @@ async function main() {
 
   const DONE_STATUSES = ['OK', 'Embed:YouTube', 'Embed:TikTok'];
   const toProcess = participants.filter(p => {
-    if (!p.videoLink) return false;
-    const unchanged = p.videoLink === p.lastIngestedLink && DONE_STATUSES.includes(p.ingestStatus);
+    if (!p.effectiveLink) return false;
+    const unchanged = p.effectiveLink === p.lastIngestedLink && DONE_STATUSES.includes(p.ingestStatus);
     return !unchanged;
   }).slice(0, limit);
 
   console.log(`${toProcess.length} need (re-)ingesting (others already ingested & unchanged, or have no link).`);
 
   if (isDryRun) {
-    toProcess.forEach(p => console.log(` - ${p.name} <${p.email}> :: ${p.videoLink || '(no link)'}`));
+    toProcess.forEach(p => console.log(` - ${p.name} <${p.email}> :: ${p.effectiveLink || '(no link)'}`));
     console.log('\nDry run only — nothing downloaded or written.');
     return;
   }
@@ -208,11 +213,11 @@ async function main() {
   let ok = 0, failed = 0, noVideo = 0;
 
   for (const p of toProcess) {
-    const linkChanged = p.videoLink !== p.lastIngestedLink;
+    const linkChanged = p.effectiveLink !== p.lastIngestedLink;
     const resetReview = linkChanged && (p.reviewStatus === 'Approved' || p.reviewStatus === 'Rejected');
     const nextReviewStatus = resetReview ? 'Pending' : (p.reviewStatus || 'Pending');
 
-    const classified = classifyLink(p.videoLink);
+    const classified = classifyLink(p.effectiveLink);
     let result;
 
     if (classified.type === 'drive') {
@@ -248,7 +253,7 @@ async function main() {
         ingestStatus: 'No Video',
         ingestNote: 'Submitted link is not a recognizable video (search result, profile page, folder, etc.)',
       };
-      console.log(`○ ${p.email}: no usable video (${p.videoLink})`);
+      console.log(`○ ${p.email}: no usable video (${p.effectiveLink})`);
     }
 
     // Write immediately after each participant (not batched at the end) so
@@ -263,7 +268,7 @@ async function main() {
           result.hostedVideoUrl,
           result.ingestStatus,
           result.ingestNote,
-          p.videoLink,
+          p.effectiveLink,
           nextReviewStatus,
         ]],
       },
