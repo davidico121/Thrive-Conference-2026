@@ -61,8 +61,41 @@ function extractDriveFileId(link) {
   return null;
 }
 
-function colToLetter(rowNumber) {
-  return rowNumber; // not used, kept for clarity of intent below
+function extractYouTubeId(link) {
+  if (!link) return null;
+  let m = link.match(/youtu\.be\/([a-zA-Z0-9_-]{6,})/);
+  if (m) return m[1];
+  m = link.match(/youtube\.com\/(?:watch\?v=|shorts\/|embed\/)([a-zA-Z0-9_-]{6,})/);
+  if (m) return m[1];
+  return null;
+}
+
+// Registrants sometimes pasted extra text after the link (e.g. TikTok's
+// share caption). Grab just the first whitespace-delimited URL token.
+function extractTikTokLink(link) {
+  if (!link) return null;
+  const m = link.match(/^(https?:\/\/[^\s]*tiktok\.com[^\s]*)/i);
+  return m ? m[1] : null;
+}
+
+// TikTok share links (vm.tiktok.com/...) redirect to the canonical
+// https://www.tiktok.com/@user/video/ID URL that the embed widget needs.
+async function resolveTikTokUrl(shortLink) {
+  const res = await fetch(shortLink, { redirect: 'follow' });
+  return res.url;
+}
+
+function classifyLink(link) {
+  const driveId = extractDriveFileId(link);
+  if (driveId) return { type: 'drive', id: driveId };
+
+  const youtubeId = extractYouTubeId(link);
+  if (youtubeId) return { type: 'youtube', id: youtubeId };
+
+  const tiktokLink = extractTikTokLink(link);
+  if (tiktokLink) return { type: 'tiktok', link: tiktokLink };
+
+  return { type: 'none' };
 }
 
 async function getSheetsAndDrive() {
@@ -111,10 +144,21 @@ async function getLatestRowsPerEmail(sheets) {
 }
 
 async function downloadAndHost(drive, fileId, fallbackName) {
-  const meta = await drive.files.get({
-    fileId,
-    fields: 'id,name,mimeType,size',
-  });
+  let meta;
+  try {
+    meta = await drive.files.get({
+      fileId,
+      fields: 'id,name,mimeType,size',
+    });
+  } catch (err) {
+    if (err.message && err.message.includes('File not found')) {
+      throw Object.assign(
+        new Error("The submitter hasn't shared this video with \"Anyone with the link\" (or the file was moved/deleted). Ask them to fix Drive sharing and resubmit."),
+        { code: 'Access Denied' }
+      );
+    }
+    throw err;
+  }
 
   const { mimeType, size, name } = meta.data;
   if (!mimeType || !mimeType.startsWith('video/')) {
@@ -146,9 +190,10 @@ async function main() {
   const participants = await getLatestRowsPerEmail(sheets);
   console.log(`Found ${participants.length} unique registered participant(s).`);
 
+  const DONE_STATUSES = ['OK', 'Embed:YouTube', 'Embed:TikTok'];
   const toProcess = participants.filter(p => {
     if (!p.videoLink) return false;
-    const unchanged = p.videoLink === p.lastIngestedLink && p.ingestStatus === 'OK';
+    const unchanged = p.videoLink === p.lastIngestedLink && DONE_STATUSES.includes(p.ingestStatus);
     return !unchanged;
   }).slice(0, limit);
 
@@ -160,35 +205,50 @@ async function main() {
     return;
   }
 
-  let ok = 0, failed = 0, invalid = 0;
+  let ok = 0, failed = 0, noVideo = 0;
 
   for (const p of toProcess) {
     const linkChanged = p.videoLink !== p.lastIngestedLink;
     const resetReview = linkChanged && (p.reviewStatus === 'Approved' || p.reviewStatus === 'Rejected');
     const nextReviewStatus = resetReview ? 'Pending' : (p.reviewStatus || 'Pending');
 
-    const fileId = extractDriveFileId(p.videoLink);
+    const classified = classifyLink(p.videoLink);
     let result;
 
-    if (!fileId) {
-      invalid++;
-      result = {
-        hostedVideoUrl: '',
-        ingestStatus: 'Invalid Link',
-        ingestNote: 'Link is not a recognizable Google Drive file URL',
-      };
-      console.log(`⚠ ${p.email}: invalid link (${p.videoLink})`);
-    } else {
+    if (classified.type === 'drive') {
       try {
-        const url = await downloadAndHost(drive, fileId, p.email);
+        const pathname = await downloadAndHost(drive, classified.id, p.email);
         ok++;
-        result = { hostedVideoUrl: url, ingestStatus: 'OK', ingestNote: '' };
-        console.log(`✓ ${p.email}: ingested`);
+        result = { hostedVideoUrl: pathname, ingestStatus: 'OK', ingestNote: '' };
+        console.log(`✓ ${p.email}: ingested (Drive)`);
       } catch (err) {
         failed++;
         result = { hostedVideoUrl: '', ingestStatus: err.code || 'Failed', ingestNote: err.message };
         console.log(`✗ ${p.email}: ${err.message}`);
       }
+    } else if (classified.type === 'youtube') {
+      ok++;
+      result = { hostedVideoUrl: classified.id, ingestStatus: 'Embed:YouTube', ingestNote: '' };
+      console.log(`✓ ${p.email}: embeddable (YouTube)`);
+    } else if (classified.type === 'tiktok') {
+      try {
+        const resolvedUrl = await resolveTikTokUrl(classified.link);
+        ok++;
+        result = { hostedVideoUrl: resolvedUrl, ingestStatus: 'Embed:TikTok', ingestNote: '' };
+        console.log(`✓ ${p.email}: embeddable (TikTok)`);
+      } catch (err) {
+        failed++;
+        result = { hostedVideoUrl: '', ingestStatus: 'Failed', ingestNote: `Could not resolve TikTok link: ${err.message}` };
+        console.log(`✗ ${p.email}: TikTok resolve failed: ${err.message}`);
+      }
+    } else {
+      noVideo++;
+      result = {
+        hostedVideoUrl: '',
+        ingestStatus: 'No Video',
+        ingestNote: 'Submitted link is not a recognizable video (search result, profile page, folder, etc.)',
+      };
+      console.log(`○ ${p.email}: no usable video (${p.videoLink})`);
     }
 
     // Write immediately after each participant (not batched at the end) so
@@ -210,7 +270,7 @@ async function main() {
     });
   }
 
-  console.log(`\nDone. OK: ${ok}, Failed: ${failed}, Invalid link: ${invalid}`);
+  console.log(`\nDone. OK: ${ok}, Failed: ${failed}, No video: ${noVideo}`);
 }
 
 main().catch(err => {

@@ -45,13 +45,55 @@ function ParticipantCard({ p, onSetStatus }) {
       overflow: 'hidden', display: 'flex', flexDirection: 'column',
     }}>
       <div style={{ position: 'relative', paddingTop: '56.25%', background: '#000' }}>
-        {p.hostedVideoUrl ? (
+        {p.ingestStatus === 'OK' && p.hostedVideoUrl ? (
           <video
             controls
             preload="metadata"
             src={`/api/admin/video?pathname=${encodeURIComponent(p.hostedVideoUrl)}`}
             style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
           />
+        ) : p.ingestStatus === 'Embed:YouTube' && p.hostedVideoUrl ? (
+          <iframe
+            src={`https://www.youtube.com/embed/${p.hostedVideoUrl}`}
+            title={`${p.name} submission`}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+          />
+        ) : p.ingestStatus === 'Embed:TikTok' && p.hostedVideoUrl ? (
+          <div style={{ position: 'absolute', inset: 0, overflowY: 'auto', background: '#000' }}>
+            <blockquote className="tiktok-embed" cite={p.hostedVideoUrl} data-video-id={(p.hostedVideoUrl.match(/video\/(\d+)/) || [])[1]} style={{ margin: 0 }}>
+              <section />
+            </blockquote>
+          </div>
+        ) : p.ingestStatus === 'No Video' ? (
+          <div style={{
+            position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column',
+            alignItems: 'center', justifyContent: 'center', gap: 8, padding: 16, textAlign: 'center',
+          }}>
+            <p style={{ color: '#5c5580', fontSize: 13, fontWeight: 600 }}>No video submitted</p>
+            <p style={{ color: '#443a75', fontSize: 11, maxWidth: 260 }}>The submitted link isn&apos;t a playable video (search result, profile page, etc.)</p>
+            {p.videoLink && (
+              <a href={p.videoLink} target="_blank" rel="noopener noreferrer" style={{ color: '#77767e', fontSize: 12, textDecoration: 'underline' }}>
+                View what they submitted
+              </a>
+            )}
+          </div>
+        ) : p.ingestStatus === 'Access Denied' ? (
+          <div style={{
+            position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column',
+            alignItems: 'center', justifyContent: 'center', gap: 8, padding: 16, textAlign: 'center',
+          }}>
+            <p style={{ color: '#ffb84d', fontSize: 13, fontWeight: 700 }}>🔒 Access not granted</p>
+            <p style={{ color: '#8b84b5', fontSize: 11, maxWidth: 260 }}>
+              The submitter hasn&apos;t shared this video with &quot;Anyone with the link.&quot; Ask them to fix their Drive sharing settings and resubmit.
+            </p>
+            {p.videoLink && (
+              <a href={p.videoLink} target="_blank" rel="noopener noreferrer" style={{ color: '#fecb00', fontSize: 12, textDecoration: 'underline' }}>
+                Try original link anyway
+              </a>
+            )}
+          </div>
         ) : (
           <div style={{
             position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column',
@@ -173,6 +215,16 @@ export default function SkillsTrainingAdminGrid({ initialParticipants }) {
     router.push('/admin/login');
     router.refresh();
   };
+
+  const hasTikTok = participants.some(p => p.ingestStatus === 'Embed:TikTok');
+  React.useEffect(() => {
+    if (!hasTikTok) return;
+    if (document.querySelector('script[src="https://www.tiktok.com/embed.js"]')) return;
+    const script = document.createElement('script');
+    script.src = 'https://www.tiktok.com/embed.js';
+    script.async = true;
+    document.body.appendChild(script);
+  }, [hasTikTok]);
 
   const selectStyle = {
     background: '#1e1543', color: '#fbf9f6', border: '1px solid #3a2f66',
