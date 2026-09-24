@@ -239,8 +239,9 @@ export default function SkillsTraining() {
           {/* HERO */}
           <section style={{ background: '#170f30', padding: 'clamp(64px, 10vw, 120px) 24px' }}>
             <motion.div style={{ maxWidth: 800, margin: '0 auto' }} variants={stagger} initial="hidden" animate="show">
-              <motion.div variants={fadeUp} style={{ marginBottom: 28 }}>
+              <motion.div variants={fadeUp} style={{ marginBottom: 28, display: 'flex', flexWrap: 'wrap', gap: 10 }}>
                 <span className="t-badge-teal">Free · 6 Weeks · Online · Starts September 20, 2026</span>
+                <span className="t-badge-teal" style={{ background: '#fecb00', color: '#17102e' }}>Registration closes Friday, September 25</span>
               </motion.div>
               <motion.h1 variants={fadeUp} style={{
                 fontFamily: 'Syne, sans-serif', fontWeight: 800,
@@ -355,6 +356,8 @@ export default function SkillsTraining() {
               </motion.h2>
               <motion.p variants={fadeUp} initial="hidden" whileInView="show" viewport={vp} style={{ textAlign: 'center', color: '#c9c3e8', fontSize: 15, marginBottom: 48 }}>
                 Pick a track below. We'll follow up with the class link, schedule, and facilitator details.
+                <br />
+                <strong style={{ color: '#fecb00' }}>Registration closes Friday, September 25, 2026.</strong>
               </motion.p>
 
               {submitted && (
