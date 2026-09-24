@@ -39,6 +39,7 @@ yarn-error.log*
 # script run logs
 scripts/*.log
 scripts/broadcast-log.txt
+scripts/.reminder-sent
 
 # typescript
 *.tsbuildinfo

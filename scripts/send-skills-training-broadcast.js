@@ -33,6 +33,8 @@ const isDryRun = args.includes('--dry-run');
 const isSend = args.includes('--send');
 const testArg = args.find(a => a.startsWith('--test='));
 const testEmail = testArg ? testArg.split('=')[1] : null;
+// Add --reminder to any mode above to use the follow-up reminder email instead of the original.
+const isReminder = args.includes('--reminder');
 
 if (!isDryRun && !isSend && !testEmail) {
   console.error('Specify one of: --dry-run, --test=you@example.com, or --send');
@@ -112,6 +114,64 @@ function buildHtml(firstName) {
 </div>`.trim();
 }
 
+// Registrants sometimes type an email address, ALL CAPS, or all lowercase into the name field.
+function displayFirstName(fullName) {
+  const token = (fullName || '').trim().split(/\s+/)[0] || '';
+  if (!token || token.includes('@')) return 'there';
+  const isAllCaps = token.length > 1 && token === token.toUpperCase();
+  const base = isAllCaps ? token.toLowerCase() : token;
+  return base.charAt(0).toUpperCase() + base.slice(1);
+}
+
+const REMINDER_SUBJECT ='⏰ Reminder: two quick things before Saturday\'s Thrive Skills onboarding';
+
+function buildReminderHtml(firstName) {
+  const name = escapeHtml(firstName);
+  return `
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #1b1c1a;">
+  <div style="background: #170f30; padding: 24px 32px; text-align: center;">
+    <span style="font-family: Georgia, serif; font-weight: 800; font-size: 20px; color: #fbf9f6; letter-spacing: -0.01em;">THRIVE <span style="color: #fecb00;">SKILLS</span></span>
+  </div>
+  <div style="padding: 32px; background: #ffffff;">
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 16px;">Hello ${name},</p>
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 20px;">
+      This is a quick reminder that the <strong>Thrive Digital Skills Training onboarding is this Saturday, September 26th.</strong>
+      There are two things we still need from you before then:
+    </p>
+
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 8px;"><strong>1. Give us access to your 30-second video</strong></p>
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 12px;">
+      Our team reviews every video as part of onboarding, and we can only open videos that are shared as <strong>&ldquo;Anyone with the link.&rdquo;</strong>
+      Sharing it with one person&rsquo;s email address isn&rsquo;t enough, so please check your sharing settings and make sure the link works.
+    </p>
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 12px;">
+      If you submitted something that isn&rsquo;t a video link (for example a search result or a profile page), please register again with a proper link.
+      If your video is already set up correctly, you can skip this step.
+    </p>
+    <p style="margin: 0 0 24px;">
+      <a href="https://thrive.crumglobal.org/skills-training" style="display: inline-block; background: #17102e; color: #fecb00; font-weight: 700; font-size: 14px; text-decoration: none; padding: 12px 24px; border-radius: 4px;">Video guide &amp; registration page</a>
+    </p>
+
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 8px;"><strong>2. Join the general WhatsApp group</strong></p>
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 12px;">
+      All important updates about the training are shared in the group. If you haven&rsquo;t joined yet, please do it now.
+    </p>
+    <p style="margin: 0 0 28px;">
+      <a href="https://chat.whatsapp.com/GWM7FWJAbX3BQz36bsP35w?s=cl&amp;p=i&amp;mlu=4&amp;ilr=4" style="display: inline-block; background: #fecb00; color: #17102e; font-weight: 700; font-size: 14px; text-decoration: none; padding: 12px 24px; border-radius: 4px;">Join the Thrive WhatsApp Group</a>
+    </p>
+
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 20px;">
+      Please take care of both before Saturday so we can have everything ready for your onboarding.
+    </p>
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 4px;">See you on Saturday!</p>
+    <p style="font-size: 16px; line-height: 1.6; margin: 0;"><strong>The Thrive Team</strong></p>
+  </div>
+  <div style="background: #0c0620; padding: 20px 32px; text-align: center;">
+    <p style="color: #6b628f; font-size: 12px; margin: 0;">&copy; 2026 Thrive Initiatives &middot; Christ Unfolding Ministries</p>
+  </div>
+</div>`.trim();
+}
+
 async function getParticipants() {
   const auth = new google.auth.GoogleAuth({
     credentials: {
@@ -138,7 +198,7 @@ async function getParticipants() {
 }
 
 async function sendOne(recipient) {
-  const firstName = recipient.name.split(/\s+/)[0] || 'there';
+  const firstName = displayFirstName(recipient.name);
   const res = await fetch('https://api.zeptomail.com/v1.1/email', {
     method: 'POST',
     headers: {
@@ -148,8 +208,8 @@ async function sendOne(recipient) {
     body: JSON.stringify({
       from: { address: process.env.ZEPTOMAIL_FROM_EMAIL, name: process.env.ZEPTOMAIL_FROM_NAME },
       to: [{ email_address: { address: recipient.email, name: recipient.name || recipient.email } }],
-      subject: SUBJECT,
-      htmlbody: buildHtml(firstName),
+      subject: isReminder ? REMINDER_SUBJECT : SUBJECT,
+      htmlbody: isReminder ? buildReminderHtml(firstName) : buildHtml(firstName),
     }),
   });
 
