@@ -190,6 +190,17 @@ async function downloadAndHost(drive, fileId, fallbackName) {
   return blob.pathname;
 }
 
+// A stalled Drive download or Blob upload never errors on its own, which once
+// hung a whole run for 30+ minutes. Give up on a single video after a while
+// and move on; the row is marked Failed and retried on the next run.
+function withTimeout(promise, ms, label) {
+  let timer;
+  const timeout = new Promise((_, reject) => {
+    timer = setTimeout(() => reject(new Error(`${label} timed out after ${Math.round(ms / 60000)} minutes`)), ms);
+  });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+}
+
 async function main() {
   const { sheets, drive } = await getSheetsAndDrive();
   const participants = await getLatestRowsPerEmail(sheets);
@@ -222,7 +233,7 @@ async function main() {
 
     if (classified.type === 'drive') {
       try {
-        const pathname = await downloadAndHost(drive, classified.id, p.email);
+        const pathname = await withTimeout(downloadAndHost(drive, classified.id, p.email), 8 * 60 * 1000, 'Download/upload');
         ok++;
         result = { hostedVideoUrl: pathname, ingestStatus: 'OK', ingestNote: '' };
         console.log(`✓ ${p.email}: ingested (Drive)`);
@@ -278,7 +289,8 @@ async function main() {
   console.log(`\nDone. OK: ${ok}, Failed: ${failed}, No video: ${noVideo}`);
 }
 
-main().catch(err => {
+// Exit explicitly so a dangling socket from an abandoned (timed-out) transfer can't keep the process alive.
+main().then(() => process.exit(0)).catch(err => {
   console.error('Ingestion failed:', err.message);
   process.exit(1);
 });
