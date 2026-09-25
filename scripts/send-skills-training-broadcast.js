@@ -41,6 +41,10 @@ const isAccept = args.includes('--accept');
 // With --accept --test=..., use --as-approved to preview the acceptance email
 // instead of the reminder email (a test recipient has no real Review Status).
 const testAsApproved = args.includes('--as-approved');
+// With --accept, restrict a real send to only the Approved people (skip the
+// reminder-to-everyone-else part of the split) — for sending acceptance
+// notices on their own without re-sending the reminder to everyone.
+const onlyApproved = args.includes('--only-approved');
 
 if (!isDryRun && !isSend && !testEmail) {
   console.error('Specify one of: --dry-run, --test=you@example.com, or --send');
@@ -290,7 +294,7 @@ async function main() {
 
   const targets = testEmail
     ? [{ name: 'Test', email: testEmail, reviewStatus: (isAccept && testAsApproved) ? 'Approved' : '' }]
-    : participants;
+    : (onlyApproved ? participants.filter(p => p.reviewStatus === 'Approved') : participants);
 
   console.log(`Sending to ${targets.length} recipient(s)...`);
   let ok = 0;
