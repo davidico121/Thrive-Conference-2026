@@ -174,13 +174,17 @@ async function downloadAndHost(drive, fileId, fallbackName) {
     throw Object.assign(new Error(`File is ${mb}MB, exceeds the ${MAX_BYTES / (1024 * 1024)}MB limit`), { code: 'TOO_LARGE' });
   }
 
-  const stream = await drive.files.get(
+  // Download fully (rather than piping a stream) so the Blob SDK can safely
+  // retry a failed upload; a one-shot stream is already consumed by then and
+  // the retry dies with "Response body object should not be disturbed or locked".
+  const download = await drive.files.get(
     { fileId, alt: 'media' },
-    { responseType: 'stream' }
+    { responseType: 'arraybuffer' }
   );
+  const body = Buffer.from(download.data);
 
   const safeName = (name || fallbackName).replace(/[^a-zA-Z0-9._-]/g, '_');
-  const blob = await put(`skills-training-videos/${fileId}-${safeName}`, stream.data, {
+  const blob = await put(`skills-training-videos/${fileId}-${safeName}`, body, {
     access: 'private',
     contentType: mimeType,
     token: process.env.BLOB_READ_WRITE_TOKEN,

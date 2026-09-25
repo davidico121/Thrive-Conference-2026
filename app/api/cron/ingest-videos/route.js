@@ -93,13 +93,15 @@ async function downloadAndHost(drive, fileId, fallbackName) {
     throw Object.assign(new Error('too large for the automatic run'), { code: 'DEFER' });
   }
 
-  const stream = await drive.files.get({ fileId, alt: 'media' }, { responseType: 'stream' });
+  // Downloaded fully (not piped as a stream) so a retried upload can resend it.
+  const download = await drive.files.get({ fileId, alt: 'media' }, { responseType: 'arraybuffer' });
+  const body = Buffer.from(download.data);
   const safeName = (name || fallbackName).replace(/[^a-zA-Z0-9._-]/g, '_');
 
   let blobToken = (process.env.BLOB_READ_WRITE_TOKEN || '').trim();
   if (blobToken.startsWith('"') && blobToken.endsWith('"')) blobToken = blobToken.slice(1, -1);
 
-  const blob = await put(`skills-training-videos/${fileId}-${safeName}`, stream.data, {
+  const blob = await put(`skills-training-videos/${fileId}-${safeName}`, body, {
     access: 'private',
     contentType: mimeType,
     ...(blobToken ? { token: blobToken } : {}),
