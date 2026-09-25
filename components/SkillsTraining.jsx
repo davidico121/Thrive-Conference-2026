@@ -240,7 +240,7 @@ export default function SkillsTraining() {
           <section style={{ background: '#170f30', padding: 'clamp(64px, 10vw, 120px) 24px' }}>
             <motion.div style={{ maxWidth: 800, margin: '0 auto' }} variants={stagger} initial="hidden" animate="show">
               <motion.div variants={fadeUp} style={{ marginBottom: 28, display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-                <span className="t-badge-teal">Free · 6 Weeks · Online · Starts September 20, 2026</span>
+                <span className="t-badge-teal">Free · 6 Weeks · Online · Starts September 26, 2026</span>
                 <span className="t-badge-teal" style={{ background: '#fecb00', color: '#17102e' }}>Registration closes Friday, September 25</span>
               </motion.div>
               <motion.h1 variants={fadeUp} style={{
@@ -277,7 +277,7 @@ export default function SkillsTraining() {
             <motion.div style={{ maxWidth: 800, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 40 }}
               variants={stagger} initial="hidden" whileInView="show" viewport={vp}>
               {[
-                { label: 'Starts', title: 'Saturday, Sept 20, 2026', sub: 'Ends last week of October' },
+                { label: 'Starts', title: 'Saturday, Sept 26, 2026', sub: 'Ends last week of October' },
                 { label: 'Format', title: 'Online · Twice a week', sub: 'Weekends · 2 hrs/session' },
                 { label: 'Cost', title: 'Free', sub: 'Open to all skill levels' },
               ].map(item => (
@@ -328,7 +328,7 @@ export default function SkillsTraining() {
               </motion.h2>
               <motion.div variants={stagger} initial="hidden" whileInView="show" viewport={vp}>
                 {[
-                  { title: 'Orientation Call', desc: 'A general kickoff call on the first Saturday, September 20, to meet your facilitator and cohort.' },
+                  { title: 'Orientation Call', desc: 'A general kickoff call on the first Saturday, September 26, to meet your facilitator and cohort.' },
                   { title: 'Weekly Classes & Assignments', desc: 'Two 2-hour live sessions a week, mostly on weekends, with at least one assignment or project each week.' },
                   { title: 'Final Project', desc: 'One major project applying what you learned, submitted in the last week of training.' },
                   { title: 'Closing Call', desc: 'A general closing call in the last week of October to wrap up the cohort.' },
@@ -371,7 +371,7 @@ export default function SkillsTraining() {
                       We'll be in touch
                     </h4>
                     <p style={{ color: '#4a4066', fontSize: 14, lineHeight: 1.6, maxWidth: 380, marginLeft: 'auto', marginRight: 'auto', marginBottom: 24 }}>
-                      Class link, schedule, and facilitator details for your track will be shared by email or phone closer to September 20.
+                      Class link, schedule, and facilitator details for your track will be shared by email or phone closer to September 26.
                     </p>
                     <div style={{ borderTop: '1px solid rgba(23, 16, 46, 0.15)', paddingTop: 24 }}>
                       <p style={{ color: '#17102e', fontSize: 15, fontWeight: 600, marginBottom: 16 }}>
@@ -454,7 +454,7 @@ export default function SkillsTraining() {
                   {submitting ? 'Submitting...' : submitted ? 'Submitted!' : 'Register Now'}
                 </button>
                 <p style={{ textAlign: 'center', fontSize: 12, color: '#77767e', letterSpacing: '0.02em' }}>
-                  Cohort begins Saturday, September 20, 2026.
+                  Cohort begins Saturday, September 26, 2026.
                 </p>
               </form>
             </div>
@@ -552,7 +552,7 @@ export default function SkillsTraining() {
                 <div>
                   <p style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#fecb00', marginBottom: 14 }}>Program Details</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 36, borderLeft: '2px solid #fecb00', paddingLeft: 16 }}>
-                    <p style={{ color: '#fbf9f6', fontSize: 15, fontFamily: 'Syne, sans-serif', fontWeight: 700 }}>Starts Saturday, September 20, 2026</p>
+                    <p style={{ color: '#fbf9f6', fontSize: 15, fontFamily: 'Syne, sans-serif', fontWeight: 700 }}>Starts Saturday, September 26, 2026</p>
                     <p style={{ color: '#c9c3e8', fontSize: 14 }}>Online · Twice weekly · Ends last week of October 2026</p>
                     <span style={{ display: 'inline-block', width: 'fit-content', marginTop: 4, background: '#009898', color: '#fbf9f6', fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 2 }}>Free</span>
                   </div>
