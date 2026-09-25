@@ -35,6 +35,12 @@ const testArg = args.find(a => a.startsWith('--test='));
 const testEmail = testArg ? testArg.split('=')[1] : null;
 // Add --reminder to any mode above to use the follow-up reminder email instead of the original.
 const isReminder = args.includes('--reminder');
+// Add --accept to send the acceptance email to people marked "Approved" on the
+// review page, and the regular reminder email to everyone else (per-recipient split).
+const isAccept = args.includes('--accept');
+// With --accept --test=..., use --as-approved to preview the acceptance email
+// instead of the reminder email (a test recipient has no real Review Status).
+const testAsApproved = args.includes('--as-approved');
 
 if (!isDryRun && !isSend && !testEmail) {
   console.error('Specify one of: --dry-run, --test=you@example.com, or --send');
@@ -172,6 +178,43 @@ function buildReminderHtml(firstName) {
 </div>`.trim();
 }
 
+const ACCEPTANCE_SUBJECT = '🎉 You\'re in! Thrive Digital Skills Training';
+
+function buildAcceptanceHtml(firstName) {
+  const name = escapeHtml(firstName);
+  return `
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #1b1c1a;">
+  <div style="background: #170f30; padding: 24px 32px; text-align: center;">
+    <span style="font-family: Georgia, serif; font-weight: 800; font-size: 20px; color: #fbf9f6; letter-spacing: -0.01em;">THRIVE <span style="color: #fecb00;">SKILLS</span></span>
+  </div>
+  <div style="padding: 32px; background: #ffffff;">
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 16px;">Hello ${name},</p>
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 20px;">
+      Congratulations — <strong>you've been accepted into the Thrive Digital Skills Training!</strong> We loved your application and can't wait to have you in the cohort.
+    </p>
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 20px;">
+      Onboarding is <strong>this Saturday, September 26th.</strong> One thing to take care of before then:
+    </p>
+
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 8px;"><strong>Join the general WhatsApp group</strong></p>
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 12px;">
+      All important updates about the training are shared in the group. If you haven't joined yet, please do it now.
+    </p>
+    <p style="margin: 0 0 28px;">
+      <a href="https://chat.whatsapp.com/GWM7FWJAbX3BQz36bsP35w?s=cl&amp;p=i&amp;mlu=4&amp;ilr=4" style="display: inline-block; background: #fecb00; color: #17102e; font-weight: 700; font-size: 14px; text-decoration: none; padding: 12px 24px; border-radius: 4px;">Join the Thrive WhatsApp Group</a>
+    </p>
+
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 20px;">
+      We're excited to have you with us. See you Saturday!
+    </p>
+    <p style="font-size: 16px; line-height: 1.6; margin: 0;"><strong>The Thrive Team</strong></p>
+  </div>
+  <div style="background: #0c0620; padding: 20px 32px; text-align: center;">
+    <p style="color: #6b628f; font-size: 12px; margin: 0;">&copy; 2026 Thrive Initiatives &middot; Christ Unfolding Ministries</p>
+  </div>
+</div>`.trim();
+}
+
 async function getParticipants() {
   const auth = new google.auth.GoogleAuth({
     credentials: {
@@ -183,22 +226,29 @@ async function getParticipants() {
   const sheets = google.sheets({ version: 'v4', auth });
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: process.env.GOOGLE_SHEET_ID,
-    range: 'SkillsTraining!A2:G',
+    range: 'SkillsTraining!A2:L',
   });
 
   const rows = res.data.values || [];
   const byEmail = new Map();
   for (const row of rows) {
-    const [, name, email] = row;
+    const [, name, email, , , , , , , , , reviewStatus] = row;
     if (!email) continue;
     const key = email.trim().toLowerCase();
-    byEmail.set(key, { name: (name || '').trim(), email: email.trim() });
+    byEmail.set(key, { name: (name || '').trim(), email: email.trim(), reviewStatus: (reviewStatus || '').trim() });
   }
   return Array.from(byEmail.values());
 }
 
-async function sendOne(recipient) {
+function templateFor(variant) {
+  if (variant === 'accept') return { subject: ACCEPTANCE_SUBJECT, build: buildAcceptanceHtml };
+  if (variant === 'reminder') return { subject: REMINDER_SUBJECT, build: buildReminderHtml };
+  return { subject: SUBJECT, build: buildHtml };
+}
+
+async function sendOne(recipient, variant) {
   const firstName = displayFirstName(recipient.name);
+  const { subject, build } = templateFor(variant);
   const res = await fetch('https://api.zeptomail.com/v1.1/email', {
     method: 'POST',
     headers: {
@@ -208,8 +258,8 @@ async function sendOne(recipient) {
     body: JSON.stringify({
       from: { address: process.env.ZEPTOMAIL_FROM_EMAIL, name: process.env.ZEPTOMAIL_FROM_NAME },
       to: [{ email_address: { address: recipient.email, name: recipient.name || recipient.email } }],
-      subject: isReminder ? REMINDER_SUBJECT : SUBJECT,
-      htmlbody: isReminder ? buildReminderHtml(firstName) : buildHtml(firstName),
+      subject,
+      htmlbody: build(firstName),
     }),
   });
 
@@ -219,18 +269,27 @@ async function sendOne(recipient) {
   }
 }
 
+function variantFor(recipient) {
+  if (!isAccept) return isReminder ? 'reminder' : 'original';
+  return recipient.reviewStatus === 'Approved' ? 'accept' : 'reminder';
+}
+
 async function main() {
   const participants = await getParticipants();
   console.log(`Found ${participants.length} unique registered participant(s).`);
 
   if (isDryRun) {
-    participants.forEach(p => console.log(` - ${p.name} <${p.email}>`));
+    participants.forEach(p => console.log(` - [${variantFor(p)}] ${p.name} <${p.email}>${p.reviewStatus ? ' (' + p.reviewStatus + ')' : ''}`));
+    if (isAccept) {
+      const approved = participants.filter(p => p.reviewStatus === 'Approved').length;
+      console.log(`\n${approved} would get the acceptance email, ${participants.length - approved} would get the reminder.`);
+    }
     console.log('\nDry run only — no emails sent.');
     return;
   }
 
   const targets = testEmail
-    ? [{ name: 'Test', email: testEmail }]
+    ? [{ name: 'Test', email: testEmail, reviewStatus: (isAccept && testAsApproved) ? 'Approved' : '' }]
     : participants;
 
   console.log(`Sending to ${targets.length} recipient(s)...`);
@@ -238,9 +297,9 @@ async function main() {
   let failed = 0;
   for (const recipient of targets) {
     try {
-      await sendOne(recipient);
+      await sendOne(recipient, variantFor(recipient));
       ok++;
-      console.log(`✓ Sent to ${recipient.email}`);
+      console.log(`✓ Sent to ${recipient.email} [${variantFor(recipient)}]`);
     } catch (err) {
       failed++;
       console.error(`✗ Failed for ${recipient.email}: ${err.message}`);
