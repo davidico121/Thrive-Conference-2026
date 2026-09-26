@@ -56,6 +56,22 @@ await q`CREATE TABLE IF NOT EXISTS login_attempts (
   locked_until TIMESTAMPTZ
 )`;
 
+// Bumped whenever a password changes or is reset; every login cookie carries the version
+// it was issued at, so bumping it signs that person out everywhere else.
+await q`ALTER TABLE students ADD COLUMN IF NOT EXISTS session_version INT NOT NULL DEFAULT 1`;
+await q`ALTER TABLE tutors ADD COLUMN IF NOT EXISTS session_version INT NOT NULL DEFAULT 1`;
+
+await q`ALTER TABLE login_attempts ADD COLUMN IF NOT EXISTS last_failure_at TIMESTAMPTZ NOT NULL DEFAULT now()`;
+
+// Failed logins per network address in fixed 15-minute windows (scope = portal | admin).
+await q`CREATE TABLE IF NOT EXISTS ip_attempts (
+  scope TEXT NOT NULL,
+  ip TEXT NOT NULL,
+  window_start TIMESTAMPTZ NOT NULL,
+  failures INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (scope, ip, window_start)
+)`;
+
 await q`CREATE INDEX IF NOT EXISTS attendance_class_session_idx ON attendance (class_id, session_number)`;
 
 const CLASSES = [

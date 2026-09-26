@@ -4,6 +4,7 @@ import { verifyPassword, hashPassword } from '../../../../lib/password.js';
 import { PORTAL_COOKIE, signPortalSession } from '../../../../lib/portalAuth.js';
 import { normalizeCode } from '../../../../lib/studentCodes.js';
 import { MAX_FAILED_LOGINS, LOCKOUT_MINUTES } from '../../../../lib/portalConfig.js';
+import { clientIp, ipBlockedFor, recordIpFailure } from '../../../../lib/rateLimit.js';
 
 // Verified against when the username doesn't exist, so a wrong username and a wrong
 // password take the same time and can't be told apart.
@@ -17,7 +18,13 @@ export async function POST(request) {
   }
 
   const q = sql();
+  const ip = clientIp(request);
   const key = normalizeCode(raw); // codes and tutor usernames are letters and digits only
+
+  const blockedMinutes = await ipBlockedFor('portal', ip);
+  if (blockedMinutes) {
+    return NextResponse.json({ error: `Too many wrong attempts from your network. Please try again in ${blockedMinutes} minute${blockedMinutes === 1 ? '' : 's'}.` }, { status: 429 });
+  }
 
   await q`UPDATE login_attempts SET failures = 0, locked_until = NULL WHERE username = ${key} AND locked_until IS NOT NULL AND locked_until < now()`;
   const [attempt] = await q`SELECT failures, locked_until FROM login_attempts WHERE username = ${key}`;
@@ -27,11 +34,11 @@ export async function POST(request) {
   }
 
   let account = null;
-  const [tutor] = await q`SELECT id, password_hash, must_change_password FROM tutors WHERE lower(username) = ${raw.toLowerCase()}`;
+  const [tutor] = await q`SELECT id, password_hash, must_change_password, session_version FROM tutors WHERE lower(username) = ${raw.toLowerCase()}`;
   if (tutor) {
     account = { role: 'tutor', ...tutor };
   } else {
-    const [student] = await q`SELECT id, password_hash, must_change_password FROM students WHERE student_code = ${key}`;
+    const [student] = await q`SELECT id, password_hash, must_change_password, session_version FROM students WHERE student_code = ${key}`;
     if (student) account = { role: 'student', ...student };
   }
 
@@ -39,8 +46,10 @@ export async function POST(request) {
   const ok = await verifyPassword(String(password), account ? account.password_hash : dummyHash);
 
   if (!account || !ok) {
+    await recordIpFailure('portal', ip);
     await q`INSERT INTO login_attempts (username, failures) VALUES (${key}, 1)
             ON CONFLICT (username) DO UPDATE SET
+              last_failure_at = now(),
               failures = login_attempts.failures + 1,
               locked_until = CASE WHEN login_attempts.failures + 1 >= ${MAX_FAILED_LOGINS}
                                   THEN now() + (${LOCKOUT_MINUTES}::int * interval '1 minute')
@@ -49,7 +58,7 @@ export async function POST(request) {
   }
 
   await q`DELETE FROM login_attempts WHERE username = ${key}`;
-  const token = await signPortalSession({ role: account.role, id: account.id }, process.env.ADMIN_SESSION_SECRET);
+  const token = await signPortalSession({ role: account.role, id: account.id, v: account.session_version }, process.env.ADMIN_SESSION_SECRET);
   const res = NextResponse.json({ role: account.role, mustChangePassword: account.must_change_password });
   res.cookies.set(PORTAL_COOKIE, token, {
     httpOnly: true,

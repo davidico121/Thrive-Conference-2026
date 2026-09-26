@@ -10,7 +10,8 @@ import { TOTAL_SESSIONS } from '../../../../lib/portalConfig.js';
 // class" without revealing who they belong to.
 export async function POST(request) {
   const user = await getPortalUser();
-  if (!user || user.role !== 'tutor') {
+  if (!user) return NextResponse.json({ error: 'Please log in again.' }, { status: 401 });
+  if (user.role !== 'tutor') {
     return NextResponse.json({ error: 'Tutors only.' }, { status: 403 });
   }
   if (user.must_change_password) {

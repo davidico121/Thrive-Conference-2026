@@ -51,7 +51,7 @@ async function resetPassword(code) {
     process.exit(1);
   }
   const tempPassword = generateTempPassword();
-  await q`UPDATE students SET password_hash = ${await hashPassword(tempPassword)}, must_change_password = TRUE WHERE id = ${student.id}`;
+  await q`UPDATE students SET password_hash = ${await hashPassword(tempPassword)}, must_change_password = TRUE, session_version = session_version + 1 WHERE id = ${student.id}`;
   const { subject, html } = welcomeEmail({ fullName: student.full_name, className: student.class_name, code: student.student_code, tempPassword });
   await sendEmail({ to: { address: student.email, name: student.full_name }, subject, html });
   await q`UPDATE students SET welcome_sent_at = now() WHERE id = ${student.id}`;

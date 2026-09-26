@@ -32,7 +32,7 @@ if (resetName) {
                           FROM tutors t JOIN classes c ON c.id = t.class_id WHERE lower(t.username) = ${resetName.toLowerCase()}`;
   if (!tutor) { console.error(`No tutor with username ${resetName}`); process.exit(1); }
   const tempPassword = generateTempPassword();
-  await q`UPDATE tutors SET password_hash = ${await hashPassword(tempPassword)}, must_change_password = TRUE WHERE id = ${tutor.id}`;
+  await q`UPDATE tutors SET password_hash = ${await hashPassword(tempPassword)}, must_change_password = TRUE, session_version = session_version + 1 WHERE id = ${tutor.id}`;
   await deliver(tutor, tutor.class_name, tempPassword);
   process.exit(0);
 }
