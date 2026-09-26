@@ -49,6 +49,9 @@ const onlyApproved = args.includes('--only-approved');
 const isOnboarding = args.includes('--onboarding');
 // "The meeting has started, join now" nudge sent while onboarding is live.
 const isStarted = args.includes('--started');
+// Name used in the greeting for a --test= send (defaults to "Test"; pass --name= for "Hello there").
+const nameArg = args.find(a => a.startsWith('--name='));
+const testName = nameArg ? nameArg.slice('--name='.length) : 'Test';
 
 if (!isDryRun && !isSend && !testEmail) {
   console.error('Specify one of: --dry-run, --test=you@example.com, or --send');
@@ -373,7 +376,7 @@ async function main() {
   }
 
   const targets = testEmail
-    ? [{ name: 'Test', email: testEmail, reviewStatus: (isAccept && testAsApproved) ? 'Approved' : '' }]
+    ? [{ name: testName, email: testEmail, reviewStatus: (isAccept && testAsApproved) ? 'Approved' : '' }]
     : (onlyApproved ? participants.filter(p => p.reviewStatus === 'Approved') : participants);
 
   console.log(`Sending to ${targets.length} recipient(s)...`);
