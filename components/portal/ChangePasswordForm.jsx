@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import PasswordInput from './PasswordInput';
 import { C, FONT_IMPORT, pageStyle, headingStyle, labelStyle, inputStyle, primaryButton } from './theme';
 
 export default function ChangePasswordForm({ forced, home }) {
@@ -49,13 +50,13 @@ export default function ChangePasswordForm({ forced, home }) {
         </p>
 
         <label style={{ ...labelStyle, color: '#77767e' }}>{forced ? 'Temporary password (from your email)' : 'Current password'}</label>
-        <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} autoComplete="current-password" required style={{ ...inputStyle, marginBottom: 18 }} />
+        <PasswordInput value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} autoComplete="current-password" required style={{ ...inputStyle, marginBottom: 18 }} />
 
         <label style={{ ...labelStyle, color: '#77767e' }}>New password (at least 8 characters)</label>
-        <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} autoComplete="new-password" minLength={8} required style={{ ...inputStyle, marginBottom: 18 }} />
+        <PasswordInput value={newPassword} onChange={(e) => setNewPassword(e.target.value)} autoComplete="new-password" minLength={8} required style={{ ...inputStyle, marginBottom: 18 }} />
 
         <label style={{ ...labelStyle, color: '#77767e' }}>Type the new password again</label>
-        <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} autoComplete="new-password" minLength={8} required style={{ ...inputStyle, marginBottom: 18 }} />
+        <PasswordInput value={confirm} onChange={(e) => setConfirm(e.target.value)} autoComplete="new-password" minLength={8} required style={{ ...inputStyle, marginBottom: 18 }} />
 
         {error && <p style={{ color: '#cc0000', fontSize: 14, marginBottom: 16 }}>{error}</p>}
 

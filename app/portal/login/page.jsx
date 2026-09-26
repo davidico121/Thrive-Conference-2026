@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import PasswordInput from '../../../components/portal/PasswordInput';
 import { C, FONT_IMPORT, pageStyle, headingStyle, labelStyle, inputStyle, primaryButton } from '../../../components/portal/theme';
 
 export default function PortalLoginPage() {
@@ -40,18 +41,18 @@ export default function PortalLoginPage() {
       <style>{FONT_IMPORT}</style>
       <form method="post" onSubmit={handleSubmit} style={{ width: '100%', maxWidth: 400, background: '#ffffff', border: `2px solid ${C.yellow}`, borderRadius: 6, padding: 36 }}>
         <h1 style={{ ...headingStyle, fontSize: 24, color: '#17102e', marginBottom: 6 }}>Thrive Skills Portal</h1>
-        <p style={{ color: '#77767e', fontSize: 14, marginBottom: 24 }}>Log in with your student code (like AI07) or your tutor username.</p>
+        <p style={{ color: '#77767e', fontSize: 14, marginBottom: 24 }}>Log in with your Thrive Number (like DO12) or your tutor username.</p>
 
         <label style={{ ...labelStyle, color: '#77767e' }}>Username</label>
         <input
           type="text" value={username} onChange={(e) => setUsername(e.target.value)}
-          autoCapitalize="characters" autoComplete="username" autoFocus required
-          placeholder="e.g. AI07" style={{ ...inputStyle, marginBottom: 18 }}
+          autoCapitalize="none" autoCorrect="off" spellCheck={false} autoComplete="username" autoFocus required
+          placeholder="e.g. DO12" style={{ ...inputStyle, marginBottom: 18 }}
         />
 
         <label style={{ ...labelStyle, color: '#77767e' }}>Password</label>
-        <input
-          type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+        <PasswordInput
+          value={password} onChange={(e) => setPassword(e.target.value)}
           autoComplete="current-password" required style={{ ...inputStyle, marginBottom: 18 }}
         />
 

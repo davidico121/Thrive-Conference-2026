@@ -72,6 +72,9 @@ await q`CREATE TABLE IF NOT EXISTS ip_attempts (
   PRIMARY KEY (scope, ip, window_start)
 )`;
 
+// One running count for every student's Thrive Number (DO12, VA13, ...).
+await q`CREATE SEQUENCE IF NOT EXISTS thrive_number_seq START 1`;
+
 await q`CREATE INDEX IF NOT EXISTS attendance_class_session_idx ON attendance (class_id, session_number)`;
 
 const CLASSES = [

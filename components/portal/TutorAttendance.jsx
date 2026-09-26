@@ -7,7 +7,7 @@ import { C, cardStyle, labelStyle, inputStyle, primaryButton, ghostButton } from
 const RESULT_TEXT = {
   marked: ['✓ marked present', C.teal],
   already_marked: ['was already marked', C.soft],
-  not_in_class: ['isn’t a student in your class — check the code', C.red],
+  not_in_class: ['isn’t a student in your class — check the Thrive Number', C.red],
   unmarked: ['attendance removed', C.soft],
   was_not_marked: ['wasn’t marked for this class', C.soft],
 };
@@ -60,10 +60,10 @@ export default function TutorAttendance({ students, attendance, totalSessions })
             </select>
           </div>
           <div style={{ flex: '1 1 280px' }}>
-            <label style={labelStyle}>Student code(s) — separate several with commas</label>
+            <label style={labelStyle}>Thrive Number(s) — separate several with commas</label>
             <input
               type="text" value={codes} onChange={(e) => setCodes(e.target.value)} autoFocus
-              placeholder="AI07   or   AI07, AI08, AI11" style={inputStyle}
+              placeholder="DO12   or   DO12, VA13, SO14" style={inputStyle}
             />
           </div>
           <button type="submit" disabled={busy || !codes.trim()} style={{ ...primaryButton, opacity: busy || !codes.trim() ? 0.5 : 1 }}>Mark present</button>
@@ -95,7 +95,7 @@ export default function TutorAttendance({ students, attendance, totalSessions })
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
               <thead>
                 <tr style={{ textAlign: 'left', color: C.muted }}>
-                  <th style={{ padding: '8px 10px' }}>Code</th>
+                  <th style={{ padding: '8px 10px' }}>Thrive No.</th>
                   <th style={{ padding: '8px 10px' }}>Name</th>
                   <th style={{ padding: '8px 10px' }}>Email</th>
                   {sessions.map(n => <th key={n} style={{ padding: '8px 4px', textAlign: 'center' }}>{n}</th>)}

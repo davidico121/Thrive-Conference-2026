@@ -2,6 +2,7 @@
 
 import React, { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import PasswordInput from '../../../components/portal/PasswordInput';
 
 export default function AdminLoginPage() {
   return (
@@ -60,8 +61,7 @@ function AdminLoginForm() {
         <p style={{ color: '#77767e', fontSize: 13, marginBottom: 24 }}>
           Enter the team passcode to review submissions.
         </p>
-        <input
-          type="password"
+        <PasswordInput
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Passcode"

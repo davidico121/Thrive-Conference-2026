@@ -1,18 +1,18 @@
 // Turns everyone marked "Approved" on the review page into a portal student:
-// assigns a code (e.g. AI07), creates their login with a temporary password, emails
-// them, and writes the code back to the sheet (column N).
+// assigns their Thrive Number (initials + running number, e.g. DO12), creates their login
+// with a temporary password, emails them, and writes the number back to the sheet (column N).
 //
 //   node scripts/portal/issue-student-codes.mjs --dry-run           # preview only
 //   node scripts/portal/issue-student-codes.mjs --send              # create + email everyone new
 //   node scripts/portal/issue-student-codes.mjs --send --only=a@b.c # just one person
-//   node scripts/portal/issue-student-codes.mjs --reset=AI07        # new temp password, re-email
+//   node scripts/portal/issue-student-codes.mjs --reset=DO12        # new temp password, re-email
 //
 // Safe to re-run: anyone who already has a student record is skipped.
 import './_env.mjs';
 import { google } from 'googleapis';
 import { sql } from '../../lib/db.js';
 import { hashPassword, generateTempPassword } from '../../lib/password.js';
-import { formatCode, normalizeCode } from '../../lib/studentCodes.js';
+import { makeThriveNumber, normalizeCode } from '../../lib/studentCodes.js';
 import { sendEmail } from '../../lib/email.js';
 import { welcomeEmail } from '../../lib/emailTemplates.js';
 
@@ -89,8 +89,8 @@ async function main() {
     const cls = classByName.get(p.track);
     if (!cls) { console.log(`✗ ${p.email}: track "${p.track}" doesn't match a class, skipped`); failed++; continue; }
 
-    const [alloc] = await q`UPDATE classes SET next_number = next_number + 1 WHERE id = ${cls.id} RETURNING code_prefix, next_number - 1 AS n`;
-    const code = formatCode(alloc.code_prefix, alloc.n);
+    const [{ n }] = await q`SELECT nextval('thrive_number_seq') AS n`;
+    const code = makeThriveNumber(p.name, n);
     const tempPassword = generateTempPassword();
     await q`INSERT INTO students (student_code, class_id, full_name, email, password_hash)
             VALUES (${code}, ${cls.id}, ${p.name}, ${p.email}, ${await hashPassword(tempPassword)})`;

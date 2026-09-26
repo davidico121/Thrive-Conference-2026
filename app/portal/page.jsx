@@ -34,7 +34,7 @@ export default async function StudentHome() {
           <p style={{ fontSize: 17, fontWeight: 600 }}>{user.class_name}</p>
         </div>
         <div style={cardStyle}>
-          <span style={labelStyle}>Your student code</span>
+          <span style={labelStyle}>Your Thrive Number</span>
           <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: 30, color: C.yellow, letterSpacing: '0.08em' }}>{user.student_code}</p>
           {user.role_tag && <p style={{ fontSize: 12, color: C.teal, marginTop: 4 }}>{TAG_LABELS[user.role_tag] || user.role_tag}</p>}
         </div>

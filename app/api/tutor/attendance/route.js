@@ -24,7 +24,7 @@ export async function POST(request) {
     return NextResponse.json({ error: `Choose a class from 1 to ${TOTAL_SESSIONS}.` }, { status: 400 });
   }
   const list = parseCodeList(codes);
-  if (!list.length) return NextResponse.json({ error: 'Enter at least one student code.' }, { status: 400 });
+  if (!list.length) return NextResponse.json({ error: 'Enter at least one Thrive Number.' }, { status: 400 });
   if (list.length > 100) return NextResponse.json({ error: 'Please enter 100 codes or fewer at a time.' }, { status: 400 });
 
   const q = sql();
