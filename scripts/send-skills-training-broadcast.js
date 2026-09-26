@@ -45,6 +45,8 @@ const testAsApproved = args.includes('--as-approved');
 // reminder-to-everyone-else part of the split) — for sending acceptance
 // notices on their own without re-sending the reminder to everyone.
 const onlyApproved = args.includes('--only-approved');
+// Onboarding-day email with the meeting link; the same email goes to everyone.
+const isOnboarding = args.includes('--onboarding');
 
 if (!isDryRun && !isSend && !testEmail) {
   console.error('Specify one of: --dry-run, --test=you@example.com, or --send');
@@ -182,7 +184,50 @@ function buildReminderHtml(firstName) {
 </div>`.trim();
 }
 
-const ACCEPTANCE_SUBJECT = '🎉 You\'re in! Thrive Digital Skills Training';
+const ONBOARDING_SUBJECT = '🚀 Thrive Skills onboarding is TODAY at 8:00 PM (WAT) — your meeting link';
+const ONBOARDING_MEETING_LINK = 'https://meet.google.com/rev-pjtn-ixh';
+
+function buildOnboardingHtml(firstName) {
+  const name = escapeHtml(firstName);
+  return `
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #1b1c1a;">
+  <div style="background: #170f30; padding: 24px 32px; text-align: center;">
+    <span style="font-family: Georgia, serif; font-weight: 800; font-size: 20px; color: #fbf9f6; letter-spacing: -0.01em;">THRIVE <span style="color: #fecb00;">SKILLS</span></span>
+  </div>
+  <div style="padding: 32px; background: #ffffff;">
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 16px;">Hello ${name},</p>
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 20px;">
+      The <strong>Thrive Digital Skills Training onboarding is happening today.</strong>
+    </p>
+
+    <div style="background: #f6f3ff; border-left: 4px solid #fecb00; padding: 16px 20px; margin: 0 0 24px;">
+      <p style="font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: #6b628f; margin: 0 0 6px;">When</p>
+      <p style="font-size: 18px; font-weight: 700; margin: 0;">Today, Saturday, September 26 &middot; 8:00 PM WAT</p>
+    </div>
+
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 12px;">Join us on Google Meet using the link below:</p>
+    <p style="margin: 0 0 12px;">
+      <a href="${ONBOARDING_MEETING_LINK}" style="display: inline-block; background: #fecb00; color: #17102e; font-weight: 700; font-size: 15px; text-decoration: none; padding: 14px 28px; border-radius: 4px;">Join the onboarding meeting</a>
+    </p>
+    <p style="font-size: 14px; line-height: 1.6; margin: 0 0 28px; color: #4a4066;">
+      Or copy this link into your browser: <a href="${ONBOARDING_MEETING_LINK}" style="color: #c99400;">${ONBOARDING_MEETING_LINK}</a>
+    </p>
+
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 20px;">
+      Any last-minute updates will be shared in the
+      <a href="https://chat.whatsapp.com/GWM7FWJAbX3BQz36bsP35w?s=cl&amp;p=i&amp;mlu=4&amp;ilr=4" style="color: #c99400; font-weight: 600;">Thrive WhatsApp group</a>,
+      so make sure you've joined.
+    </p>
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 4px;">See you tonight!</p>
+    <p style="font-size: 16px; line-height: 1.6; margin: 0;"><strong>The Thrive Team</strong></p>
+  </div>
+  <div style="background: #0c0620; padding: 20px 32px; text-align: center;">
+    <p style="color: #6b628f; font-size: 12px; margin: 0;">&copy; 2026 Thrive Initiatives &middot; Christ Unfolding Ministries</p>
+  </div>
+</div>`.trim();
+}
+
+const ACCEPTANCE_SUBJECT ='🎉 You\'re in! Thrive Digital Skills Training';
 
 function buildAcceptanceHtml(firstName) {
   const name = escapeHtml(firstName);
@@ -245,6 +290,7 @@ async function getParticipants() {
 }
 
 function templateFor(variant) {
+  if (variant === 'onboarding') return { subject: ONBOARDING_SUBJECT, build: buildOnboardingHtml };
   if (variant === 'accept') return { subject: ACCEPTANCE_SUBJECT, build: buildAcceptanceHtml };
   if (variant === 'reminder') return { subject: REMINDER_SUBJECT, build: buildReminderHtml };
   return { subject: SUBJECT, build: buildHtml };
@@ -274,6 +320,7 @@ async function sendOne(recipient, variant) {
 }
 
 function variantFor(recipient) {
+  if (isOnboarding) return 'onboarding';
   if (!isAccept) return isReminder ? 'reminder' : 'original';
   return recipient.reviewStatus === 'Approved' ? 'accept' : 'reminder';
 }
