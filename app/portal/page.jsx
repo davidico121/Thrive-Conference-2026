@@ -19,9 +19,10 @@ export default async function StudentHome() {
   const [tutors, classmates, attended] = await Promise.all([
     q`SELECT full_name, contact_info FROM tutors WHERE class_id = ${user.class_id} ORDER BY full_name`,
     q`SELECT full_name, role_tag FROM students WHERE class_id = ${user.class_id} ORDER BY full_name`,
-    q`SELECT session_number FROM attendance WHERE student_id = ${user.id}`,
+    q`SELECT session_number, status FROM attendance WHERE student_id = ${user.id}`,
   ]);
-  const present = new Set(attended.map(r => r.session_number));
+  const statusBySession = Object.fromEntries(attended.map(r => [r.session_number, r.status]));
+  const presentCount = attended.filter(r => r.status === 'present').length;
   const sessions = Array.from({ length: TOTAL_SESSIONS }, (_, i) => i + 1);
 
   return (
@@ -50,7 +51,7 @@ export default async function StudentHome() {
         </div>
         <div style={cardStyle}>
           <span style={labelStyle}>Attendance</span>
-          <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: 30 }}>{present.size} <span style={{ fontSize: 15, color: C.muted, fontWeight: 600 }}>of {TOTAL_SESSIONS} classes</span></p>
+          <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: 30 }}>{presentCount} <span style={{ fontSize: 15, color: C.muted, fontWeight: 600 }}>of {TOTAL_SESSIONS} classes</span></p>
         </div>
       </div>
 
@@ -58,15 +59,19 @@ export default async function StudentHome() {
         <span style={labelStyle}>Your attendance record</span>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(84px, 1fr))', gap: 10 }}>
           {sessions.map(n => {
-            const isPresent = present.has(n);
+            const state = statusBySession[n];
+            const look = state === 'present'
+              ? { bg: '#003d3d', border: '#009898', color: C.teal, label: '✓ Present' }
+              : state === 'absent'
+                ? { bg: '#3d0a0a', border: '#cc3333', color: C.red, label: '✗ Absent' }
+                : { bg: 'transparent', border: C.border, color: C.muted, label: '—' };
             return (
               <div key={n} style={{
                 textAlign: 'center', padding: '12px 6px', borderRadius: 4, fontSize: 13,
-                background: isPresent ? '#003d3d' : 'transparent', border: `1px solid ${isPresent ? '#009898' : C.border}`,
-                color: isPresent ? C.teal : C.muted,
+                background: look.bg, border: `1px solid ${look.border}`, color: look.color,
               }}>
                 <div style={{ fontWeight: 700 }}>Class {n}</div>
-                <div style={{ fontSize: 12, marginTop: 2 }}>{isPresent ? '✓ Present' : '—'}</div>
+                <div style={{ fontSize: 12, marginTop: 2 }}>{look.label}</div>
               </div>
             );
           })}

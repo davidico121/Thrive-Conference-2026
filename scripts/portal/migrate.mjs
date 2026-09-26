@@ -72,6 +72,11 @@ await q`CREATE TABLE IF NOT EXISTS ip_attempts (
   PRIMARY KEY (scope, ip, window_start)
 )`;
 
+// Each attendance record is either present or explicitly absent. "Not marked" is the
+// absence of a record, so a tutor who hasn't taken attendance yet is distinguishable
+// from a student they recorded as absent. Existing records were all presence.
+await q`ALTER TABLE attendance ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'present'`;
+
 // One running count for every student's Thrive Number (DO12, VA13, ...).
 await q`CREATE SEQUENCE IF NOT EXISTS thrive_number_seq START 1`;
 

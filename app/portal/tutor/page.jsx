@@ -18,11 +18,11 @@ export default async function TutorHome() {
   // Only this tutor's own class, taken from their database record.
   const [students, marks] = await Promise.all([
     q`SELECT id, student_code, full_name, email FROM students WHERE class_id = ${user.class_id} ORDER BY student_code`,
-    q`SELECT student_id, session_number FROM attendance WHERE class_id = ${user.class_id}`,
+    q`SELECT student_id, session_number, status FROM attendance WHERE class_id = ${user.class_id}`,
   ]);
 
   const attendance = {};
-  for (const m of marks) (attendance[m.student_id] ||= []).push(m.session_number);
+  for (const m of marks) (attendance[m.student_id] ||= {})[m.session_number] = m.status;
 
   return (
     <PortalShell who={`${user.full_name} · Tutor`} sub={user.class_name}>
