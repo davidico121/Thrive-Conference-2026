@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function AdminLoginPage() {
@@ -17,6 +17,9 @@ function AdminLoginForm() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  // Keep the button off until scripts have loaded so the passcode can never end up in the address bar.
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +47,7 @@ function AdminLoginForm() {
       fontFamily: "'Inter', -apple-system, sans-serif",
     }}>
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap');`}</style>
-      <form onSubmit={handleSubmit} style={{
+      <form method="post" onSubmit={handleSubmit} style={{
         width: '100%', maxWidth: 380, background: '#ffffff', border: '2px solid #fecb00',
         borderRadius: 6, padding: 40,
       }}>
@@ -75,13 +78,13 @@ function AdminLoginForm() {
         )}
         <button
           type="submit"
-          disabled={submitting}
+          disabled={!ready || submitting}
           style={{
             width: '100%', padding: 14, background: '#fecb00', color: '#17102e',
             fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 14,
             letterSpacing: '0.04em', textTransform: 'uppercase', border: '1px solid #fecb00',
-            borderRadius: 4, cursor: submitting ? 'not-allowed' : 'pointer',
-            opacity: submitting ? 0.6 : 1,
+            borderRadius: 4, cursor: (!ready || submitting) ? 'not-allowed' : 'pointer',
+            opacity: (!ready || submitting) ? 0.6 : 1,
           }}
         >
           {submitting ? 'Checking…' : 'Enter'}
