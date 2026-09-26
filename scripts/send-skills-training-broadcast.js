@@ -47,6 +47,8 @@ const testAsApproved = args.includes('--as-approved');
 const onlyApproved = args.includes('--only-approved');
 // Onboarding-day email with the meeting link; the same email goes to everyone.
 const isOnboarding = args.includes('--onboarding');
+// "The meeting has started, join now" nudge sent while onboarding is live.
+const isStarted = args.includes('--started');
 
 if (!isDryRun && !isSend && !testEmail) {
   console.error('Specify one of: --dry-run, --test=you@example.com, or --send');
@@ -227,6 +229,35 @@ function buildOnboardingHtml(firstName) {
 </div>`.trim();
 }
 
+const STARTED_SUBJECT = '🔴 The Thrive Skills onboarding has started — join now';
+
+function buildStartedHtml(firstName) {
+  const name = escapeHtml(firstName);
+  return `
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #1b1c1a;">
+  <div style="background: #170f30; padding: 24px 32px; text-align: center;">
+    <span style="font-family: Georgia, serif; font-weight: 800; font-size: 20px; color: #fbf9f6; letter-spacing: -0.01em;">THRIVE <span style="color: #fecb00;">SKILLS</span></span>
+  </div>
+  <div style="padding: 32px; background: #ffffff;">
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 16px;">Hello ${name},</p>
+    <p style="font-size: 18px; line-height: 1.6; margin: 0 0 20px;">
+      <strong>The Thrive Digital Skills Training onboarding has started.</strong> Join us now on Google Meet:
+    </p>
+    <p style="margin: 0 0 12px;">
+      <a href="${ONBOARDING_MEETING_LINK}" style="display: inline-block; background: #fecb00; color: #17102e; font-weight: 700; font-size: 16px; text-decoration: none; padding: 16px 32px; border-radius: 4px;">Join the meeting now</a>
+    </p>
+    <p style="font-size: 14px; line-height: 1.6; margin: 0 0 28px; color: #4a4066;">
+      Or copy this link into your browser: <a href="${ONBOARDING_MEETING_LINK}" style="color: #c99400;">${ONBOARDING_MEETING_LINK}</a>
+    </p>
+    <p style="font-size: 16px; line-height: 1.6; margin: 0 0 4px;">If you're already in, you can ignore this message.</p>
+    <p style="font-size: 16px; line-height: 1.6; margin: 0;"><strong>The Thrive Team</strong></p>
+  </div>
+  <div style="background: #0c0620; padding: 20px 32px; text-align: center;">
+    <p style="color: #6b628f; font-size: 12px; margin: 0;">&copy; 2026 Thrive Initiatives &middot; Christ Unfolding Ministries</p>
+  </div>
+</div>`.trim();
+}
+
 const ACCEPTANCE_SUBJECT ='🎉 You\'re in! Thrive Digital Skills Training';
 
 function buildAcceptanceHtml(firstName) {
@@ -290,6 +321,7 @@ async function getParticipants() {
 }
 
 function templateFor(variant) {
+  if (variant === 'started') return { subject: STARTED_SUBJECT, build: buildStartedHtml };
   if (variant === 'onboarding') return { subject: ONBOARDING_SUBJECT, build: buildOnboardingHtml };
   if (variant === 'accept') return { subject: ACCEPTANCE_SUBJECT, build: buildAcceptanceHtml };
   if (variant === 'reminder') return { subject: REMINDER_SUBJECT, build: buildReminderHtml };
@@ -320,6 +352,7 @@ async function sendOne(recipient, variant) {
 }
 
 function variantFor(recipient) {
+  if (isStarted) return 'started';
   if (isOnboarding) return 'onboarding';
   if (!isAccept) return isReminder ? 'reminder' : 'original';
   return recipient.reviewStatus === 'Approved' ? 'accept' : 'reminder';
