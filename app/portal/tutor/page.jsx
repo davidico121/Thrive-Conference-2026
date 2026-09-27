@@ -39,8 +39,8 @@ export default async function TutorHome() {
   return (
     <PortalShell who={`${user.full_name} · Tutor`} sub={user.class_name}>
       <h1 style={{ ...headingStyle, fontSize: 30, marginBottom: 24 }}>{user.class_name}</h1>
-      <TutorAssignments assignments={assignments} students={students} />
       <TutorAttendance students={students} attendance={attendance} totalSessions={TOTAL_SESSIONS} />
+      <TutorAssignments assignments={assignments} students={students} />
     </PortalShell>
   );
 }

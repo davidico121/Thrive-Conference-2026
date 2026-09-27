@@ -63,8 +63,6 @@ export default async function StudentHome() {
         </div>
       </div>
 
-      <StudentAssignments assignments={assignments} />
-
       <div style={{ ...cardStyle, marginBottom: 24 }}>
         <span style={labelStyle}>Your attendance record</span>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(84px, 1fr))', gap: 10 }}>
@@ -87,6 +85,8 @@ export default async function StudentHome() {
           })}
         </div>
       </div>
+
+      <StudentAssignments assignments={assignments} />
 
       <div style={{ ...cardStyle, marginBottom: 24 }}>
         <span style={labelStyle}>Your classmates ({classmates.length})</span>
