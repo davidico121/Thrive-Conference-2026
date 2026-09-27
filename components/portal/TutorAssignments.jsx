@@ -17,6 +17,7 @@ export default function TutorAssignments({ assignments, students }) {
   const [openId, setOpenId] = useState(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
 
   const call = async (payload) => {
     setBusy(true);
@@ -37,11 +38,12 @@ export default function TutorAssignments({ assignments, students }) {
   const save = async (e) => {
     e.preventDefault();
     const ok = await call(editingId ? { action: 'update', id: editingId, ...form } : { action: 'create', ...form });
-    if (ok) { setForm(empty); setEditingId(null); router.refresh(); }
+    if (ok) { setForm(empty); setEditingId(null); setFormOpen(false); router.refresh(); }
   };
 
   const startEdit = (a) => {
     setEditingId(a.id);
+    setFormOpen(true);
     setForm({ title: a.title, instructions: a.instructions, resourceLink: a.resourceLink || '', dueAt: toWatInput(a.dueAt) });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -56,8 +58,14 @@ export default function TutorAssignments({ assignments, students }) {
   return (
     <>
       <div style={{ ...cardStyle, marginBottom: 24 }}>
-        <span style={labelStyle}>{editingId ? 'Edit assignment' : 'Set a new assignment'}</span>
-        <form onSubmit={save} style={{ display: 'grid', gap: 14 }}>
+        <button
+          type="button" onClick={() => setFormOpen(!formOpen)} aria-expanded={formOpen}
+          style={{ ...labelStyle, display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', margin: 0, padding: 0, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+        >
+          <span>{editingId ? 'Edit assignment' : 'Set a new assignment'}</span>
+          <span style={{ fontSize: 16, color: C.yellow }}>{formOpen ? '−' : '+'}</span>
+        </button>
+        {formOpen && <form onSubmit={save} style={{ display: 'grid', gap: 14, marginTop: 16 }}>
           <div>
             <label style={labelStyle}>Title</label>
             <input type="text" maxLength={150} required {...field('title')} placeholder="e.g. Edit a 30-second product ad" style={inputStyle} />
@@ -79,9 +87,9 @@ export default function TutorAssignments({ assignments, students }) {
           {error && <p style={{ color: C.red, fontSize: 14 }}>{error}</p>}
           <div style={{ display: 'flex', gap: 10 }}>
             <button type="submit" disabled={busy} style={{ ...primaryButton, opacity: busy ? 0.5 : 1 }}>{editingId ? 'Save changes' : 'Post assignment'}</button>
-            {editingId && <button type="button" onClick={() => { setEditingId(null); setForm(empty); setError(''); }} style={ghostButton}>Cancel</button>}
+            {editingId && <button type="button" onClick={() => { setEditingId(null); setForm(empty); setError(''); setFormOpen(false); }} style={ghostButton}>Cancel</button>}
           </div>
-        </form>
+        </form>}
       </div>
 
       <div style={{ ...cardStyle, marginBottom: 24 }}>
