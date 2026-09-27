@@ -6,6 +6,15 @@ import { C, cardStyle, labelStyle, inputStyle, primaryButton, ghostButton } from
 import { formatWat, toWatInput } from './dates';
 import { safeHref } from '../../lib/safeUrl';
 
+// Points down when closed, flips up when open.
+function Chevron({ open }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true" style={{ flexShrink: 0, transition: 'transform 0.15s', transform: open ? 'rotate(180deg)' : 'none' }}>
+      <path d="M5 8l5 5 5-5" stroke={C.yellow} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 // One student's submission: a header line that expands to show their answer and link.
 function SubmissionRow({ s, student }) {
   const [open, setOpen] = useState(false);
@@ -20,7 +29,7 @@ function SubmissionRow({ s, student }) {
           <span style={{ color: C.muted, fontSize: 12 }}> · {formatWat(s.submittedAt)}</span>
           {s.late && <span style={{ color: C.red, fontSize: 12 }}> · late</span>}
         </span>
-        <span style={{ color: C.yellow, fontSize: 16 }}>{open ? '−' : '+'}</span>
+        <Chevron open={open} />
       </button>
       {open && (
         <div style={{ padding: '0 12px 12px' }}>
@@ -89,7 +98,7 @@ export default function TutorAssignments({ assignments, students }) {
           style={{ ...labelStyle, display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', margin: 0, padding: 0, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
         >
           <span>{editingId ? 'Edit assignment' : 'Set a new assignment'}</span>
-          <span style={{ fontSize: 16, color: C.yellow }}>{formOpen ? '−' : '+'}</span>
+          <Chevron open={formOpen} />
         </button>
         {formOpen && <form onSubmit={save} style={{ display: 'grid', gap: 14, marginTop: 16 }}>
           <div>
