@@ -6,6 +6,32 @@ import { C, cardStyle, labelStyle, inputStyle, primaryButton, ghostButton } from
 import { formatWat, toWatInput } from './dates';
 import { safeHref } from '../../lib/safeUrl';
 
+// One student's submission: a header line that expands to show their answer and link.
+function SubmissionRow({ s, student }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ background: C.bgDeep, borderRadius: 4 }}>
+      <button
+        type="button" onClick={() => setOpen(!open)} aria-expanded={open}
+        style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', gap: 10, padding: 12, background: 'none', border: 'none', cursor: 'pointer', color: C.text, fontFamily: 'inherit', fontSize: 14, textAlign: 'left' }}
+      >
+        <span>
+          <strong style={{ color: C.yellow, letterSpacing: '0.04em' }}>{student?.student_code}</strong> · {student?.full_name}
+          <span style={{ color: C.muted, fontSize: 12 }}> · {formatWat(s.submittedAt)}</span>
+          {s.late && <span style={{ color: C.red, fontSize: 12 }}> · late</span>}
+        </span>
+        <span style={{ color: C.yellow, fontSize: 16 }}>{open ? '−' : '+'}</span>
+      </button>
+      {open && (
+        <div style={{ padding: '0 12px 12px' }}>
+          {s.answer && <p style={{ fontSize: 14, color: C.soft, whiteSpace: 'pre-wrap' }}>{s.answer}</p>}
+          {s.link && <p style={{ marginTop: s.answer ? 6 : 0 }}><a href={safeHref(s.link)} target="_blank" rel="noopener noreferrer" style={{ color: C.yellow, fontSize: 13, wordBreak: 'break-all' }}>{s.link}</a></p>}
+        </div>
+      )}
+    </div>
+  );
+}
+
 const empty = { title: '', instructions: '', resourceLink: '', dueAt: '' };
 
 // assignments: [{ id, title, instructions, resourceLink, dueAt, submissions: [{ studentId, answer, link, late, submittedAt }] }]
@@ -116,20 +142,7 @@ export default function TutorAssignments({ assignments, students }) {
                 {isOpen && (
                   <div style={{ marginTop: 14, display: 'grid', gap: 10 }}>
                     {a.instructions && <p style={{ fontSize: 13, color: C.soft, whiteSpace: 'pre-wrap' }}>{a.instructions}</p>}
-                    {a.submissions.map(s => {
-                      const st = students.find(x => x.id === s.studentId);
-                      return (
-                        <div key={s.studentId} style={{ background: C.bgDeep, borderRadius: 4, padding: 12 }}>
-                          <p style={{ fontSize: 14 }}>
-                            <strong style={{ color: C.yellow, letterSpacing: '0.04em' }}>{st?.student_code}</strong> · {st?.full_name}
-                            <span style={{ color: C.muted, fontSize: 12 }}> · {formatWat(s.submittedAt)}</span>
-                            {s.late && <span style={{ color: C.red, fontSize: 12 }}> · late</span>}
-                          </p>
-                          {s.answer && <p style={{ fontSize: 14, color: C.soft, whiteSpace: 'pre-wrap', marginTop: 6 }}>{s.answer}</p>}
-                          {s.link && <p style={{ marginTop: 6 }}><a href={safeHref(s.link)} target="_blank" rel="noopener noreferrer" style={{ color: C.yellow, fontSize: 13, wordBreak: 'break-all' }}>{s.link}</a></p>}
-                        </div>
-                      );
-                    })}
+                    {a.submissions.map(s => <SubmissionRow key={s.studentId} s={s} student={students.find(x => x.id === s.studentId)} />)}
                     {missing.length > 0 && (
                       <p style={{ fontSize: 13, color: C.muted }}>
                         Not yet submitted: {missing.map(s => `${s.full_name} (${s.student_code})`).join(', ')}
