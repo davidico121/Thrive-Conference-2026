@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { getPortalUser } from '../../lib/portalSession.js';
 import { sql } from '../../lib/db.js';
 import { TOTAL_SESSIONS } from '../../lib/portalConfig.js';
+import StudentAssignments from '../../components/portal/StudentAssignments';
 import PortalShell from '../../components/portal/PortalShell';
 import { C, cardStyle, headingStyle, labelStyle } from '../../components/portal/theme';
 
@@ -16,11 +17,18 @@ export default async function StudentHome() {
   if (user.must_change_password) redirect('/portal/change-password');
 
   const q = sql();
-  const [tutors, classmates, attended] = await Promise.all([
+  const [tutors, classmates, attended, assignmentRows, mineRows] = await Promise.all([
     q`SELECT full_name, contact_info FROM tutors WHERE class_id = ${user.class_id} ORDER BY full_name`,
     q`SELECT full_name, role_tag FROM students WHERE class_id = ${user.class_id} ORDER BY full_name`,
     q`SELECT session_number, status FROM attendance WHERE student_id = ${user.id}`,
+    q`SELECT id, title, instructions, resource_link, due_at FROM assignments WHERE class_id = ${user.class_id} ORDER BY created_at DESC`,
+    q`SELECT assignment_id, answer_text, link, is_late FROM submissions WHERE student_id = ${user.id}`,
   ]);
+  const mine = Object.fromEntries(mineRows.map(m => [m.assignment_id, { answer: m.answer_text, link: m.link, late: m.is_late }]));
+  const assignments = assignmentRows.map(a => ({
+    id: a.id, title: a.title, instructions: a.instructions, resourceLink: a.resource_link,
+    dueAt: a.due_at ? new Date(a.due_at).toISOString() : null, mine: mine[a.id] || null,
+  }));
   const statusBySession = Object.fromEntries(attended.map(r => [r.session_number, r.status]));
   const presentCount = attended.filter(r => r.status === 'present').length;
   const sessions = Array.from({ length: TOTAL_SESSIONS }, (_, i) => i + 1);
@@ -54,6 +62,8 @@ export default async function StudentHome() {
           <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: 30 }}>{presentCount} <span style={{ fontSize: 15, color: C.muted, fontWeight: 600 }}>of {TOTAL_SESSIONS} classes</span></p>
         </div>
       </div>
+
+      <StudentAssignments assignments={assignments} />
 
       <div style={{ ...cardStyle, marginBottom: 24 }}>
         <span style={labelStyle}>Your attendance record</span>
@@ -89,7 +99,7 @@ export default async function StudentHome() {
         </div>
       </div>
 
-      <p style={{ color: C.muted, fontSize: 14 }}>Assignments, projects and class recordings will appear here soon.</p>
+      <p style={{ color: C.muted, fontSize: 14 }}>Projects and class recordings will appear here soon.</p>
     </PortalShell>
   );
 }

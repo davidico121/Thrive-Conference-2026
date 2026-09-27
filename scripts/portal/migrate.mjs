@@ -82,6 +82,31 @@ await q`CREATE SEQUENCE IF NOT EXISTS thrive_number_seq START 1`;
 
 await q`CREATE INDEX IF NOT EXISTS attendance_class_session_idx ON attendance (class_id, session_number)`;
 
+// Assignments are set by a tutor for their own class; each student has at most one
+// submission per assignment (resubmitting replaces it, and is_late records if it came after the due time).
+await q`CREATE TABLE IF NOT EXISTS assignments (
+  id SERIAL PRIMARY KEY,
+  class_id INT NOT NULL REFERENCES classes(id),
+  created_by_tutor_id INT REFERENCES tutors(id),
+  title TEXT NOT NULL,
+  instructions TEXT NOT NULL DEFAULT '',
+  resource_link TEXT,
+  due_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+)`;
+await q`CREATE INDEX IF NOT EXISTS assignments_class_idx ON assignments (class_id, created_at DESC)`;
+
+await q`CREATE TABLE IF NOT EXISTS submissions (
+  id SERIAL PRIMARY KEY,
+  assignment_id INT NOT NULL REFERENCES assignments(id) ON DELETE CASCADE,
+  student_id INT NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+  answer_text TEXT NOT NULL DEFAULT '',
+  link TEXT,
+  is_late BOOLEAN NOT NULL DEFAULT FALSE,
+  submitted_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE (assignment_id, student_id)
+)`;
+
 const CLASSES = [
   ['AI', 'AI & AI Automation'],
   ['VE', 'Video Editing & AI Video Content'],
