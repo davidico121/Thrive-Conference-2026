@@ -111,7 +111,32 @@ export default function TutorAttendance({ students, attendance, totalSessions })
         {students.length === 0 ? (
           <p style={{ color: C.muted, fontSize: 14 }}>No students have been assigned to your class yet.</p>
         ) : (
-          <div style={{ overflowX: 'auto' }}>
+          <>
+          <style>{`.stu-cards{display:none}@media (max-width:760px){.stu-table{display:none}.stu-cards{display:grid}}`}</style>
+          <div className="stu-cards" style={{ gap: 12 }}>
+            {students.map(s => (
+              <div key={s.id} style={{ border: `1px solid ${C.border}`, borderRadius: 6, padding: 14 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'baseline' }}>
+                  <p style={{ fontSize: 15, fontWeight: 600 }}><span style={{ color: C.yellow, letterSpacing: '0.04em', fontWeight: 700 }}>{s.student_code}</span> · {s.full_name}</p>
+                  <span style={{ fontWeight: 700, fontSize: 13, whiteSpace: 'nowrap' }}>{presentTotal(s.id)}/{totalSessions}</span>
+                </div>
+                <p style={{ fontSize: 13, color: C.soft, marginTop: 2, wordBreak: 'break-all' }}>{s.email}</p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 6, marginTop: 12 }}>
+                  {sessions.map(n => {
+                    const state = stateOf(s.id, n);
+                    const color = state === 'present' ? C.teal : state === 'absent' ? C.red : '#5a4f8f';
+                    return (
+                      <div key={n} style={{ textAlign: 'center', border: `1px solid ${C.border}`, borderRadius: 4, padding: '4px 0', color }}>
+                        <div style={{ fontSize: 10, color: C.muted }}>{n}</div>
+                        <div style={{ fontSize: 14 }}>{state === 'present' ? '✓' : state === 'absent' ? '✗' : '·'}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="stu-table" style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
               <thead>
                 <tr style={{ textAlign: 'left', color: C.muted }}>
@@ -142,6 +167,7 @@ export default function TutorAttendance({ students, attendance, totalSessions })
               </tbody>
             </table>
           </div>
+          </>
         )}
       </div>
     </>

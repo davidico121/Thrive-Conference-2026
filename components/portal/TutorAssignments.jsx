@@ -133,10 +133,10 @@ export default function TutorAssignments({ assignments, students }) {
                     <p style={{ fontSize: 16, fontWeight: 600 }}>{a.title}</p>
                     <p style={{ fontSize: 12, color: C.muted, marginTop: 2 }}>{a.dueAt ? `Due ${formatWat(a.dueAt)}` : 'No due date'} · <span style={{ color: C.teal }}>{a.submissions.length} of {students.length} submitted</span></p>
                   </div>
-                  <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                    <button type="button" onClick={() => setOpenId(isOpen ? null : a.id)} style={ghostButton}>{isOpen ? 'Hide' : 'View submissions'}</button>
-                    <button type="button" onClick={() => startEdit(a)} style={ghostButton}>Edit</button>
-                    <button type="button" onClick={() => remove(a)} disabled={busy} style={{ ...ghostButton, color: C.red }}>Delete</button>
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+                    <button type="button" onClick={() => setOpenId(isOpen ? null : a.id)} style={{ ...ghostButton, whiteSpace: 'nowrap' }}>{isOpen ? 'Hide' : 'View submissions'}</button>
+                    <button type="button" onClick={() => startEdit(a)} style={{ ...ghostButton, whiteSpace: 'nowrap' }}>Edit</button>
+                    <button type="button" onClick={() => remove(a)} disabled={busy} style={{ ...ghostButton, color: C.red, whiteSpace: 'nowrap' }}>Delete</button>
                   </div>
                 </div>
                 {isOpen && (
