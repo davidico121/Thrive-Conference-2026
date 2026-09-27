@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Chevron from './Chevron';
 import { C, cardStyle, labelStyle, inputStyle, primaryButton } from './theme';
 
 const RESULT_TEXT = {
@@ -19,6 +20,42 @@ const absentButton = {
   fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 14, letterSpacing: '0.04em',
   textTransform: 'uppercase', padding: '12px 24px', cursor: 'pointer',
 };
+
+// Phone layout: one line per student that opens to show the email and the class-by-class record.
+function StudentCard({ s, sessions, stateOf, total, totalSessions }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ border: `1px solid ${C.border}`, borderRadius: 6 }}>
+      <button
+        type="button" onClick={() => setOpen(!open)} aria-expanded={open}
+        style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', gap: 10, padding: 14, background: 'none', border: 'none', cursor: 'pointer', color: C.text, fontFamily: 'inherit', textAlign: 'left' }}
+      >
+        <span style={{ fontSize: 15, fontWeight: 600 }}><span style={{ color: C.yellow, letterSpacing: '0.04em', fontWeight: 700 }}>{s.student_code}</span> · {s.full_name}</span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{ fontWeight: 700, fontSize: 13, whiteSpace: 'nowrap' }}>{total}/{totalSessions}</span>
+          <Chevron open={open} />
+        </span>
+      </button>
+      {open && (
+        <div style={{ padding: '0 14px 14px' }}>
+          <p style={{ fontSize: 13, color: C.soft, wordBreak: 'break-all' }}>{s.email}</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 6, marginTop: 12 }}>
+            {sessions.map(n => {
+              const state = stateOf(s.id, n);
+              const color = state === 'present' ? C.teal : state === 'absent' ? C.red : '#5a4f8f';
+              return (
+                <div key={n} style={{ textAlign: 'center', border: `1px solid ${C.border}`, borderRadius: 4, padding: '4px 0', color }}>
+                  <div style={{ fontSize: 10, color: C.muted }}>{n}</div>
+                  <div style={{ fontSize: 14 }}>{state === 'present' ? '✓' : state === 'absent' ? '✗' : '·'}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 // `attendance` maps studentId -> { classNumber: 'present' | 'absent' }. A class with no
 // entry for a student means attendance hasn't been taken for them yet.
@@ -115,25 +152,7 @@ export default function TutorAttendance({ students, attendance, totalSessions })
           <style>{`.stu-cards{display:none}@media (max-width:760px){.stu-table{display:none}.stu-cards{display:grid}}`}</style>
           <div className="stu-cards" style={{ gap: 12 }}>
             {students.map(s => (
-              <div key={s.id} style={{ border: `1px solid ${C.border}`, borderRadius: 6, padding: 14 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'baseline' }}>
-                  <p style={{ fontSize: 15, fontWeight: 600 }}><span style={{ color: C.yellow, letterSpacing: '0.04em', fontWeight: 700 }}>{s.student_code}</span> · {s.full_name}</p>
-                  <span style={{ fontWeight: 700, fontSize: 13, whiteSpace: 'nowrap' }}>{presentTotal(s.id)}/{totalSessions}</span>
-                </div>
-                <p style={{ fontSize: 13, color: C.soft, marginTop: 2, wordBreak: 'break-all' }}>{s.email}</p>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 6, marginTop: 12 }}>
-                  {sessions.map(n => {
-                    const state = stateOf(s.id, n);
-                    const color = state === 'present' ? C.teal : state === 'absent' ? C.red : '#5a4f8f';
-                    return (
-                      <div key={n} style={{ textAlign: 'center', border: `1px solid ${C.border}`, borderRadius: 4, padding: '4px 0', color }}>
-                        <div style={{ fontSize: 10, color: C.muted }}>{n}</div>
-                        <div style={{ fontSize: 14 }}>{state === 'present' ? '✓' : state === 'absent' ? '✗' : '·'}</div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              <StudentCard key={s.id} s={s} sessions={sessions} stateOf={stateOf} total={presentTotal(s.id)} totalSessions={totalSessions} />
             ))}
           </div>
           <div className="stu-table" style={{ overflowX: 'auto' }}>
