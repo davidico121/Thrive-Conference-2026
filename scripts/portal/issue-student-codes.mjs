@@ -95,7 +95,7 @@ async function main() {
     await q`INSERT INTO students (student_code, class_id, full_name, email, password_hash)
             VALUES (${code}, ${cls.id}, ${p.name}, ${p.email}, ${await hashPassword(tempPassword)})`;
     await sheets.spreadsheets.values.update({
-      spreadsheetId: process.env.GOOGLE_SHEET_ID, range: `${SHEET}!N${p.row}`, valueInputOption: 'USER_ENTERED',
+      spreadsheetId: process.env.GOOGLE_SHEET_ID, range: `${SHEET}!N${p.row}`, valueInputOption: 'RAW',
       requestBody: { values: [[code]] },
     });
 

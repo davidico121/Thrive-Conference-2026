@@ -72,17 +72,35 @@ function extractYouTubeId(link) {
 
 // Registrants sometimes pasted extra text after the link (e.g. TikTok's
 // share caption). Grab just the first whitespace-delimited URL token.
+function isTikTokHost(hostname) {
+  const h = hostname.toLowerCase();
+  return h === 'tiktok.com' || h.endsWith('.tiktok.com');
+}
+
 function extractTikTokLink(link) {
   if (!link) return null;
-  const m = link.match(/^(https?:\/\/[^\s]*tiktok\.com[^\s]*)/i);
-  return m ? m[1] : null;
+  const token = link.trim().split(/\s+/)[0];
+  try {
+    const u = new URL(token);
+    if (u.protocol === 'https:' && !u.username && !u.password && isTikTokHost(u.hostname)) return token;
+  } catch {}
+  return null;
 }
 
 // TikTok share links (vm.tiktok.com/...) redirect to the canonical
 // https://www.tiktok.com/@user/video/ID URL that the embed widget needs.
+// Follows redirects by hand so every hop is checked; the server never contacts a non-TikTok host.
 async function resolveTikTokUrl(shortLink) {
-  const res = await fetch(shortLink, { redirect: 'follow' });
-  return res.url;
+  let current = shortLink;
+  for (let hop = 0; hop < 5; hop++) {
+    const u = new URL(current);
+    if (u.protocol !== 'https:' || !isTikTokHost(u.hostname)) throw new Error('link is not a TikTok address');
+    const res = await fetch(u, { redirect: 'manual', signal: AbortSignal.timeout(10000) });
+    const next = res.headers.get('location');
+    if (res.status >= 300 && res.status < 400 && next) { current = new URL(next, u).toString(); continue; }
+    return u.toString();
+  }
+  throw new Error('too many redirects');
 }
 
 function classifyLink(link) {
@@ -277,7 +295,7 @@ async function main() {
     await sheets.spreadsheets.values.update({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
       range: `${SHEET_NAME}!H${p.rowNumber}:L${p.rowNumber}`,
-      valueInputOption: 'USER_ENTERED',
+      valueInputOption: 'RAW',
       requestBody: {
         values: [[
           result.hostedVideoUrl,

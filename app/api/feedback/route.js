@@ -1,49 +1,28 @@
-import { google } from 'googleapis';
 import { NextResponse } from 'next/server';
+import { FormError, readForm, text, emailField, oneOf, appendRow, formFailure } from '../../../lib/publicForms.js';
 
 export async function POST(request) {
   try {
-    const body = await request.json();
-    const { name, email, rating, session, feedback, improve, hearAbout, hearAboutOther, interested2027 } = body;
+    const body = await readForm(request, 'form-feedback');
+    const name = text(body.name, { label: 'Name', max: 120, required: true });
+    const email = emailField(body.email);
+    const session = text(body.session, { label: 'Session', max: 300, required: true });
+    const feedback = text(body.feedback, { label: 'Feedback', max: 3000 });
+    const improve = text(body.improve, { label: 'Improvements', max: 3000 });
+    const interested2027 = oneOf(body.interested2027, ['Yes', 'No'], 'Your answer about 2027', { required: false });
 
-    if (!name || !email || !rating || !session) {
-      return NextResponse.json({ error: 'Name, email, rating, and favorite session are required.' }, { status: 400 });
-    }
+    const rating = Number(body.rating);
+    if (!Number.isInteger(rating) || rating < 1 || rating > 5) throw new FormError('Please give a rating from 1 to 5.');
 
-    const hearAboutFinal = hearAbout === 'Other' ? (hearAboutOther || 'Other') : (hearAbout || '');
+    const hearAbout = text(body.hearAbout, { label: 'How you heard about us', max: 100 });
+    const hearAboutOther = text(body.hearAboutOther, { label: 'How you heard about us', max: 300 });
+    const hearAboutFinal = hearAbout === 'Other' ? (hearAboutOther || 'Other') : hearAbout;
 
-    const auth = new google.auth.GoogleAuth({
-      credentials: {
-        client_email: process.env.GOOGLE_CLIENT_EMAIL,
-        private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-      },
-      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-    });
-
-    const sheets = google.sheets({ version: 'v4', auth });
-
-    await sheets.spreadsheets.values.append({
-      spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: 'Feedback!A:I',
-      valueInputOption: 'USER_ENTERED',
-      requestBody: {
-        values: [[
-          new Date().toISOString(),
-          name,
-          email,
-          rating,
-          session,
-          feedback || '',
-          improve || '',
-          hearAboutFinal,
-          interested2027 || '',
-        ]],
-      },
-    });
-
+    await appendRow('Feedback!A:I', [
+      new Date().toISOString(), name, email, rating, session, feedback, improve, hearAboutFinal, interested2027,
+    ]);
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error('Feedback submission error:', err);
-    return NextResponse.json({ error: 'Failed to save feedback.' }, { status: 500 });
+    return formFailure(err, 'Feedback submission error:', 'Failed to save feedback.');
   }
 }

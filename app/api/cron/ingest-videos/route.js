@@ -45,15 +45,33 @@ function extractYouTubeId(link) {
   return null;
 }
 
-function extractTikTokLink(link) {
-  if (!link) return null;
-  const m = link.match(/^(https?:\/\/[^\s]*tiktok\.com[^\s]*)/i);
-  return m ? m[1] : null;
+function isTikTokHost(hostname) {
+  const h = hostname.toLowerCase();
+  return h === 'tiktok.com' || h.endsWith('.tiktok.com');
 }
 
+function extractTikTokLink(link) {
+  if (!link) return null;
+  const token = link.trim().split(/\s+/)[0];
+  try {
+    const u = new URL(token);
+    if (u.protocol === 'https:' && !u.username && !u.password && isTikTokHost(u.hostname)) return token;
+  } catch {}
+  return null;
+}
+
+// Follows redirects by hand so every hop is checked; the server never contacts a non-TikTok host.
 async function resolveTikTokUrl(shortLink) {
-  const res = await fetch(shortLink, { redirect: 'follow' });
-  return res.url;
+  let current = shortLink;
+  for (let hop = 0; hop < 5; hop++) {
+    const u = new URL(current);
+    if (u.protocol !== 'https:' || !isTikTokHost(u.hostname)) throw new Error('link is not a TikTok address');
+    const res = await fetch(u, { redirect: 'manual', signal: AbortSignal.timeout(10000) });
+    const next = res.headers.get('location');
+    if (res.status >= 300 && res.status < 400 && next) { current = new URL(next, u).toString(); continue; }
+    return u.toString();
+  }
+  throw new Error('too many redirects');
 }
 
 function classifyLink(link) {
@@ -200,7 +218,7 @@ export async function GET(request) {
     await sheets.spreadsheets.values.update({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
       range: `${SHEET_NAME}!H${p.rowNumber}:L${p.rowNumber}`,
-      valueInputOption: 'USER_ENTERED',
+      valueInputOption: 'RAW',
       requestBody: { values: [[outcome.hostedVideoUrl, outcome.ingestStatus, outcome.ingestNote, p.videoLink, 'Pending']] },
     });
 

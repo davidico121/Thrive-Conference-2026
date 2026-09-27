@@ -1,48 +1,29 @@
-import { google } from 'googleapis';
 import { NextResponse } from 'next/server';
+import { FormError, readForm, text, emailField, phoneField, appendRow, formFailure } from '../../../lib/publicForms.js';
 
 export async function POST(request) {
   try {
-    const body = await request.json();
-    const { name, email, phone, status, occupation, inTech, techAreas, aiKnowledge, marketingSalesKnowledge } = body;
+    const body = await readForm(request, 'form-conference');
+    const name = text(body.name, { label: 'Name', max: 120, required: true });
+    const email = emailField(body.email);
+    const phone = phoneField(body.phone);
+    const status = text(body.status, { label: 'Status', max: 100 });
+    const occupation = text(body.occupation, { label: 'Occupation', max: 200 });
+    const inTech = text(body.inTech, { label: 'Answer', max: 100 });
+    const aiKnowledge = text(body.aiKnowledge, { label: 'Answer', max: 100 });
+    const marketingSalesKnowledge = text(body.marketingSalesKnowledge, { label: 'Answer', max: 100 });
 
-    if (!name || !email || !phone) {
-      return NextResponse.json({ error: 'Name, email, and phone are required.' }, { status: 400 });
+    let techAreas = '';
+    if (body.techAreas !== undefined && body.techAreas !== null) {
+      if (!Array.isArray(body.techAreas) || body.techAreas.length > 30) throw new FormError('Tech areas isn’t valid.');
+      techAreas = body.techAreas.map(a => text(a, { label: 'Tech area', max: 80 })).filter(Boolean).join(', ');
     }
 
-    const auth = new google.auth.GoogleAuth({
-      credentials: {
-        client_email: process.env.GOOGLE_CLIENT_EMAIL,
-        private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-      },
-      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-    });
-
-    const sheets = google.sheets({ version: 'v4', auth });
-
-    await sheets.spreadsheets.values.append({
-      spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: 'Registrations!A:J',
-      valueInputOption: 'USER_ENTERED',
-      requestBody: {
-        values: [[
-          new Date().toISOString(),
-          name,
-          email,
-          phone,
-          status,
-          occupation || '',
-          inTech,
-          Array.isArray(techAreas) ? techAreas.join(', ') : '',
-          aiKnowledge,
-          marketingSalesKnowledge,
-        ]],
-      },
-    });
-
+    await appendRow('Registrations!A:J', [
+      new Date().toISOString(), name, email, phone, status, occupation, inTech, techAreas, aiKnowledge, marketingSalesKnowledge,
+    ]);
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error('Registration error:', err);
-    return NextResponse.json({ error: 'Failed to save registration.' }, { status: 500 });
+    return formFailure(err, 'Registration error:', 'Failed to save registration.');
   }
 }

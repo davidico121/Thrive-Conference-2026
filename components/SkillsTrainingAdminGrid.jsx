@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { safeHref } from '../lib/safeUrl';
 
 const TRACKS = [
   'AI & AI Automation',
@@ -74,7 +75,7 @@ function ParticipantCard({ p, onSetStatus }) {
             <p style={{ color: '#5c5580', fontSize: 13, fontWeight: 600 }}>No video submitted</p>
             <p style={{ color: '#443a75', fontSize: 11, maxWidth: 260 }}>The submitted link isn&apos;t a playable video (search result, profile page, etc.)</p>
             {p.videoLink && (
-              <a href={p.videoLink} target="_blank" rel="noopener noreferrer" style={{ color: '#77767e', fontSize: 12, textDecoration: 'underline' }}>
+              <a href={safeHref(p.videoLink)} target="_blank" rel="noopener noreferrer" style={{ color: '#77767e', fontSize: 12, textDecoration: 'underline' }}>
                 View what they submitted
               </a>
             )}
@@ -89,7 +90,7 @@ function ParticipantCard({ p, onSetStatus }) {
               Our review system checks Drive access automatically and can&apos;t see this file. Even if they shared it with a specific person&apos;s email (including yours), it won&apos;t be visible here unless it&apos;s set to &quot;Anyone with the link.&quot; If you personally have access, the link below may still open for you.
             </p>
             {p.videoLink && (
-              <a href={p.videoLink} target="_blank" rel="noopener noreferrer" style={{ color: '#fecb00', fontSize: 12, textDecoration: 'underline' }}>
+              <a href={safeHref(p.videoLink)} target="_blank" rel="noopener noreferrer" style={{ color: '#fecb00', fontSize: 12, textDecoration: 'underline' }}>
                 Try original link
               </a>
             )}
@@ -106,7 +107,7 @@ function ParticipantCard({ p, onSetStatus }) {
               <p style={{ color: '#5c5580', fontSize: 11, maxWidth: 260 }}>{p.ingestNote}</p>
             )}
             {p.videoLink && (
-              <a href={p.videoLink} target="_blank" rel="noopener noreferrer" style={{ color: '#fecb00', fontSize: 12, textDecoration: 'underline' }}>
+              <a href={safeHref(p.videoLink)} target="_blank" rel="noopener noreferrer" style={{ color: '#fecb00', fontSize: 12, textDecoration: 'underline' }}>
                 Open original link
               </a>
             )}
