@@ -106,7 +106,7 @@ export default function TutorAttendance({ students, attendance, totalSessions })
         )}
       </div>
 
-      <div style={cardStyle}>
+      <div style={{ ...cardStyle, marginBottom: 24 }}>
         <span style={labelStyle}>Your students ({students.length})</span>
         {students.length === 0 ? (
           <p style={{ color: C.muted, fontSize: 14 }}>No students have been assigned to your class yet.</p>
