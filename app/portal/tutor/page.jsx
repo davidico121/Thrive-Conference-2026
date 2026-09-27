@@ -20,16 +20,16 @@ export default async function TutorHome() {
   const [students, marks, assignmentRows, submissionRows] = await Promise.all([
     q`SELECT id, student_code, full_name, email FROM students WHERE class_id = ${user.class_id} ORDER BY student_code`,
     q`SELECT student_id, session_number, status FROM attendance WHERE class_id = ${user.class_id}`,
-    q`SELECT id, title, instructions, resource_link, due_at FROM assignments WHERE class_id = ${user.class_id} ORDER BY created_at DESC`,
-    q`SELECT sb.assignment_id, sb.student_id, sb.answer_text, sb.link, sb.is_late, sb.submitted_at
+    q`SELECT id, title, instructions, resource_link, due_at, max_score FROM assignments WHERE class_id = ${user.class_id} ORDER BY created_at DESC`,
+    q`SELECT sb.assignment_id, sb.student_id, sb.answer_text, sb.link, sb.is_late, sb.submitted_at, sb.score, sb.feedback
       FROM submissions sb JOIN assignments a ON a.id = sb.assignment_id
       WHERE a.class_id = ${user.class_id} ORDER BY sb.submitted_at`,
   ]);
   const assignments = assignmentRows.map(a => ({
     id: a.id, title: a.title, instructions: a.instructions, resourceLink: a.resource_link,
-    dueAt: a.due_at ? new Date(a.due_at).toISOString() : null,
+    dueAt: a.due_at ? new Date(a.due_at).toISOString() : null, maxScore: a.max_score,
     submissions: submissionRows.filter(s => s.assignment_id === a.id).map(s => ({
-      studentId: s.student_id, answer: s.answer_text, link: s.link, late: s.is_late, submittedAt: new Date(s.submitted_at).toISOString(),
+      studentId: s.student_id, answer: s.answer_text, link: s.link, late: s.is_late, score: s.score, feedback: s.feedback, submittedAt: new Date(s.submitted_at).toISOString(),
     })),
   }));
 

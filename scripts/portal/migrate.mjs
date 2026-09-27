@@ -107,6 +107,13 @@ await q`CREATE TABLE IF NOT EXISTS submissions (
   UNIQUE (assignment_id, student_id)
 )`;
 
+// Marking: each assignment is out of max_score; a tutor gives each submission a score and optional feedback.
+await q`ALTER TABLE assignments ADD COLUMN IF NOT EXISTS max_score INT NOT NULL DEFAULT 100`;
+await q`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS score INT`;
+await q`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS feedback TEXT NOT NULL DEFAULT ''`;
+await q`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS graded_at TIMESTAMPTZ`;
+await q`ALTER TABLE submissions ADD COLUMN IF NOT EXISTS graded_by_tutor_id INT REFERENCES tutors(id)`;
+
 const CLASSES = [
   ['AI', 'AI & AI Automation'],
   ['VE', 'Video Editing & AI Video Content'],

@@ -23,8 +23,8 @@ export async function POST(request) {
       const f = assignmentFields(body);
       const [{ n }] = await q`SELECT COUNT(*)::int AS n FROM assignments WHERE class_id = ${user.class_id}`;
       if (n >= MAX_ASSIGNMENTS_PER_CLASS) throw new FormError('This class has reached the assignment limit.');
-      const [row] = await q`INSERT INTO assignments (class_id, created_by_tutor_id, title, instructions, resource_link, due_at)
-                            VALUES (${user.class_id}, ${user.id}, ${f.title}, ${f.instructions}, ${f.resourceLink}, ${f.dueAt})
+      const [row] = await q`INSERT INTO assignments (class_id, created_by_tutor_id, title, instructions, resource_link, due_at, max_score)
+                            VALUES (${user.class_id}, ${user.id}, ${f.title}, ${f.instructions}, ${f.resourceLink}, ${f.dueAt}, ${f.maxScore})
                             RETURNING id`;
       return NextResponse.json({ success: true, id: row.id });
     }
@@ -36,7 +36,9 @@ export async function POST(request) {
 
     if (body.action === 'update') {
       const f = assignmentFields(body);
-      await q`UPDATE assignments SET title = ${f.title}, instructions = ${f.instructions}, resource_link = ${f.resourceLink}, due_at = ${f.dueAt}
+      const [{ top }] = await q`SELECT COALESCE(MAX(score), 0)::int AS top FROM submissions WHERE assignment_id = ${id}`;
+      if (f.maxScore < top) throw new FormError(`Total marks can’t be lower than a score already given (${top}).`);
+      await q`UPDATE assignments SET title = ${f.title}, instructions = ${f.instructions}, resource_link = ${f.resourceLink}, due_at = ${f.dueAt}, max_score = ${f.maxScore}
               WHERE id = ${id} AND class_id = ${user.class_id}`;
       // Late flags follow the new due time.
       await q`UPDATE submissions SET is_late = (${f.dueAt}::timestamptz IS NOT NULL AND submitted_at > ${f.dueAt}::timestamptz)

@@ -29,7 +29,8 @@ export async function POST(request) {
     await q`INSERT INTO submissions (assignment_id, student_id, answer_text, link, is_late)
             VALUES (${id}, ${user.id}, ${answer}, ${link}, ${late})
             ON CONFLICT (assignment_id, student_id)
-            DO UPDATE SET answer_text = EXCLUDED.answer_text, link = EXCLUDED.link, is_late = EXCLUDED.is_late, submitted_at = now()`;
+            DO UPDATE SET answer_text = EXCLUDED.answer_text, link = EXCLUDED.link, is_late = EXCLUDED.is_late, submitted_at = now(),
+                          score = NULL, feedback = '', graded_at = NULL, graded_by_tutor_id = NULL`;
     return NextResponse.json({ success: true, late });
   } catch (err) {
     return formFailure(err, 'Submission error:', 'Something went wrong. Please try again.');

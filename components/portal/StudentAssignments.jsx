@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { C, cardStyle, labelStyle, inputStyle, primaryButton } from './theme';
 import { formatWat } from './dates';
+import Chevron from './Chevron';
 import { safeHref } from '../../lib/safeUrl';
 
 function AssignmentCard({ a }) {
@@ -13,6 +14,8 @@ function AssignmentCard({ a }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [note, setNote] = useState('');
+  const [open, setOpen] = useState(false);
+  const marked = a.mine && a.mine.score !== null && a.mine.score !== undefined;
   const overdue = a.dueAt && new Date(a.dueAt) < new Date();
 
   const submit = async (e) => {
@@ -31,16 +34,33 @@ function AssignmentCard({ a }) {
     }
   };
 
+  const status = marked
+    ? <span style={{ color: C.teal, fontSize: 13, fontWeight: 600 }}>{a.mine.score}/{a.maxScore}</span>
+    : a.mine
+      ? <span style={{ color: C.teal, fontSize: 13 }}>✓ Submitted{a.mine.late ? ' (late)' : ''}</span>
+      : <span style={{ color: overdue ? C.red : C.yellow, fontSize: 13 }}>{overdue ? 'Overdue' : 'Not submitted'}</span>;
+
   return (
-    <div style={{ border: `1px solid ${C.border}`, borderRadius: 6, padding: 16 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
-        <p style={{ fontSize: 17, fontWeight: 600 }}>{a.title}</p>
-        {a.mine
-          ? <span style={{ color: C.teal, fontSize: 13 }}>✓ Submitted{a.mine.late ? ' (late)' : ''}</span>
-          : <span style={{ color: overdue ? C.red : C.yellow, fontSize: 13 }}>{overdue ? 'Overdue — not submitted' : 'Not submitted yet'}</span>}
-      </div>
-      <p style={{ fontSize: 12, color: C.muted, marginTop: 2 }}>{a.dueAt ? `Due ${formatWat(a.dueAt)}` : 'No due date'}</p>
-      {a.instructions && <p style={{ fontSize: 14, color: C.soft, whiteSpace: 'pre-wrap', margin: '12px 0' }}>{a.instructions}</p>}
+    <div style={{ border: `1px solid ${C.border}`, borderRadius: 6 }}>
+      <button
+        type="button" onClick={() => setOpen(!open)} aria-expanded={open}
+        style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', gap: 10, padding: 16, background: 'none', border: 'none', cursor: 'pointer', color: C.text, fontFamily: 'inherit', textAlign: 'left' }}
+      >
+        <span>
+          <span style={{ display: 'block', fontSize: 17, fontWeight: 600 }}>{a.title}</span>
+          <span style={{ display: 'block', fontSize: 12, color: C.muted, marginTop: 2 }}>{a.dueAt ? `Due ${formatWat(a.dueAt)}` : 'No due date'}</span>
+        </span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 10, whiteSpace: 'nowrap' }}>{status}<Chevron open={open} /></span>
+      </button>
+      {open && (
+      <div style={{ padding: '0 16px 16px' }}>
+      {marked && (
+        <div style={{ background: C.bgDeep, borderRadius: 4, padding: 12, marginBottom: 12 }}>
+          <p style={{ fontSize: 14 }}><strong style={{ color: C.teal }}>Your mark: {a.mine.score} out of {a.maxScore}</strong></p>
+          {a.mine.feedback && <p style={{ fontSize: 14, color: C.soft, whiteSpace: 'pre-wrap', marginTop: 6 }}>{a.mine.feedback}</p>}
+        </div>
+      )}
+      {a.instructions && <p style={{ fontSize: 14, color: C.soft, whiteSpace: 'pre-wrap', margin: '0 0 12px' }}>{a.instructions}</p>}
       {a.resourceLink && <p style={{ marginBottom: 12 }}><a href={safeHref(a.resourceLink)} target="_blank" rel="noopener noreferrer" style={{ color: C.yellow, fontSize: 14 }}>Open helpful link ↗</a></p>}
 
       <form onSubmit={submit} style={{ display: 'grid', gap: 12, marginTop: 8 }}>
@@ -53,6 +73,7 @@ function AssignmentCard({ a }) {
           <input type="url" maxLength={500} value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://…" style={inputStyle} />
           <p style={{ fontSize: 12, color: C.muted, marginTop: 6 }}>For files, upload to Google Drive and set sharing to “Anyone with the link” so your tutor can open it.</p>
         </div>
+        {marked && <p style={{ fontSize: 12, color: C.muted }}>Updating your submission clears your mark so your tutor can mark the new version.</p>}
         {error && <p style={{ color: C.red, fontSize: 14 }}>{error}</p>}
         {note && <p style={{ color: C.teal, fontSize: 14 }}>{note}</p>}
         <div>
@@ -61,6 +82,8 @@ function AssignmentCard({ a }) {
           </button>
         </div>
       </form>
+      </div>
+      )}
     </div>
   );
 }

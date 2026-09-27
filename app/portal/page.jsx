@@ -21,13 +21,13 @@ export default async function StudentHome() {
     q`SELECT full_name, contact_info FROM tutors WHERE class_id = ${user.class_id} ORDER BY full_name`,
     q`SELECT full_name, role_tag FROM students WHERE class_id = ${user.class_id} ORDER BY full_name`,
     q`SELECT session_number, status FROM attendance WHERE student_id = ${user.id}`,
-    q`SELECT id, title, instructions, resource_link, due_at FROM assignments WHERE class_id = ${user.class_id} ORDER BY created_at DESC`,
-    q`SELECT assignment_id, answer_text, link, is_late FROM submissions WHERE student_id = ${user.id}`,
+    q`SELECT id, title, instructions, resource_link, due_at, max_score FROM assignments WHERE class_id = ${user.class_id} ORDER BY created_at DESC`,
+    q`SELECT assignment_id, answer_text, link, is_late, score, feedback FROM submissions WHERE student_id = ${user.id}`,
   ]);
-  const mine = Object.fromEntries(mineRows.map(m => [m.assignment_id, { answer: m.answer_text, link: m.link, late: m.is_late }]));
+  const mine = Object.fromEntries(mineRows.map(m => [m.assignment_id, { answer: m.answer_text, link: m.link, late: m.is_late, score: m.score, feedback: m.feedback }]));
   const assignments = assignmentRows.map(a => ({
     id: a.id, title: a.title, instructions: a.instructions, resourceLink: a.resource_link,
-    dueAt: a.due_at ? new Date(a.due_at).toISOString() : null, mine: mine[a.id] || null,
+    dueAt: a.due_at ? new Date(a.due_at).toISOString() : null, maxScore: a.max_score, mine: mine[a.id] || null,
   }));
   const statusBySession = Object.fromEntries(attended.map(r => [r.session_number, r.status]));
   const presentCount = attended.filter(r => r.status === 'present').length;

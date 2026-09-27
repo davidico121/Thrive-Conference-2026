@@ -7,9 +7,33 @@ import { formatWat, toWatInput } from './dates';
 import Chevron from './Chevron';
 import { safeHref } from '../../lib/safeUrl';
 
-// One student's submission: a header line that expands to show their answer and link.
-function SubmissionRow({ s, student }) {
+// One student's submission: a header line that expands to show their work and the marking form.
+function SubmissionRow({ s, student, assignmentId, maxScore }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [score, setScore] = useState(s.score ?? '');
+  const [feedback, setFeedback] = useState(s.feedback || '');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  const [saved, setSaved] = useState(false);
+  const marked = s.score !== null && s.score !== undefined;
+
+  const save = async (e) => {
+    e.preventDefault();
+    setBusy(true); setError(''); setSaved(false);
+    try {
+      const res = await fetch('/api/tutor/grade', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ assignmentId, studentId: s.studentId, score, feedback }) });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+      setSaved(true);
+      router.refresh();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
   return (
     <div style={{ background: C.bgDeep, borderRadius: 4 }}>
       <button
@@ -20,6 +44,7 @@ function SubmissionRow({ s, student }) {
           <strong style={{ color: C.yellow, letterSpacing: '0.04em' }}>{student?.student_code}</strong> · {student?.full_name}
           <span style={{ color: C.muted, fontSize: 12 }}> · {formatWat(s.submittedAt)}</span>
           {s.late && <span style={{ color: C.red, fontSize: 12 }}> · late</span>}
+          <span style={{ fontSize: 12, color: marked ? C.teal : C.muted }}> · {marked ? `${s.score}/${maxScore}` : 'not marked'}</span>
         </span>
         <Chevron open={open} />
       </button>
@@ -27,13 +52,31 @@ function SubmissionRow({ s, student }) {
         <div style={{ padding: '0 12px 12px' }}>
           {s.answer && <p style={{ fontSize: 14, color: C.soft, whiteSpace: 'pre-wrap' }}>{s.answer}</p>}
           {s.link && <p style={{ marginTop: s.answer ? 6 : 0 }}><a href={safeHref(s.link)} target="_blank" rel="noopener noreferrer" style={{ color: C.yellow, fontSize: 13, wordBreak: 'break-all' }}>{s.link}</a></p>}
+          <form onSubmit={save} style={{ display: 'grid', gap: 10, marginTop: 14, paddingTop: 14, borderTop: `1px solid ${C.border}` }}>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-end', flexWrap: 'wrap' }}>
+              <div style={{ width: 130 }}>
+                <label style={labelStyle}>Score (out of {maxScore})</label>
+                <input type="number" inputMode="numeric" min={0} max={maxScore} step={1} value={score} onChange={(e) => setScore(e.target.value)} style={inputStyle} />
+              </div>
+            </div>
+            <div>
+              <label style={labelStyle}>Feedback for the student (optional)</label>
+              <textarea rows={3} maxLength={3000} value={feedback} onChange={(e) => setFeedback(e.target.value)} style={{ ...inputStyle, resize: 'vertical' }} />
+            </div>
+            {error && <p style={{ color: C.red, fontSize: 14 }}>{error}</p>}
+            {saved && <p style={{ color: C.teal, fontSize: 14 }}>Saved ✓</p>}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+              <button type="submit" disabled={busy} style={{ ...primaryButton, opacity: busy ? 0.5 : 1 }}>{marked ? 'Update mark' : 'Save mark'}</button>
+              <span style={{ fontSize: 12, color: C.muted }}>Leave the score empty to remove a mark.</span>
+            </div>
+          </form>
         </div>
       )}
     </div>
   );
 }
 
-const empty = { title: '', instructions: '', resourceLink: '', dueAt: '' };
+const empty = { title: '', instructions: '', resourceLink: '', dueAt: '', maxScore: '100' };
 
 // assignments: [{ id, title, instructions, resourceLink, dueAt, submissions: [{ studentId, answer, link, late, submittedAt }] }]
 // students: [{ id, student_code, full_name }]
@@ -71,7 +114,7 @@ export default function TutorAssignments({ assignments, students }) {
   const startEdit = (a) => {
     setEditingId(a.id);
     setFormOpen(true);
-    setForm({ title: a.title, instructions: a.instructions, resourceLink: a.resourceLink || '', dueAt: toWatInput(a.dueAt) });
+    setForm({ title: a.title, instructions: a.instructions, resourceLink: a.resourceLink || '', dueAt: toWatInput(a.dueAt), maxScore: String(a.maxScore) });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -110,6 +153,10 @@ export default function TutorAssignments({ assignments, students }) {
               <label style={labelStyle}>Due (West African Time, optional)</label>
               <input type="datetime-local" {...field('dueAt')} style={inputStyle} />
             </div>
+            <div>
+              <label style={labelStyle}>Total marks</label>
+              <input type="number" inputMode="numeric" min={1} max={1000} step={1} required {...field('maxScore')} style={inputStyle} />
+            </div>
           </div>
           {error && <p style={{ color: C.red, fontSize: 14 }}>{error}</p>}
           <div style={{ display: 'flex', gap: 10 }}>
@@ -132,7 +179,7 @@ export default function TutorAssignments({ assignments, students }) {
                 <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
                   <div>
                     <p style={{ fontSize: 16, fontWeight: 600 }}>{a.title}</p>
-                    <p style={{ fontSize: 12, color: C.muted, marginTop: 2 }}>{a.dueAt ? `Due ${formatWat(a.dueAt)}` : 'No due date'} · <span style={{ color: C.teal }}>{a.submissions.length} of {students.length} submitted</span></p>
+                    <p style={{ fontSize: 12, color: C.muted, marginTop: 2 }}>{a.dueAt ? `Due ${formatWat(a.dueAt)}` : 'No due date'} · <span style={{ color: C.teal }}>{a.submissions.length} of {students.length} submitted</span> · {a.submissions.filter(x => x.score !== null && x.score !== undefined).length} marked (out of {a.maxScore})</p>
                   </div>
                   <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', flexWrap: 'wrap' }}>
                     <button type="button" onClick={() => setOpenId(isOpen ? null : a.id)} style={{ ...ghostButton, whiteSpace: 'nowrap' }}>{isOpen ? 'Hide' : 'View submissions'}</button>
@@ -143,7 +190,7 @@ export default function TutorAssignments({ assignments, students }) {
                 {isOpen && (
                   <div style={{ marginTop: 14, display: 'grid', gap: 10 }}>
                     {a.instructions && <p style={{ fontSize: 13, color: C.soft, whiteSpace: 'pre-wrap' }}>{a.instructions}</p>}
-                    {a.submissions.map(s => <SubmissionRow key={s.studentId} s={s} student={students.find(x => x.id === s.studentId)} />)}
+                    {a.submissions.map(s => <SubmissionRow key={`${a.id}-${s.studentId}-${s.submittedAt}`} s={s} assignmentId={a.id} maxScore={a.maxScore} student={students.find(x => x.id === s.studentId)} />)}
                     {missing.length > 0 && (
                       <p style={{ fontSize: 13, color: C.muted }}>
                         Not yet submitted: {missing.map(s => `${s.full_name} (${s.student_code})`).join(', ')}
